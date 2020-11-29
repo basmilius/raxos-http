@@ -4,7 +4,7 @@
 	"license": "mit",
 	"minimum-stability": "stable",
 	"type": "library",
-	"version": "0.1.0",
+	"version": "dev-master",
 	"authors": [
 		{
 			"name": "Bas Milius",

@@ -6,9 +6,9 @@ namespace Raxos\Http;
 /**
  * Class HttpConstants
  *
- * @author Bas Milius <bas@glybe.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http
- * @since 2.0.0
+ * @since 1.0.0
  */
 final class HttpMethods
 {

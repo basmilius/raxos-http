@@ -13,15 +13,15 @@ namespace Raxos\Http;
 final class HttpMethods
 {
 
-	public const ALL = ['delete', 'get', 'head', 'options', 'patch', 'post', 'put', 'any'];
+    public const ALL = ['delete', 'get', 'head', 'options', 'patch', 'post', 'put', 'any'];
 
-	public const ANY = 'any';
-	public const DELETE = 'delete';
-	public const GET = 'get';
-	public const HEAD = 'head';
-	public const OPTIONS = 'options';
-	public const PATCH = 'patch';
-	public const POST = 'post';
-	public const PUT = 'put';
+    public const ANY = 'any';
+    public const DELETE = 'delete';
+    public const GET = 'get';
+    public const HEAD = 'head';
+    public const OPTIONS = 'options';
+    public const PATCH = 'patch';
+    public const POST = 'post';
+    public const PUT = 'put';
 
 }

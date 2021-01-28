@@ -58,10 +58,12 @@ final class Validator
     /**
      * Validates the given request using the given request model.
      *
-     * @param string $requestModelClass
+     * @template T of RequestModel
+     *
+     * @param class-string<T> $requestModelClass
      * @param array $request
      *
-     * @return RequestModel
+     * @return T
      * @throws ValidationException
      * @throws ValidatorException
      * @author Bas Milius <bas@mili.us>

@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate;
 
 use JsonSerializable;
+use Raxos\Http\HttpFile;
 use Raxos\Http\Validate\Attribute\Field;
 use Raxos\Http\Validate\Attribute\Optional;
 use Raxos\Http\Validate\Constraint\Boolean;
 use Raxos\Http\Validate\Constraint\Constraint;
+use Raxos\Http\Validate\Constraint\FileConstraint;
 use Raxos\Http\Validate\Constraint\Integer;
 use Raxos\Http\Validate\Constraint\RequestModelConstraint;
 use Raxos\Http\Validate\Constraint\Text;
@@ -24,7 +26,6 @@ use function array_filter;
 use function array_key_exists;
 use function array_map;
 use function array_values;
-use function count;
 use function get_class;
 use function gettype;
 use function implode;
@@ -187,11 +188,13 @@ abstract class RequestModel implements JsonSerializable
         $constraints = array_map(fn(ReflectionAttribute $attr) => $attr->newInstance(), $constraints);
         $constraints = array_values($constraints);
 
-        $requestModel = array_filter($types, fn(string $type) => is_subclass_of($type, RequestModel::class));
-
-        if (!empty($requestModel) && count($requestModel) === 1) {
+        if (is_subclass_of($types[0], RequestModel::class)) {
             $constraints = [
-                new RequestModelConstraint($requestModel[0])
+                new RequestModelConstraint($types[0])
+            ];
+        } else if ($types[0] === HttpFile::class) {
+            $constraints = [
+                new FileConstraint()
             ];
         } else if (empty($constraints)) {
             $constraints = match ($types[0]) {

@@ -89,7 +89,7 @@ abstract class RequestModel implements JsonSerializable
                     continue;
                 }
 
-                $errors[$property] = new FieldException($field, '{{name}} is required');
+                $errors[$property] = new FieldException($field, '{{name}} is required.');
 
                 continue;
             }

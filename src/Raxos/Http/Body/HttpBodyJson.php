@@ -37,7 +37,7 @@ final class HttpBodyJson extends HttpBody
      */
     public final function array(): array
     {
-        return $this->content;
+        return $this->content ?? [];
     }
 
 }

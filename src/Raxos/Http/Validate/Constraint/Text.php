@@ -101,7 +101,7 @@ class Text extends Constraint
         $length = mb_strlen($data);
 
         if ($length === 0 && $this->minLength !== 0) {
-            throw new FieldException($field, '{{name}} is required');
+            throw new FieldException($field, '{{name}} is required.');
         }
 
         if ($this->maxLength !== null && $length > $this->maxLength) {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 use JetBrains\PhpStorm\ExpectedValues;
+use Raxos\Foundation\Network\IP;
+use Raxos\Foundation\Network\IPv4;
+use Raxos\Foundation\Network\IPv6;
 use Raxos\Foundation\Storage\ReadonlyKeyValue;
 use Raxos\Foundation\Storage\SimpleKeyValue;
 use Raxos\Foundation\Util\ArrayUtil;
@@ -129,6 +132,38 @@ class HttpRequest
             return null;
 
         return $parts[1];
+    }
+
+    /**
+     * Gets the IP address.
+     *
+     * @return IPv4|IPv6|null
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public final function ip(): IPv4|IPv6|null
+    {
+        if ($this->cache->has('ip')) {
+            return $this->cache->get('ip');
+        }
+
+        $ip = IP::parse($this->server->get('REMOTE_ADDR'));
+
+        $this->cache->set('ip', $ip);
+
+        return $ip;
+    }
+
+    /**
+     * Returns TRUE if the request is secure.
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public final function isSecure(): bool
+    {
+        return $this->server->get('HTTPS', 'off') === 'on';
     }
 
     /**

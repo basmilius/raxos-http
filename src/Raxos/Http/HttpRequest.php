@@ -37,7 +37,6 @@ class HttpRequest
     private ReadonlyKeyValue $post;
     private ReadonlyKeyValue $queryString;
     private ReadonlyKeyValue $server;
-    private string $userAgent;
 
     /**
      * HttpRequest constructor.
@@ -54,8 +53,6 @@ class HttpRequest
         $this->post = static::createPostKeyValue();
         $this->queryString = static::createQueryStringKeyValue();
         $this->server = static::createServerKeyValue();
-
-        $this->userAgent = $this->server->get('HTTP_USER_AGENT');
     }
 
     /**
@@ -299,13 +296,21 @@ class HttpRequest
     /**
      * Gets the user agent.
      *
-     * @return string|null
+     * @return UserAgent
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function userAgent(): ?string
+    public function userAgent(): UserAgent
     {
-        return $this->userAgent;
+        if ($this->cache->has('user_agent')) {
+            return $this->cache->get('user_agent');
+        }
+
+        $ua = new UserAgent($this->server->get('HTTP_USER_AGENT', 'Raxos/1.0'));
+
+        $this->cache->set('user_agent', $ua);
+
+        return $ua;
     }
 
     /**

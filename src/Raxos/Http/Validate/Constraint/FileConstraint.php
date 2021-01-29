@@ -34,6 +34,10 @@ final class FileConstraint extends Constraint
      */
     public function validate(RequestField $field, mixed $data): void
     {
+        if ($field->isOptional() && $data === null) {
+            return;
+        }
+
         if (!($data instanceof HttpFile)) {
             throw new FieldException($field, '{{name}} must be a file.', []);
         }

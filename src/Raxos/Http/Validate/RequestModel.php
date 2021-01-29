@@ -105,6 +105,7 @@ abstract class RequestModel implements JsonSerializable
                     'boolean' => 'bool',
                     'integer' => 'int',
                     'object' => get_class($value),
+                    'NULL' => 'null',
                     default => $valueType
                 };
 

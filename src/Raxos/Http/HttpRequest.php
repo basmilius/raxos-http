@@ -38,6 +38,8 @@ class HttpRequest
     private ReadonlyKeyValue $queryString;
     private ReadonlyKeyValue $server;
 
+    private string $method;
+
     /**
      * HttpRequest constructor.
      *
@@ -53,6 +55,8 @@ class HttpRequest
         $this->post = static::createPostKeyValue();
         $this->queryString = static::createQueryStringKeyValue();
         $this->server = static::createServerKeyValue();
+
+        $this->method = strtolower($this->server->get('REQUEST_METHOD', 'GET'));
     }
 
     /**
@@ -80,7 +84,7 @@ class HttpRequest
     #[ExpectedValues(valuesFromClass: HttpMethods::class)]
     public function method(): string
     {
-        return strtolower($this->server->get('REQUEST_METHOD', 'GET'));
+        return $this->method;
     }
 
     /**

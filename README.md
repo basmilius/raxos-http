@@ -6,4 +6,4 @@
 
 # Raxos HTTP
 
-Repository the HTTP library of [Raxos](https://github.com/basmilius/raxos).
+Repository for the HTTP library of [Raxos](https://github.com/basmilius/raxos).

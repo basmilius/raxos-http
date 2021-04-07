@@ -43,6 +43,18 @@ final class RequestField
     }
 
     /**
+     * Gets the class where the field is located.
+     *
+     * @return string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public final function getClass(): string
+    {
+        return $this->class;
+    }
+
+    /**
      * Gets the constraint.
      *
      * @return Constraint

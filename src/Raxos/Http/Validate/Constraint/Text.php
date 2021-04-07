@@ -97,7 +97,7 @@ class Text extends Constraint
             throw new FieldException($field, '{{name}} must be a string.', []);
         }
 
-        $data = trim((string)$data);
+        $data = trim($data);
         $length = mb_strlen($data);
 
         if ($length === 0 && $this->minLength !== 0) {

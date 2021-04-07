@@ -54,7 +54,7 @@ final class RequestModelConstraint extends Constraint
             throw new FieldException($field, '{{name}} does not meet the request requirements.');
         }
 
-        $this->model = Validator::validate($this->requestModelClass, (array)$data);
+        $this->model = Validator::validate($this->requestModelClass, $data);
     }
 
 }

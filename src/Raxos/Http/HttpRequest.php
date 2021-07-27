@@ -30,15 +30,15 @@ use function strtolower;
 class HttpRequest
 {
 
-    private SimpleKeyValue $cache;
-    private ReadonlyKeyValue $cookies;
-    private ReadonlyKeyValue $files;
-    private ReadonlyKeyValue $headers;
-    private ReadonlyKeyValue $post;
-    private ReadonlyKeyValue $queryString;
-    private ReadonlyKeyValue $server;
+    protected SimpleKeyValue $cache;
+    protected ReadonlyKeyValue $cookies;
+    protected ReadonlyKeyValue $files;
+    protected ReadonlyKeyValue $headers;
+    protected ReadonlyKeyValue $post;
+    protected ReadonlyKeyValue $queryString;
+    protected ReadonlyKeyValue $server;
 
-    private string $method;
+    protected string $method;
 
     /**
      * HttpRequest constructor.
@@ -120,7 +120,7 @@ class HttpRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function bearerToken(): ?string
+    public function bearerToken(): ?string
     {
         $header = $this->headers->get('authorization');
 
@@ -142,7 +142,7 @@ class HttpRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function ip(): IPv4|IPv6|null
+    public function ip(): IPv4|IPv6|null
     {
         if ($this->cache->has('ip')) {
             return $this->cache->get('ip');
@@ -162,7 +162,7 @@ class HttpRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function isSecure(): bool
+    public function isSecure(): bool
     {
         return $this->server->get('HTTPS', 'off') === 'on';
     }

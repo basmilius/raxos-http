@@ -110,7 +110,7 @@ abstract class RequestModel implements JsonSerializable
                 };
 
                 if (!in_array($valueType, $field->getTypes())) {
-                    throw new ValidatorException(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->getTypes())), ValidationException::ERR_INVALID_TYPE);
+                    throw new ValidatorException(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->getTypes())), ValidatorException::ERR_INVALID_TYPE);
                 }
 
                 $this->values[$name] = $value;
@@ -202,7 +202,7 @@ abstract class RequestModel implements JsonSerializable
                 'bool' => [new Boolean()],
                 'int' => [new Integer()],
                 'string' => [new Text()],
-                default => throw new ValidatorException(sprintf('Property %s::$%s must have a constraint.', $class->getName(), $property->getName()), ValidationException::ERR_MISSING_CONSTRAINT)
+                default => throw new ValidatorException(sprintf('Property %s::$%s must have a constraint.', $class->getName(), $property->getName()), ValidatorException::ERR_MISSING_CONSTRAINT)
             };
         }
 

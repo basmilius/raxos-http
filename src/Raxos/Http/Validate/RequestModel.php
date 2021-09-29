@@ -190,13 +190,9 @@ abstract class RequestModel implements JsonSerializable
         $constraints = array_values($constraints);
 
         if (is_subclass_of($types[0], RequestModel::class)) {
-            $constraints = [
-                new RequestModelConstraint($types[0])
-            ];
+            $constraints[] = new RequestModelConstraint($types[0]);
         } else if ($types[0] === HttpFile::class) {
-            $constraints = [
-                new FileConstraint()
-            ];
+            $constraints[] = new FileConstraint();
         } else if (empty($constraints)) {
             $constraints = match ($types[0]) {
                 'bool' => [new Boolean()],

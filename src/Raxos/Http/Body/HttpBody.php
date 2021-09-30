@@ -28,6 +28,18 @@ abstract class HttpBody
     }
 
     /**
+     * Gets the raw content.
+     *
+     * @return mixed
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
+    public final function getRaw(): mixed
+    {
+        return $this->content;
+    }
+
+    /**
      * Parses the body.
      *
      * @param HttpRequest $request

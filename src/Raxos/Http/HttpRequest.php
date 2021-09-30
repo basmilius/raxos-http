@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 use JetBrains\PhpStorm\ExpectedValues;
+use JetBrains\PhpStorm\Pure;
 use Raxos\Foundation\Network\IP;
 use Raxos\Foundation\Network\IPv4;
 use Raxos\Foundation\Network\IPv6;
-use Raxos\Foundation\Storage\ReadonlyKeyValue;
 use Raxos\Foundation\Storage\SimpleKeyValue;
 use Raxos\Foundation\Util\ArrayUtil;
 use Raxos\Http\Body\HttpBody;
@@ -31,12 +31,12 @@ class HttpRequest
 {
 
     protected SimpleKeyValue $cache;
-    protected ReadonlyKeyValue $cookies;
-    protected ReadonlyKeyValue $files;
-    protected ReadonlyKeyValue $headers;
-    protected ReadonlyKeyValue $post;
-    protected ReadonlyKeyValue $queryString;
-    protected ReadonlyKeyValue $server;
+    protected SimpleKeyValue $cookies;
+    protected SimpleKeyValue $files;
+    protected SimpleKeyValue $headers;
+    protected SimpleKeyValue $post;
+    protected SimpleKeyValue $queryString;
+    protected SimpleKeyValue $server;
 
     protected string $method;
 
@@ -228,11 +228,11 @@ class HttpRequest
     /**
      * Gets the request cookies.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function cookies(): ReadonlyKeyValue
+    public function cookies(): SimpleKeyValue
     {
         return $this->cookies;
     }
@@ -240,11 +240,11 @@ class HttpRequest
     /**
      * Gets the request files.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function files(): ReadonlyKeyValue
+    public function files(): SimpleKeyValue
     {
         return $this->files;
     }
@@ -252,11 +252,11 @@ class HttpRequest
     /**
      * Gets the request headers.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function headers(): ReadonlyKeyValue
+    public function headers(): SimpleKeyValue
     {
         return $this->headers;
     }
@@ -264,11 +264,11 @@ class HttpRequest
     /**
      * Gets the post fields.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function post(): ReadonlyKeyValue
+    public function post(): SimpleKeyValue
     {
         return $this->post;
     }
@@ -276,11 +276,11 @@ class HttpRequest
     /**
      * Gets the query string.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function queryString(): ReadonlyKeyValue
+    public function queryString(): SimpleKeyValue
     {
         return $this->queryString;
     }
@@ -288,11 +288,11 @@ class HttpRequest
     /**
      * Gets the server properties.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function server(): ReadonlyKeyValue
+    public function server(): SimpleKeyValue
     {
         return $this->server;
     }
@@ -320,23 +320,24 @@ class HttpRequest
     /**
      * Creates the cookies store.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected static function createCookiesKeyValue(): ReadonlyKeyValue
+    #[Pure]
+    protected static function createCookiesKeyValue(): SimpleKeyValue
     {
-        return new ReadonlyKeyValue($_COOKIE);
+        return new SimpleKeyValue($_COOKIE);
     }
 
     /**
      * Creates the files store.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected static function createFilesKeyValue(): ReadonlyKeyValue
+    protected static function createFilesKeyValue(): SimpleKeyValue
     {
         $files = [];
 
@@ -352,57 +353,59 @@ class HttpRequest
             }
         }
 
-        return new ReadonlyKeyValue($files);
+        return new SimpleKeyValue($files);
     }
 
     /**
      * Creates the headers store.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected static function createHeadersKeyValue(): ReadonlyKeyValue
+    protected static function createHeadersKeyValue(): SimpleKeyValue
     {
-        return new ReadonlyKeyValue(HttpUtil::getAllHeaders());
+        return new SimpleKeyValue(HttpUtil::getAllHeaders());
     }
 
     /**
      * Creates the post store.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected static function createPostKeyValue(): ReadonlyKeyValue
+    #[Pure]
+    protected static function createPostKeyValue(): SimpleKeyValue
     {
-        return new ReadonlyKeyValue($_POST);
+        return new SimpleKeyValue($_POST);
     }
 
     /**
      * Creates the query string store.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected static function createQueryStringKeyValue(): ReadonlyKeyValue
+    protected static function createQueryStringKeyValue(): SimpleKeyValue
     {
         parse_str($_SERVER['QUERY_STRING'] ?? '', $queryString);
 
-        return new ReadonlyKeyValue($queryString);
+        return new SimpleKeyValue($queryString);
     }
 
     /**
      * Creates the server store.
      *
-     * @return ReadonlyKeyValue
+     * @return SimpleKeyValue
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected static function createServerKeyValue(): ReadonlyKeyValue
+    #[Pure]
+    protected static function createServerKeyValue(): SimpleKeyValue
     {
-        return new ReadonlyKeyValue($_SERVER);
+        return new SimpleKeyValue($_SERVER);
     }
 
 }

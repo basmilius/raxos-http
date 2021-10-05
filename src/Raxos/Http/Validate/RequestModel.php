@@ -97,23 +97,27 @@ abstract class RequestModel implements JsonSerializable
             try {
                 $value = $this->data[$property];
 
-                $constraint->validate($field, $value);
+                if ($value === null && $field->isOptional()) {
+                    $this->values[$name] = null;
+                } else {
+                    $constraint->validate($field, $value);
 
-                $value = $constraint->transform($value);
-                $valueType = gettype($value);
-                $valueType = match ($valueType) {
-                    'boolean' => 'bool',
-                    'integer' => 'int',
-                    'object' => get_class($value),
-                    'NULL' => 'null',
-                    default => $valueType
-                };
+                    $value = $constraint->transform($value);
+                    $valueType = gettype($value);
+                    $valueType = match ($valueType) {
+                        'boolean' => 'bool',
+                        'integer' => 'int',
+                        'object' => get_class($value),
+                        'NULL' => 'null',
+                        default => $valueType
+                    };
 
-                if (!in_array($valueType, $field->getTypes())) {
-                    throw new ValidatorException(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->getTypes())), ValidatorException::ERR_INVALID_TYPE);
+                    if (!in_array($valueType, $field->getTypes())) {
+                        throw new ValidatorException(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->getTypes())), ValidatorException::ERR_INVALID_TYPE);
+                    }
+
+                    $this->values[$name] = $value;
                 }
-
-                $this->values[$name] = $value;
             } catch (FieldException $err) {
                 $errors[$property] = $err;
             } catch (ValidationException $err) {

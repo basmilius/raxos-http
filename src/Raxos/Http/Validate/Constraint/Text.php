@@ -101,6 +101,10 @@ class Text extends Constraint
         $length = mb_strlen($data);
 
         if ($length === 0 && $this->minLength !== 0) {
+            if ($field->isOptional()) {
+                return;
+            }
+
             throw new FieldException($field, '{{name}} is required.');
         }
 

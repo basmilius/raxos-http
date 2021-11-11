@@ -115,7 +115,7 @@ class HttpClientResponse implements DebugInfoInterface
      */
     public function failed(): bool
     {
-        return $this->response < 200 || $this->responseCode >= 300;
+        return $this->responseCode < 200 || $this->responseCode >= 300;
     }
 
     /**

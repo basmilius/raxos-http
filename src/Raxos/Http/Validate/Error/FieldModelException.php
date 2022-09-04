@@ -26,7 +26,7 @@ class FieldModelException extends FieldException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(RequestField $field, private ValidationException $err)
+    public function __construct(RequestField $field, private readonly ValidationException $err)
     {
         parent::__construct($field, '{{name}} contains errors.', []);
     }
@@ -44,7 +44,7 @@ class FieldModelException extends FieldException
     public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
-            'errors' => $this->err->getErrors()
+            'errors' => $this->err->errors
         ]);
     }
 

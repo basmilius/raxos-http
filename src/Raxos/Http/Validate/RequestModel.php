@@ -58,7 +58,7 @@ abstract class RequestModel implements JsonSerializable
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function __construct(private array $data)
+    public final function __construct(private readonly array $data)
     {
         $this->prepare();
     }
@@ -76,15 +76,15 @@ abstract class RequestModel implements JsonSerializable
         $errors = [];
 
         foreach (self::$fields[static::class] as $field) {
-            $constraint = $field->getConstraint();
-            $name = $field->getName();
+            $constraint = $field->constraint;
+            $name = $field->name;
             $property = $field->getFieldProperty();
 
             unset($this->{$name});
 
             if (!array_key_exists($property, $this->data)) {
-                if ($field->isOptional()) {
-                    $this->values[$name] = $field->getDefaultValue();
+                if ($field->isOptional) {
+                    $this->values[$name] = $field->defaultValue;
 
                     continue;
                 }
@@ -97,7 +97,7 @@ abstract class RequestModel implements JsonSerializable
             try {
                 $value = $this->data[$property];
 
-                if ($value === null && $field->isOptional()) {
+                if ($value === null && $field->isOptional) {
                     $this->values[$name] = null;
                 } else {
                     $constraint->validate($field, $value);
@@ -113,8 +113,8 @@ abstract class RequestModel implements JsonSerializable
                         default => $valueType
                     };
 
-                    if (!in_array($valueType, $field->getTypes())) {
-                        throw new ValidatorException(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->getTypes())), ValidatorException::ERR_INVALID_TYPE);
+                    if (!in_array($valueType, $field->types)) {
+                        throw new ValidatorException(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->types)), ValidatorException::ERR_INVALID_TYPE);
                     }
 
                     $this->values[$name] = $value;

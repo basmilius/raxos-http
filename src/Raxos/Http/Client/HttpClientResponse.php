@@ -4,11 +4,10 @@ declare(strict_types=1);
 namespace Raxos\Http\Client;
 
 use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\ExpectedValues;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Raxos\Foundation\PHP\MagicMethods\DebugInfoInterface;
-use Raxos\Http\HttpCode;
+use Raxos\Http\HttpResponseCode;
 use stdClass;
 use function array_map;
 use function json_decode;
@@ -24,7 +23,7 @@ class HttpClientResponse implements DebugInfoInterface
 {
 
     protected string $protocolVersion;
-    protected int $responseCode;
+    protected HttpResponseCode $responseCode;
     protected string $responseText;
 
     /**
@@ -37,10 +36,14 @@ class HttpClientResponse implements DebugInfoInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(protected HttpClient $client, protected HttpClientRequest $request, protected ResponseInterface $response)
+    public function __construct(
+        protected readonly HttpClient $client,
+        protected readonly HttpClientRequest $request,
+        protected readonly ResponseInterface $response
+    )
     {
         $this->protocolVersion = $response->getProtocolVersion();
-        $this->responseCode = $response->getStatusCode();
+        $this->responseCode = HttpResponseCode::from($response->getStatusCode());
         $this->responseText = $response->getReasonPhrase();
     }
 
@@ -91,7 +94,7 @@ class HttpClientResponse implements DebugInfoInterface
      */
     public function clientError(): bool
     {
-        return $this->responseCode >= 400 && $this->responseCode < 500;
+        return $this->responseCode->value >= 400 && $this->responseCode->value < 500;
     }
 
     /**
@@ -103,7 +106,7 @@ class HttpClientResponse implements DebugInfoInterface
      */
     public function serverError(): bool
     {
-        return $this->responseCode >= 500 && $this->responseCode < 600;
+        return $this->responseCode->value >= 500 && $this->responseCode->value < 600;
     }
 
     /**
@@ -115,7 +118,7 @@ class HttpClientResponse implements DebugInfoInterface
      */
     public function failed(): bool
     {
-        return $this->responseCode < 200 || $this->responseCode >= 300;
+        return $this->responseCode->value < 200 || $this->responseCode->value >= 300;
     }
 
     /**
@@ -127,7 +130,7 @@ class HttpClientResponse implements DebugInfoInterface
      */
     public function success(): bool
     {
-        return $this->responseCode >= 200 && $this->responseCode < 300;
+        return $this->responseCode->value >= 200 && $this->responseCode->value < 300;
     }
 
     /**
@@ -186,12 +189,11 @@ class HttpClientResponse implements DebugInfoInterface
     /**
      * Gets the response code.
      *
-     * @return int
+     * @return HttpResponseCode
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    #[ExpectedValues(valuesFromClass: HttpCode::class)]
-    public function responseCode(): int
+    public function responseCode(): HttpResponseCode
     {
         return $this->responseCode;
     }

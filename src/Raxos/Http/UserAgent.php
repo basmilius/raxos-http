@@ -35,9 +35,9 @@ use function version_compare;
 class UserAgent implements JsonSerializable, Stringable
 {
 
-    protected ?string $browser = null;
-    protected ?string $platform = null;
-    protected ?string $version = null;
+    public readonly ?string $browser;
+    public readonly ?string $platform;
+    public readonly ?string $version;
 
     /**
      * UserAgent constructor.
@@ -74,10 +74,10 @@ class UserAgent implements JsonSerializable, Stringable
             $platform = 'Chrome OS';
         }
 
-        preg_match_all('%(?P<browser>Camino|Kindle(\ Fire)?|Firefox|Iceweasel|IceCat|Safari|MSIE|Trident|AppleWebKit|TizenBrowser|Chrome|Vivaldi|IEMobile|Opera|OPR|Silk|Midori|Edg|Edge|CriOS|UCBrowser|Puffin|SamsungBrowser|Baiduspider|Googlebot|YandexBot|bingbot|Lynx|Version|Wget|curl|Valve\ Steam\ Tenfoot|NintendoBrowser|PLAYSTATION\ (\d|Vita)+)\)?;?(?:[:/ ](?P<version>[0-9A-Z.]+)|/[A-Z]*)%ix', $userAgent, $result);
+        preg_match_all('%(?P<browser>Camino|Kindle(\ Fire)?|Firefox|Iceweasel|IceCat|Safari|MSIE|Trident|AppleWebKit|TizenBrowser|Chrome|Vivaldi|IEMobile|Opera|OPR|Silk|Midori|Edg|Edge|CriOS|UCBrowser|Puffin|SamsungBrowser|Baiduspider|Googlebot|YandexBot|bingbot|Lynx|Version|Wget|curl|Valve\ Steam\ Tenfoot|NintendoBrowser|PLAYSTATION\ (\d|Vita)+)\)?;?(?:[:/ ](?P<version>[\dA-Z.]+)|/[A-Z]*)%ix', $userAgent, $result);
 
         if (!isset($result['browser'][0]) || !isset($result['version'][0])) {
-            if (preg_match('%^(?!Mozilla)(?P<browser>[A-Z0-9\-]+)(/(?P<version>[0-9A-Z.]+))?%ix', $userAgent, $result)) {
+            if (preg_match('%^(?!Mozilla)(?P<browser>[A-Z\d\-]+)(/(?P<version>[\dA-Z.]+))?%ix', $userAgent, $result)) {
                 $this->browser = $result['browser'];
                 $this->platform = $platform;
                 $this->version = $result['version'];
@@ -86,7 +86,7 @@ class UserAgent implements JsonSerializable, Stringable
             return;
         }
 
-        if (preg_match('/rv:(?P<version>[0-9A-Z.]+)/si', $userAgent, $versionResult)) {
+        if (preg_match('/rv:(?P<version>[\dA-Z.]+)/i', $userAgent, $versionResult)) {
             $versionResult = $versionResult['version'];
         }
 
@@ -184,60 +184,12 @@ class UserAgent implements JsonSerializable, Stringable
         } else if ($pKey = preg_grep('/playstation \d/i', array_map('strtolower', $result['browser']))) {
             $pKey = reset($pKey);
             $browser = 'NetFront';
-            $platform = 'PlayStation ' . preg_replace('/[^\d]/i', '', $pKey);
+            $platform = 'PlayStation ' . preg_replace('/\D/i', '', $pKey);
         }
 
         $this->browser = $browser;
         $this->platform = $platform;
         $this->version = $version;
-    }
-
-    /**
-     * Gets the browser.
-     *
-     * @return string|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getBrowser(): ?string
-    {
-        return $this->browser;
-    }
-
-    /**
-     * Gets the platform.
-     *
-     * @return string|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getPlatform(): ?string
-    {
-        return $this->platform;
-    }
-
-    /**
-     * Gets the version.
-     *
-     * @return string|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getVersion(): ?string
-    {
-        return $this->version;
-    }
-
-    /**
-     * Gets the user agent value.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getValue(): string
-    {
-        return $this->userAgent;
     }
 
     /**

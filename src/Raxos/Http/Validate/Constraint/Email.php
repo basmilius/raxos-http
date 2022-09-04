@@ -46,6 +46,10 @@ class Email extends Text
     {
         parent::validate($field, $data);
 
+        if ($field->isOptional && empty($data)) {
+            return;
+        }
+
         $data = (string)$data;
 
         if (!filter_var($data, FILTER_VALIDATE_EMAIL)) {

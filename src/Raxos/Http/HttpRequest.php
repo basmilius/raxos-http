@@ -3,16 +3,15 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
-use JetBrains\PhpStorm\ExpectedValues;
 use JetBrains\PhpStorm\Pure;
 use Raxos\Foundation\Network\IP;
 use Raxos\Foundation\Network\IPv4;
 use Raxos\Foundation\Network\IPv6;
 use Raxos\Foundation\Storage\SimpleKeyValue;
-use Raxos\Foundation\Util\ArrayUtil;
 use Raxos\Http\Body\HttpBody;
 use Raxos\Http\Body\HttpBodyJson;
 use RuntimeException;
+use function array_is_list;
 use function count;
 use function explode;
 use function file_get_contents;
@@ -30,15 +29,15 @@ use function strtolower;
 class HttpRequest
 {
 
-    protected SimpleKeyValue $cache;
-    protected SimpleKeyValue $cookies;
-    protected SimpleKeyValue $files;
-    protected SimpleKeyValue $headers;
-    protected SimpleKeyValue $post;
-    protected SimpleKeyValue $queryString;
-    protected SimpleKeyValue $server;
+    public readonly SimpleKeyValue $cache;
+    public readonly SimpleKeyValue $cookies;
+    public readonly SimpleKeyValue $files;
+    public readonly SimpleKeyValue $headers;
+    public readonly SimpleKeyValue $post;
+    public readonly SimpleKeyValue $queryString;
+    public readonly SimpleKeyValue $server;
 
-    protected string $method;
+    private HttpMethod $method;
 
     /**
      * HttpRequest constructor.
@@ -56,7 +55,7 @@ class HttpRequest
         $this->queryString = static::createQueryStringKeyValue();
         $this->server = static::createServerKeyValue();
 
-        $this->method = strtolower($this->server->get('REQUEST_METHOD', 'GET'));
+        $this->method = HttpMethod::from(strtolower($this->server->get('REQUEST_METHOD', 'GET')));
     }
 
     /**
@@ -77,12 +76,11 @@ class HttpRequest
     /**
      * Gets the request method.
      *
-     * @return string
+     * @return HttpMethod
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    #[ExpectedValues(valuesFromClass: HttpMethods::class)]
-    public function method(): string
+    public function method(): HttpMethod
     {
         return $this->method;
     }
@@ -226,78 +224,6 @@ class HttpRequest
     }
 
     /**
-     * Gets the request cookies.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function cookies(): SimpleKeyValue
-    {
-        return $this->cookies;
-    }
-
-    /**
-     * Gets the request files.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function files(): SimpleKeyValue
-    {
-        return $this->files;
-    }
-
-    /**
-     * Gets the request headers.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function headers(): SimpleKeyValue
-    {
-        return $this->headers;
-    }
-
-    /**
-     * Gets the post fields.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function post(): SimpleKeyValue
-    {
-        return $this->post;
-    }
-
-    /**
-     * Gets the query string.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function queryString(): SimpleKeyValue
-    {
-        return $this->queryString;
-    }
-
-    /**
-     * Gets the server properties.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function server(): SimpleKeyValue
-    {
-        return $this->server;
-    }
-
-    /**
      * Gets the user agent.
      *
      * @return UserAgent
@@ -337,12 +263,13 @@ class HttpRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
+    #[Pure]
     protected static function createFilesKeyValue(): SimpleKeyValue
     {
         $files = [];
 
         foreach ($_FILES as $name => $value) {
-            if (ArrayUtil::isSequential($value)) {
+            if (array_is_list($value)) {
                 $files[$name] ??= [];
 
                 foreach ($value as $file) {

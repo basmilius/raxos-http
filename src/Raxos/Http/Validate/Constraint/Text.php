@@ -33,47 +33,11 @@ class Text extends Constraint
      * @since 1.0.0
      */
     public function __construct(
-        protected ?int $maxLength = null,
-        protected ?int $minLength = null,
-        protected ?string $matches = null
+        public readonly ?int $maxLength = null,
+        public readonly ?int $minLength = null,
+        public readonly ?string $matches = null
     )
     {
-    }
-
-    /**
-     * Gets the regex to match against.
-     *
-     * @return string|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getMatches(): ?string
-    {
-        return $this->matches;
-    }
-
-    /**
-     * Gets the max length.
-     *
-     * @return int|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getMaxLength(): ?int
-    {
-        return $this->maxLength;
-    }
-
-    /**
-     * Gets the min length.
-     *
-     * @return int|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getMinLength(): ?int
-    {
-        return $this->minLength;
     }
 
     /**
@@ -101,7 +65,7 @@ class Text extends Constraint
         $length = mb_strlen($data);
 
         if ($length === 0 && $this->minLength !== 0) {
-            if ($field->isOptional()) {
+            if ($field->isOptional) {
                 return;
             }
 

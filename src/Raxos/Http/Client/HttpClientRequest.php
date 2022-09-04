@@ -5,10 +5,9 @@ namespace Raxos\Http\Client;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Uri;
-use JetBrains\PhpStorm\ExpectedValues;
 use Psr\Http\Message\RequestInterface;
 use Raxos\Http\Client\Psr7\Psr7Request;
-use Raxos\Http\HttpMethods;
+use Raxos\Http\HttpMethod;
 use function array_merge_recursive;
 
 /**
@@ -192,7 +191,7 @@ class HttpClientRequest
     /**
      * Performs the request.
      *
-     * @param string $method
+     * @param HttpMethod $method
      * @param string $uri
      *
      * @return HttpClientResponse
@@ -200,12 +199,12 @@ class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected function base(#[ExpectedValues(valuesFromClass: HttpMethods::class)] string $method, string $uri): HttpClientResponse
+    protected function base(HttpMethod $method, string $uri): HttpClientResponse
     {
         try {
             $uri = new Uri($uri);
 
-            $this->request->withMethod($method);
+            $this->request->withMethod($method->value);
             $this->request->withUri($uri);
 
             $response = $this->client->getClient()->send($this->request, $this->options);
@@ -233,7 +232,7 @@ class HttpClientRequest
             $this->query($query);
         }
 
-        return $this->base(HttpMethods::GET, $uri);
+        return $this->base(HttpMethod::GET, $uri);
     }
 
     /**
@@ -253,7 +252,7 @@ class HttpClientRequest
             $this->json($json);
         }
 
-        return $this->base(HttpMethods::POST, $uri);
+        return $this->base(HttpMethod::POST, $uri);
     }
 
     /**
@@ -268,7 +267,7 @@ class HttpClientRequest
      */
     public function delete(string $uri): HttpClientResponse
     {
-        return $this->base(HttpMethods::DELETE, $uri);
+        return $this->base(HttpMethod::DELETE, $uri);
     }
 
 }

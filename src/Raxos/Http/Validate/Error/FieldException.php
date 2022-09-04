@@ -17,6 +17,8 @@ use function str_replace;
 class FieldException extends ValidatorException
 {
 
+    public readonly array $params;
+
     /**
      * FieldException constructor.
      *
@@ -27,35 +29,17 @@ class FieldException extends ValidatorException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(private RequestField $field, string $message, private array $params = [])
+    public function __construct(
+        public readonly RequestField $field,
+        string $message,
+        array $params = []
+    )
     {
         parent::__construct($message, self::ERR_FIELD_VALIDATION_FAILED);
 
-        $this->params['name'] = $field->getField()->getName();
-    }
+        $params['name'] = $field->field->name;
 
-    /**
-     * Gets the field.
-     *
-     * @return RequestField
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getField(): RequestField
-    {
-        return $this->field;
-    }
-
-    /**
-     * Gets the params.
-     *
-     * @return array
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getParams(): array
-    {
-        return $this->params;
+        $this->params = $params;
     }
 
     /**

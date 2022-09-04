@@ -27,7 +27,7 @@ use function usleep;
  * @package Raxos\Http
  * @since 1.0.0
  */
-final class HttpSendFile
+class HttpSendFile implements HttpSendFileInterface
 {
 
     /**
@@ -44,20 +44,18 @@ final class HttpSendFile
      * @since 1.0.0
      */
     public function __construct(
-        public string $path,
-        public string $contentDisposition = 'file',
-        public string $contentDispositionType = 'inline',
-        public string $contentType = 'application/octet-stream',
-        public int $bytes = 40960,
-        public float $throttle = 0.1
+        protected string $path,
+        protected string $contentDisposition = 'file',
+        protected string $contentDispositionType = 'inline',
+        protected string $contentType = 'application/octet-stream',
+        protected int $bytes = 40960,
+        protected float $throttle = 0.1
     )
     {
     }
 
     /**
-     * Gets the bytes read per iteration.
-     *
-     * @return int
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -67,9 +65,7 @@ final class HttpSendFile
     }
 
     /**
-     * Gets the content disposition filename.
-     *
-     * @return string
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -79,9 +75,7 @@ final class HttpSendFile
     }
 
     /**
-     * Gets the content disposition type.
-     *
-     * @return string
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -91,9 +85,7 @@ final class HttpSendFile
     }
 
     /**
-     * Gets the content type.
-     *
-     * @return string
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -103,9 +95,7 @@ final class HttpSendFile
     }
 
     /**
-     * Gets the file path.
-     *
-     * @return string
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -115,9 +105,7 @@ final class HttpSendFile
     }
 
     /**
-     * Gets the amount of seconds to throttle.
-     *
-     * @return float
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -127,15 +115,11 @@ final class HttpSendFile
     }
 
     /**
-     * Sets the amount of bytes send per iteration.
-     *
-     * @param int $bytes
-     *
-     * @return $this
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setBytes(int $bytes): self
+    public final function setBytes(int $bytes): static
     {
         $this->bytes = $bytes;
 
@@ -143,16 +127,11 @@ final class HttpSendFile
     }
 
     /**
-     * Sets the content disposition.
-     *
-     * @param string $name
-     * @param string $type
-     *
-     * @return $this
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setContentDisposition(string $name, string $type): self
+    public final function setContentDisposition(string $name, string $type): static
     {
         $this->contentDisposition = $name;
         $this->contentDispositionType = $type;
@@ -161,15 +140,11 @@ final class HttpSendFile
     }
 
     /**
-     * Sets the content type.
-     *
-     * @param string $contentType
-     *
-     * @return $this
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setContentType(string $contentType): self
+    public final function setContentType(string $contentType): static
     {
         $this->contentType = $contentType;
 
@@ -177,15 +152,11 @@ final class HttpSendFile
     }
 
     /**
-     * Sets the amount of time to throttle.
-     *
-     * @param float $throttle
-     *
-     * @return $this
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setThrottle(float $throttle): self
+    public final function setThrottle(float $throttle): static
     {
         $this->throttle = $throttle;
 
@@ -193,10 +164,7 @@ final class HttpSendFile
     }
 
     /**
-     * Handles the file sending.
-     *
-     * @param string|null $rangeHeader
-     *
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -225,7 +193,7 @@ final class HttpSendFile
             $rangeEnd = intval($rangeEnd);
             $newLength = $rangeEnd - $range + 1;
 
-            http_response_code(HttpCode::PARTIAL_CONTENT);
+            http_response_code(HttpResponseCode::PARTIAL_CONTENT->value);
             header("Content-Length: {$newLength}");
             header("Content-Range: bytes {$range}-{$rangeEnd}/{$size}");
         } else {

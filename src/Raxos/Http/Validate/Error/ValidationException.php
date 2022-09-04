@@ -24,21 +24,9 @@ class ValidationException extends ValidatorException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(private array $errors)
+    public function __construct(public readonly array $errors)
     {
         parent::__construct('Request validation failed.', self::ERR_VALIDATION_FAILED);
-    }
-
-    /**
-     * Gets the errors.
-     *
-     * @return FieldException[]
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getErrors(): array
-    {
-        return $this->errors;
     }
 
     /**

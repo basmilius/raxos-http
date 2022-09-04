@@ -31,63 +31,15 @@ final class RequestField
      * @since 1.0.0
      */
     public function __construct(
-        private string $class,
-        private string $name,
-        private Field $field,
-        private Constraint $constraint,
-        private bool $isOptional,
-        private array $types,
-        private mixed $defaultValue
+        public readonly string $class,
+        public readonly string $name,
+        public readonly Field $field,
+        public readonly Constraint $constraint,
+        public readonly bool $isOptional,
+        public readonly array $types,
+        public readonly mixed $defaultValue
     )
     {
-    }
-
-    /**
-     * Gets the class where the field is located.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getClass(): string
-    {
-        return $this->class;
-    }
-
-    /**
-     * Gets the constraint.
-     *
-     * @return Constraint
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getConstraint(): Constraint
-    {
-        return $this->constraint;
-    }
-
-    /**
-     * Gets the default value.
-     *
-     * @return mixed
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getDefaultValue(): mixed
-    {
-        return $this->defaultValue;
-    }
-
-    /**
-     * Gets the field details.
-     *
-     * @return Field
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getField(): Field
-    {
-        return $this->field;
     }
 
     /**
@@ -99,43 +51,7 @@ final class RequestField
      */
     public final function getFieldProperty(): string
     {
-        return $this->field->getAlias() ?? $this->name;
-    }
-
-    /**
-     * Gets the name of the class property.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * Gets the valid property types.
-     *
-     * @return array
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getTypes(): array
-    {
-        return $this->types;
-    }
-
-    /**
-     * Gets if the field is optional.
-     *
-     * @return bool
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function isOptional(): bool
-    {
-        return $this->isOptional;
+        return $this->field->alias ?? $this->name;
     }
 
 }

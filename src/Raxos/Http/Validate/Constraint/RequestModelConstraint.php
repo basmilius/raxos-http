@@ -29,7 +29,7 @@ final class RequestModelConstraint extends Constraint
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(private string $requestModelClass)
+    public function __construct(private readonly string $requestModelClass)
     {
     }
 

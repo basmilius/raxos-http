@@ -19,7 +19,7 @@ use function sprintf;
 class HttpClient
 {
 
-    protected GuzzleClient $client;
+    protected readonly GuzzleClient $client;
 
     /**
      * HttpClient constructor.

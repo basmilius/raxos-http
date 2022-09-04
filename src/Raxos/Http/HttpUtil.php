@@ -24,7 +24,7 @@ final class HttpUtil
     /**
      * Gets all request headers.
      *
-     * @return array
+     * @return array<string, string>
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */

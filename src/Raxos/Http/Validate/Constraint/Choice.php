@@ -27,23 +27,9 @@ class Choice extends Text
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(
-        protected array $values = []
-    )
+    public function __construct(public readonly array $values = [])
     {
         parent::__construct();
-    }
-
-    /**
-     * Gets the possible values.
-     *
-     * @return string[]
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getValues(): array
-    {
-        return $this->values;
     }
 
     /**

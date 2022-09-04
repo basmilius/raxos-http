@@ -28,34 +28,10 @@ class Integer extends Constraint
      * @since 1.0.0
      */
     public function __construct(
-        protected ?int $maxValue = null,
-        protected ?int $minValue = null
+        public readonly ?int $maxValue = null,
+        public readonly ?int $minValue = null
     )
     {
-    }
-
-    /**
-     * Gets the max value.
-     *
-     * @return int|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getMaxValue(): ?int
-    {
-        return $this->maxValue;
-    }
-
-    /**
-     * Gets the min value.
-     *
-     * @return int|null
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getMinValue(): ?int
-    {
-        return $this->minValue;
     }
 
     /**

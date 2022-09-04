@@ -34,7 +34,7 @@ final class FileConstraint extends Constraint
      */
     public function validate(RequestField $field, mixed $data): void
     {
-        if ($field->isOptional() && $data === null) {
+        if ($field->isOptional && $data === null) {
             return;
         }
 

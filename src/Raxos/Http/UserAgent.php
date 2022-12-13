@@ -46,6 +46,7 @@ class UserAgent implements JsonSerializable, Stringable
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public function __construct(protected string $userAgent)
     {
@@ -93,7 +94,7 @@ class UserAgent implements JsonSerializable, Stringable
         $browser = $result['browser'][0];
         $version = $result['version'][0];
 
-        $lowerBrowser = array_map('strtolower', $result['browser']);
+        $lowerBrowser = array_map(strtolower(...), $result['browser']);
 
         $find = static function (string|array $search, int &$key, string &$value = null) use ($lowerBrowser): bool {
             if (!is_array($search)) {
@@ -181,7 +182,7 @@ class UserAgent implements JsonSerializable, Stringable
 
             $find('Version', $key);
             $version = $result['version'][$key];
-        } else if ($pKey = preg_grep('/playstation \d/i', array_map('strtolower', $result['browser']))) {
+        } else if ($pKey = preg_grep('/playstation \d/i', array_map(strtolower(...), $result['browser']))) {
             $pKey = reset($pKey);
             $browser = 'NetFront';
             $platform = 'PlayStation ' . preg_replace('/\D/i', '', $pKey);
@@ -198,6 +199,7 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public final function isChrome(): bool
     {
@@ -210,6 +212,7 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public final function isEdgium(): bool
     {
@@ -222,6 +225,7 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public final function isFirefox(): bool
     {
@@ -234,6 +238,7 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public final function isInternetExplorer(): bool
     {
@@ -246,6 +251,7 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public final function isMicrosoftEdge(): bool
     {
@@ -258,6 +264,7 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
+     * @noinspection SpellCheckingInspection
      */
     public final function isSafari(): bool
     {

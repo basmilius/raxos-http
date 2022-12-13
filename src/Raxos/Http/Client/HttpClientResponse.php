@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Http\Client;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\{ResponseInterface, StreamInterface};
 use Raxos\Foundation\PHP\MagicMethods\DebugInfoInterface;
 use Raxos\Http\HttpResponseCode;
 use stdClass;
@@ -19,7 +18,7 @@ use function json_decode;
  * @package Raxos\Http\Client
  * @since 1.0.0
  */
-class HttpClientResponse implements DebugInfoInterface
+readonly class HttpClientResponse implements DebugInfoInterface
 {
 
     protected string $protocolVersion;
@@ -37,9 +36,9 @@ class HttpClientResponse implements DebugInfoInterface
      * @since 1.0.0
      */
     public function __construct(
-        protected readonly HttpClient $client,
-        protected readonly HttpClientRequest $request,
-        protected readonly ResponseInterface $response
+        protected HttpClient $client,
+        protected HttpClientRequest $request,
+        protected ResponseInterface $response
     )
     {
         $this->protocolVersion = $response->getProtocolVersion();

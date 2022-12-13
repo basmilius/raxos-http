@@ -16,10 +16,10 @@ use function sprintf;
  * @package Raxos\Http\Client
  * @since 1.0.0
  */
-class HttpClient
+readonly class HttpClient
 {
 
-    protected readonly GuzzleClient $client;
+    protected GuzzleClient $client;
 
     /**
      * HttpClient constructor.

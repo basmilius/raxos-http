@@ -28,7 +28,7 @@ class FieldModelException extends FieldException
      */
     public function __construct(RequestField $field, private readonly ValidationException $err)
     {
-        parent::__construct($field, '{{name}} contains errors.', []);
+        parent::__construct($field, '{{name}} contains errors.');
     }
 
     /**

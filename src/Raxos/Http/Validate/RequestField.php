@@ -13,7 +13,7 @@ use Raxos\Http\Validate\Constraint\Constraint;
  * @package Raxos\Http\Validate
  * @since 1.0.0
  */
-final class RequestField
+final readonly class RequestField
 {
 
     /**
@@ -31,13 +31,13 @@ final class RequestField
      * @since 1.0.0
      */
     public function __construct(
-        public readonly string $class,
-        public readonly string $name,
-        public readonly Field $field,
-        public readonly Constraint $constraint,
-        public readonly bool $isOptional,
-        public readonly array $types,
-        public readonly mixed $defaultValue
+        public string $class,
+        public string $name,
+        public Field $field,
+        public Constraint $constraint,
+        public bool $isOptional,
+        public array $types,
+        public mixed $defaultValue
     )
     {
     }

@@ -26,16 +26,16 @@ use function strtolower;
  * @package Raxos\Http
  * @since 1.0.0
  */
-class HttpRequest
+readonly class HttpRequest
 {
 
-    public readonly SimpleKeyValue $cache;
-    public readonly SimpleKeyValue $cookies;
-    public readonly SimpleKeyValue $files;
-    public readonly SimpleKeyValue $headers;
-    public readonly SimpleKeyValue $post;
-    public readonly SimpleKeyValue $queryString;
-    public readonly SimpleKeyValue $server;
+    public SimpleKeyValue $cache;
+    public SimpleKeyValue $cookies;
+    public SimpleKeyValue $files;
+    public SimpleKeyValue $headers;
+    public SimpleKeyValue $post;
+    public SimpleKeyValue $queryString;
+    public SimpleKeyValue $server;
 
     private HttpMethod $method;
 

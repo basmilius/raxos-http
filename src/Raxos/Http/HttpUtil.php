@@ -34,6 +34,7 @@ final class HttpUtil
             return [];
         }
 
+        /** @noinspection SpellCheckingInspection */
         if (function_exists('getallheaders')) {
             $headers = getallheaders();
         } else {

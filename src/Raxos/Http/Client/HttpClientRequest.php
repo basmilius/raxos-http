@@ -33,8 +33,7 @@ class HttpClientRequest
      */
     public function __construct(protected HttpClient $client)
     {
-        $this->request = new Psr7Request;
-
+        $this->request = new Psr7Request();
         $this->header('Accept-Encoding', 'gzip');
     }
 

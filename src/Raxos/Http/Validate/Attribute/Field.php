@@ -13,7 +13,7 @@ use Attribute;
  * @since 1.0.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final class Field
+final readonly class Field
 {
 
     /**
@@ -26,8 +26,8 @@ final class Field
      * @since 1.0.0
      */
     public function __construct(
-        public readonly string $name,
-        public readonly ?string $alias = null
+        public string $name,
+        public ?string $alias = null
     )
     {
     }

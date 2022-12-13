@@ -13,6 +13,6 @@ use Attribute;
  * @since 1.0.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final class Optional
+final readonly class Optional
 {
 }

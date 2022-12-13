@@ -68,7 +68,7 @@ interface HttpSendFileInterface
     public function getThrottle(): float;
 
     /**
-     * Sets the amount of bytes send per iteration.
+     * Sets the amount of bytes sent per iteration.
      *
      * @param int $bytes
      *

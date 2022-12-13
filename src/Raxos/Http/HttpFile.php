@@ -13,7 +13,7 @@ use const UPLOAD_ERR_OK;
  * @package Raxos\Http
  * @since 1.0.0
  */
-final class HttpFile
+final readonly class HttpFile
 {
 
     /**
@@ -24,7 +24,7 @@ final class HttpFile
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(private readonly array $file)
+    public function __construct(private array $file)
     {
     }
 

@@ -16,7 +16,7 @@ use function sprintf;
  * @package Raxos\Http\Client
  * @since 1.0.0
  */
-readonly class HttpClient
+class HttpClient
 {
 
     protected GuzzleClient $client;

@@ -32,7 +32,7 @@ final class Psr7Request implements RequestInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function getMethod(): ?string
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -42,7 +42,7 @@ final class Psr7Request implements RequestInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function getRequestTarget()
+    public function getRequestTarget(): string
     {
         if ($this->requestTarget !== null) {
             return $this->requestTarget;
@@ -66,7 +66,7 @@ final class Psr7Request implements RequestInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function getUri(): ?UriInterface
+    public function getUri(): UriInterface
     {
         return $this->uri;
     }

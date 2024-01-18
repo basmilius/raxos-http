@@ -15,7 +15,7 @@ use Raxos\Foundation\Error\RaxosException;
 final class HttpClientException extends RaxosException
 {
 
-    public const ERR_REQUEST_FAILED = 1;
-    public const ERR_BAD_METHOD_CALL = 2;
+    public const int ERR_REQUEST_FAILED = 1;
+    public const int ERR_BAD_METHOD_CALL = 2;
 
 }

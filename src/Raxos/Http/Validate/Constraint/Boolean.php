@@ -19,8 +19,8 @@ use function in_array;
 class Boolean extends Constraint
 {
 
-    private const FALSE = [false, 0, '0', 'false', 'no', 'off'];
-    private const TRUE = [true, 1, '1', 'true', 'yes', 'on'];
+    private const array FALSE = [false, 0, '0', 'false', 'no', 'off'];
+    private const array TRUE = [true, 1, '1', 'true', 'yes', 'on'];
 
     /**
      * {@inheritdoc}

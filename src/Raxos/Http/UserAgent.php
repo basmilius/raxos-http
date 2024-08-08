@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use Stringable;
 use function array_intersect;
@@ -32,12 +33,12 @@ use function version_compare;
  * @package Raxos\Http
  * @since 1.0.0
  */
-class UserAgent implements JsonSerializable, Stringable
+readonly class UserAgent implements JsonSerializable, Stringable
 {
 
-    public readonly ?string $browser;
-    public readonly ?string $platform;
-    public readonly ?string $version;
+    public ?string $browser;
+    public ?string $platform;
+    public ?string $version;
 
     /**
      * UserAgent constructor.
@@ -46,13 +47,12 @@ class UserAgent implements JsonSerializable, Stringable
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
     public function __construct(protected string $userAgent)
     {
         $platform = null;
 
-        if (preg_match('/\((.*?)\)/im', $userAgent, $parentMatches)) {
+        if (preg_match('/\((.*?)\)/m', $userAgent, $parentMatches)) {
             preg_match_all('/(?P<platform>BB\d+;|Android|CrOS|Tizen|iPhone|iPad|iPod|Linux|(Open|Net|Free)BSD|Macintosh|Windows(\ Phone)?|Silk|linux-gnu|BlackBerry|PlayBook|X11|(New\ )?Nintendo\ (WiiU?|3?DS|Switch)|Xbox(\ One)?)(?:\ [^;]*)?(?:;|$)/imx', $parentMatches[1], $result);
 
             $priority = ['Xbox One', 'Xbox', 'Windows Phone', 'Tizen', 'Android', 'FreeBSD', 'NetBSD', 'OpenBSD', 'CrOS', 'X11'];
@@ -77,7 +77,7 @@ class UserAgent implements JsonSerializable, Stringable
 
         preg_match_all('%(?P<browser>Camino|Kindle(\ Fire)?|Firefox|Iceweasel|IceCat|Safari|MSIE|Trident|AppleWebKit|TizenBrowser|Chrome|Vivaldi|IEMobile|Opera|OPR|Silk|Midori|Edg|Edge|CriOS|UCBrowser|Puffin|SamsungBrowser|Baiduspider|Googlebot|YandexBot|bingbot|Lynx|Version|Wget|curl|Valve\ Steam\ Tenfoot|NintendoBrowser|PLAYSTATION\ (\d|Vita)+)\)?;?(?:[:/ ](?P<version>[\dA-Z.]+)|/[A-Z]*)%ix', $userAgent, $result);
 
-        if (!isset($result['browser'][0]) || !isset($result['version'][0])) {
+        if (!isset($result['browser'][0], $result['version'][0])) {
             if (preg_match('%^(?!Mozilla)(?P<browser>[A-Z\d\-]+)(/(?P<version>[\dA-Z.]+))?%ix', $userAgent, $result)) {
                 $this->browser = $result['browser'];
                 $this->platform = $platform;
@@ -102,11 +102,11 @@ class UserAgent implements JsonSerializable, Stringable
             }
 
             foreach ($search as $val) {
-                $xkey = array_search(strtolower($val), $lowerBrowser);
+                $xkey = array_search(strtolower($val), $lowerBrowser, true);
 
                 if ($xkey !== false) {
                     $value = $val;
-                    $key = $xkey;
+                    $key = (int)$xkey;
 
                     return true;
                 }
@@ -130,7 +130,7 @@ class UserAgent implements JsonSerializable, Stringable
             if (!($version = $result['version'][$key]) || !is_numeric($version[0])) {
                 $version = $result['version'][array_search('Version', $result['browser'])];
             }
-        } else if ($find('NintendoBrowser', $key) || $platform === 'Nintendo 3DS') {
+        } else if ($platform === 'Nintendo 3DS' || $find('NintendoBrowser', $key)) {
             $browser = 'NintendoBrowser';
             $version = $result['version'][$key];
         } else if ($find('Kindle', $key, $platform)) {
@@ -185,7 +185,7 @@ class UserAgent implements JsonSerializable, Stringable
         } else if ($pKey = preg_grep('/playstation \d/i', array_map(strtolower(...), $result['browser']))) {
             $pKey = reset($pKey);
             $browser = 'NetFront';
-            $platform = 'PlayStation ' . preg_replace('/\D/i', '', $pKey);
+            $platform = 'PlayStation ' . preg_replace('/\D/', '', $pKey);
         }
 
         $this->browser = $browser;
@@ -199,8 +199,8 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
+    #[Pure]
     public final function isChrome(): bool
     {
         return $this->browser === 'Chrome';
@@ -212,8 +212,8 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
+    #[Pure]
     public final function isEdgium(): bool
     {
         return $this->browser === 'Edg';
@@ -225,8 +225,8 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
+    #[Pure]
     public final function isFirefox(): bool
     {
         return $this->browser === 'Firefox';
@@ -238,8 +238,8 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
+    #[Pure]
     public final function isInternetExplorer(): bool
     {
         return $this->browser === 'MSIE';
@@ -251,8 +251,8 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
+    #[Pure]
     public final function isMicrosoftEdge(): bool
     {
         return $this->browser === 'Edg' || $this->browser === 'Edge';
@@ -264,8 +264,8 @@ class UserAgent implements JsonSerializable, Stringable
      * @return bool
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
-     * @noinspection SpellCheckingInspection
      */
+    #[Pure]
     public final function isSafari(): bool
     {
         return $this->browser === 'Safari';

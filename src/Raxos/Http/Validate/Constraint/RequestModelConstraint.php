@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Validate\Constraint;
 
+use Raxos\Http\Validate\{RequestField, RequestModel, Validator};
 use Raxos\Http\Validate\Error\FieldException;
-use Raxos\Http\Validate\RequestField;
-use Raxos\Http\Validate\RequestModel;
-use Raxos\Http\Validate\Validator;
 use function is_array;
 
 /**

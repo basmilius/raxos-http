@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Validate;
 
-use Raxos\Http\Validate\Attribute\Field;
-use Raxos\Http\Validate\Attribute\Optional;
+use Raxos\Http\Validate\Attribute\{Field, Optional};
 use Raxos\Http\Validate\Constraint\Constraint;
-use Raxos\Http\Validate\Error\ValidationException;
-use Raxos\Http\Validate\Error\ValidatorException;
+use Raxos\Http\Validate\Error\{ValidationException, ValidatorException};
 use function in_array;
 use function is_subclass_of;
 use function sprintf;
@@ -40,7 +38,7 @@ final class Validator
      */
     public static function isAttributeSupported(string $attributeClass): bool
     {
-        if (in_array($attributeClass, self::$attributes)) {
+        if (in_array($attributeClass, self::$attributes, true)) {
             return true;
         }
 
@@ -63,7 +61,7 @@ final class Validator
      * @param class-string<T> $requestModelClass
      * @param array $request
      *
-     * @return T
+     * @return T&RequestModel
      * @throws ValidationException
      * @throws ValidatorException
      * @author Bas Milius <bas@mili.us>

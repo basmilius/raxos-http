@@ -5,8 +5,7 @@ namespace Raxos\Http\Client\Psr7;
 
 use GuzzleHttp\Psr7\MessageTrait;
 use InvalidArgumentException;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\UriInterface;
+use Psr\Http\Message\{RequestInterface, UriInterface};
 use function is_string;
 use function preg_match;
 use function strtoupper;

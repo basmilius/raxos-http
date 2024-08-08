@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace Raxos\Http\Client;
 
 use JetBrains\PhpStorm\ArrayShape;
+use JsonException;
 use Psr\Http\Message\{ResponseInterface, StreamInterface};
 use Raxos\Foundation\PHP\MagicMethods\DebugInfoInterface;
 use Raxos\Http\HttpResponseCode;
 use stdClass;
 use function array_map;
 use function json_decode;
+use const JSON_THROW_ON_ERROR;
 
 /**
  * Class HttpClientResponse
@@ -64,12 +66,13 @@ readonly class HttpClientResponse implements DebugInfoInterface
      * @param bool $associative
      *
      * @return array|stdClass
+     * @throws JsonException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
     public function json(bool $associative = true): array|stdClass
     {
-        return json_decode($this->body(), $associative);
+        return json_decode($this->body(), $associative, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -168,7 +171,7 @@ readonly class HttpClientResponse implements DebugInfoInterface
             return $headers;
         }
 
-        return array_map(fn(array $header) => $header[0], $headers);
+        return array_map(static fn(array $header) => $header[0], $headers);
     }
 
     /**

@@ -12,7 +12,6 @@ namespace Raxos\Http;
  */
 enum HttpResponseCode: int
 {
-
     case CONTINUE = 100;
     case SWITCHING_PROTOCOLS = 101;
     case PROCESSING = 102;
@@ -87,7 +86,7 @@ enum HttpResponseCode: int
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
-    public final function getMessage(): string
+    public function getMessage(): string
     {
         return match ($this) {
             self::CONTINUE => 'Continue',
@@ -154,5 +153,4 @@ enum HttpResponseCode: int
             self::NETWORK_AUTHENTICATION_REQUIRED => 'Network Authentication Required'
         };
     }
-
 }

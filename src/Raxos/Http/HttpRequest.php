@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 use JetBrains\PhpStorm\Pure;
+use JsonException;
 use Raxos\Foundation\Network\IP;
 use Raxos\Foundation\Network\IPv4;
 use Raxos\Foundation\Network\IPv6;
@@ -37,7 +38,9 @@ readonly class HttpRequest
     public SimpleKeyValue $queryString;
     public SimpleKeyValue $server;
 
-    private HttpMethod $method;
+    public HttpMethod $method;
+    public string $pathName;
+    public string $uri;
 
     /**
      * HttpRequest constructor.
@@ -56,6 +59,8 @@ readonly class HttpRequest
         $this->server = static::createServerKeyValue();
 
         $this->method = HttpMethod::from(strtolower($this->server->get('REQUEST_METHOD', 'GET')));
+        $this->uri = $this->server->get('REQUEST_URI');
+        $this->pathName = strstr($this->uri, '?', true) ?: $this->uri;
     }
 
     /**
@@ -74,44 +79,6 @@ readonly class HttpRequest
     }
 
     /**
-     * Gets the request method.
-     *
-     * @return HttpMethod
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function method(): HttpMethod
-    {
-        return $this->method;
-    }
-
-    /**
-     * Gets the request path name.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function pathName(): string
-    {
-        $uri = $this->uri();
-
-        return strstr($uri, '?', true) ?: $uri;
-    }
-
-    /**
-     * Gets the request uri.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function uri(): string
-    {
-        return $this->server->get('REQUEST_URI');
-    }
-
-    /**
      * Gets the bearer token.
      *
      * @return string|null
@@ -122,13 +89,15 @@ readonly class HttpRequest
     {
         $header = $this->headers->get('authorization');
 
-        if ($header === null)
+        if ($header === null) {
             return null;
+        }
 
         $parts = explode(' ', $header, 2);
 
-        if (count($parts) !== 2 || $parts[0] !== 'Bearer')
+        if (count($parts) !== 2 || $parts[0] !== 'Bearer') {
             return null;
+        }
 
         return $parts[1];
     }
@@ -178,11 +147,15 @@ readonly class HttpRequest
             return $this->cache->get('body');
         }
 
-        $body = HttpBody::parse($this, $this->bodyString());
+        try {
+            $body = HttpBody::parse($this, $this->bodyString());
 
-        $this->cache->set('body', $body);
+            $this->cache->set('body', $body);
 
-        return $body;
+            return $body;
+        } catch (JsonException $err) {
+            throw new RuntimeException($err->getMessage(), $err->getCode(), $err);
+        }
     }
 
     /**

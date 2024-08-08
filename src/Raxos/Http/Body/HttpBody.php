@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Body;
 
+use JsonException;
 use Raxos\Http\HttpRequest;
 
 /**
@@ -23,7 +24,9 @@ abstract class HttpBody
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(protected readonly mixed $content)
+    public function __construct(
+        protected readonly mixed $content
+    )
     {
     }
 
@@ -46,6 +49,7 @@ abstract class HttpBody
      * @param string $content
      *
      * @return HttpBody
+     * @throws JsonException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */

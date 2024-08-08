@@ -43,7 +43,7 @@ class Choice extends Text
 
         $data = (string)$data;
 
-        if (!in_array($data, $this->values)) {
+        if (!in_array($data, $this->values, true)) {
             throw new FieldException($field, '{{name}} must be one of the predefined options.', []);
         }
     }

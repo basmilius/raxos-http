@@ -82,7 +82,7 @@ class HttpClient
                 ->{$name}(...$arguments);
         }
 
-        throw new HttpClientException(sprintf('Method "%s" does not exist in either %s or %s.', $name, HttpClient::class, HttpClientRequest::class), HttpClientException::ERR_BAD_METHOD_CALL);
+        throw new HttpClientException(sprintf('Method "%s" does not exist in either %s or %s.', $name, self::class, HttpClientRequest::class), HttpClientException::ERR_BAD_METHOD_CALL);
     }
 
 }

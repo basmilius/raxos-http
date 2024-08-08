@@ -14,7 +14,6 @@ use function fread;
 use function fseek;
 use function header;
 use function http_response_code;
-use function intval;
 use function ob_end_clean;
 use function ob_get_level;
 use function strlen;
@@ -189,8 +188,8 @@ class HttpSendFile implements HttpSendFileInterface
             [$range] = explode(',', $range, 2);
             [$range, $rangeEnd] = explode('-', $range);
 
-            $range = intval($range);
-            $rangeEnd = intval($rangeEnd);
+            $range = (int)$range;
+            $rangeEnd = (int)$rangeEnd;
             $newLength = $rangeEnd - $range + 1;
 
             http_response_code(HttpResponseCode::PARTIAL_CONTENT->value);

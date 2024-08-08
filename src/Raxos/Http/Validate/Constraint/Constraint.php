@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Validate\Constraint;
 
-use Raxos\Http\Validate\Error\FieldException;
-use Raxos\Http\Validate\Error\ValidationException;
-use Raxos\Http\Validate\Error\ValidatorException;
+use Raxos\Http\Validate\Error\{FieldException, ValidationException, ValidatorException};
 use Raxos\Http\Validate\RequestField;
 
 /**

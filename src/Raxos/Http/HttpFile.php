@@ -24,7 +24,9 @@ final readonly class HttpFile
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(private array $file)
+    public function __construct(
+        private array $file
+    )
     {
     }
 
@@ -35,7 +37,7 @@ final readonly class HttpFile
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function isValid(): bool
+    public function isValid(): bool
     {
         return $this->file['error'] === UPLOAD_ERR_OK;
     }
@@ -47,7 +49,7 @@ final readonly class HttpFile
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function getContentType(): string
+    public function getContentType(): string
     {
         return $this->file['type'];
     }
@@ -59,7 +61,7 @@ final readonly class HttpFile
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function getName(): string
+    public function getName(): string
     {
         return $this->file['name'];
     }
@@ -71,7 +73,7 @@ final readonly class HttpFile
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function getSize(): int
+    public function getSize(): int
     {
         return $this->file['size'];
     }
@@ -83,7 +85,7 @@ final readonly class HttpFile
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function getTemporaryFile(): string
+    public function getTemporaryFile(): string
     {
         return $this->file['tmp_name'];
     }

@@ -16,6 +16,8 @@ use Raxos\Http\Validate\Constraint\Constraint;
 final readonly class RequestField
 {
 
+    public string $property;
+
     /**
      * RequestField constructor.
      *
@@ -40,18 +42,7 @@ final readonly class RequestField
         public mixed $defaultValue
     )
     {
-    }
-
-    /**
-     * Gets the field property in request data.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getFieldProperty(): string
-    {
-        return $this->field->alias ?? $this->name;
+        $this->property = $this->field->alias ?? $this->name;
     }
 
 }

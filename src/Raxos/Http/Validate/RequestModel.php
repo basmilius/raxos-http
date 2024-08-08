@@ -4,19 +4,11 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate;
 
 use JsonSerializable;
+use Raxos\Foundation\Util\ArrayUtil;
 use Raxos\Http\HttpFile;
-use Raxos\Http\Validate\Attribute\Field;
-use Raxos\Http\Validate\Attribute\Optional;
-use Raxos\Http\Validate\Constraint\Boolean;
-use Raxos\Http\Validate\Constraint\Constraint;
-use Raxos\Http\Validate\Constraint\FileConstraint;
-use Raxos\Http\Validate\Constraint\Integer;
-use Raxos\Http\Validate\Constraint\RequestModelConstraint;
-use Raxos\Http\Validate\Constraint\Text;
-use Raxos\Http\Validate\Error\FieldException;
-use Raxos\Http\Validate\Error\FieldModelException;
-use Raxos\Http\Validate\Error\ValidationException;
-use Raxos\Http\Validate\Error\ValidatorException;
+use Raxos\Http\Validate\Attribute\{Field, Optional};
+use Raxos\Http\Validate\Constraint\{Boolean, Constraint, FileConstraint, Integer, RequestModelConstraint, Text};
+use Raxos\Http\Validate\Error\{FieldException, FieldModelException, ValidationException, ValidatorException};
 use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionNamedType;
@@ -78,7 +70,7 @@ abstract class RequestModel implements JsonSerializable
         foreach (self::$fields[static::class] as $field) {
             $constraint = $field->constraint;
             $name = $field->name;
-            $property = $field->getFieldProperty();
+            $property = $field->property;
 
             unset($this->{$name});
 
@@ -113,7 +105,7 @@ abstract class RequestModel implements JsonSerializable
                         default => $valueType
                     };
 
-                    if (!in_array($valueType, $field->types)) {
+                    if (!in_array($valueType, $field->types, true) && !ArrayUtil::some($field->types, static fn(string $type) => is_subclass_of($valueType, $type))) {
                         throw new ValidatorException(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->types)), ValidatorException::ERR_INVALID_TYPE);
                     }
 
@@ -169,7 +161,7 @@ abstract class RequestModel implements JsonSerializable
     private function prepareProperty(ReflectionClass $class, ReflectionProperty $property): void
     {
         $attributes = $property->getAttributes();
-        $attributes = array_filter($attributes, fn(ReflectionAttribute $attr) => Validator::isAttributeSupported($attr->getName()));
+        $attributes = array_filter($attributes, static fn(ReflectionAttribute $attr) => Validator::isAttributeSupported($attr->getName()));
 
         $types = [];
         $propertyType = $property->getType();
@@ -180,21 +172,21 @@ abstract class RequestModel implements JsonSerializable
             $types = $propertyType->getTypes();
         }
 
-        $types = array_map(fn(ReflectionNamedType $type) => $type->getName(), $types);
+        $types = array_map(static fn(ReflectionNamedType $type) => $type->getName(), $types);
 
         if ($propertyType->allowsNull()) {
             $types[] = 'null';
         }
 
-        $fields = array_filter($attributes, fn(ReflectionAttribute $attr) => $attr->getName() === Field::class);
-        $fields = array_map(fn(ReflectionAttribute $attr) => $attr->newInstance(), $fields);
+        $fields = array_filter($attributes, static fn(ReflectionAttribute $attr) => $attr->getName() === Field::class);
+        $fields = array_map(static fn(ReflectionAttribute $attr) => $attr->newInstance(), $fields);
         $fields = array_values($fields);
 
-        $constraints = array_filter($attributes, fn(ReflectionAttribute $attr) => is_subclass_of($attr->getName(), Constraint::class));
-        $constraints = array_map(fn(ReflectionAttribute $attr) => $attr->newInstance(), $constraints);
+        $constraints = array_filter($attributes, static fn(ReflectionAttribute $attr) => is_subclass_of($attr->getName(), Constraint::class));
+        $constraints = array_map(static fn(ReflectionAttribute $attr) => $attr->newInstance(), $constraints);
         $constraints = array_values($constraints);
 
-        if (is_subclass_of($types[0], RequestModel::class)) {
+        if (is_subclass_of($types[0], self::class)) {
             $constraints[] = new RequestModelConstraint($types[0]);
         } else if ($types[0] === HttpFile::class) {
             $constraints[] = new FileConstraint();
@@ -212,7 +204,7 @@ abstract class RequestModel implements JsonSerializable
             $property->getName(),
             $fields[0],
             $constraints[0],
-            !empty(array_filter($attributes, fn(ReflectionAttribute $attr) => $attr->getName() === Optional::class)),
+            !empty(array_filter($attributes, static fn(ReflectionAttribute $attr) => $attr->getName() === Optional::class)),
             $types,
             $property->hasDefaultValue() ? $property->getDefaultValue() : null
         );
@@ -235,6 +227,51 @@ abstract class RequestModel implements JsonSerializable
         }
 
         return $this->values[$name];
+    }
+
+    /**
+     * Returns TRUE if a field with the given name exists.
+     *
+     * @param string $name
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    public function __isset(string $name): bool
+    {
+        return array_key_exists($name, $this->values);
+    }
+
+    /**
+     * Setter.
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return void
+     * @throws ValidatorException
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    public function __set(string $name, mixed $value): void
+    {
+        throw new ValidatorException('Cannot modify request model instance.', ValidatorException::ERR_IMMUTABLE);
+    }
+
+    /**
+     * Unsetter.
+     *
+     * @param string $name
+     *
+     * @return void
+     * @throws ValidatorException
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.16
+     */
+    public function __unset(string $name): void
+    {
+        throw new ValidatorException('Cannot modify request model instance.', ValidatorException::ERR_IMMUTABLE);
     }
 
     /**

@@ -21,5 +21,6 @@ class ValidatorException extends RaxosException
     public const int ERR_FIELD_VALIDATION_FAILED = 8;
     public const int ERR_VALIDATION_FAILED = 16;
     public const int ERR_MISSING_CONSTRAINT = 32;
+    public const int ERR_IMMUTABLE = 64;
 
 }

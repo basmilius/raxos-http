@@ -2,7 +2,8 @@
 	"name": "raxos/http",
 	"description": "Http client and foundation.",
 	"license": "mit",
-	"minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "prefer-stable" : true,
 	"type": "library",
 	"authors": [
 		{
@@ -17,13 +18,20 @@
 	},
 	"config": {
 		"platform": {
-			"php": "8.1"
+			"php": "8.3"
 		}
 	},
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*",
+            "symlink": true
+        }
+    ],
 	"require": {
         "ext-ctype" : "*",
         "ext-mbstring" : "*",
-		"jetbrains/phpstorm-attributes": "^1.0",
+		"jetbrains/phpstorm-attributes": "^1.1",
         "guzzlehttp/guzzle": "^7",
         "raxos/foundation": "*"
 	}

@@ -27,7 +27,9 @@ class Choice extends Text
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(public readonly array $values = [])
+    public function __construct(
+        public readonly array $values = []
+    )
     {
         parent::__construct();
     }
@@ -44,7 +46,7 @@ class Choice extends Text
         $data = (string)$data;
 
         if (!in_array($data, $this->values, true)) {
-            throw new FieldException($field, '{{name}} must be one of the predefined options.', []);
+            throw new FieldException($field, '{{name}} must be one of the predefined options.');
         }
     }
 

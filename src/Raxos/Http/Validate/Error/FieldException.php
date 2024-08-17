@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Error;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Raxos\Foundation\Error\ExceptionId;
 use Raxos\Http\Validate\RequestField;
-use function str_replace;
 
 /**
  * Class FieldException
@@ -14,7 +14,7 @@ use function str_replace;
  * @package Raxos\Http\Validate\Error
  * @since 1.0.0
  */
-class FieldException extends ValidatorException
+final class FieldException extends ValidatorException
 {
 
     public readonly array $params;
@@ -35,29 +35,15 @@ class FieldException extends ValidatorException
         array $params = []
     )
     {
-        parent::__construct($message, self::ERR_FIELD_VALIDATION_FAILED);
+        parent::__construct(
+            ExceptionId::for(__METHOD__),
+            'validator_field_error',
+            $message
+        );
 
         $params['name'] = $field->field->name;
 
         $this->params = $params;
-    }
-
-    /**
-     * Renders the message.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function render(): string
-    {
-        $message = $this->message;
-
-        foreach ($this->params as $key => $value) {
-            $message = str_replace("{{{$key}}}", (string)$value, $message);
-        }
-
-        return $message;
     }
 
     /**

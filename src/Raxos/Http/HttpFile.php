@@ -26,9 +26,7 @@ final readonly class HttpFile
      */
     public function __construct(
         private array $file
-    )
-    {
-    }
+    ) {}
 
     /**
      * Returns TRUE if the upload was valid.

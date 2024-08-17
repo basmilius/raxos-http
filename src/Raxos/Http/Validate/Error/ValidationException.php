@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Error;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Raxos\Foundation\Error\ExceptionId;
 use function array_merge;
 
 /**
@@ -24,9 +25,15 @@ class ValidationException extends ValidatorException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(public readonly array $errors)
+    public function __construct(
+        public readonly array $errors
+    )
     {
-        parent::__construct('Request validation failed.', self::ERR_VALIDATION_FAILED);
+        parent::__construct(
+            ExceptionId::for(__METHOD__),
+            'validator_validation_error',
+            'Request validation failed.'
+        );
     }
 
     /**
@@ -35,7 +42,8 @@ class ValidationException extends ValidatorException
      * @since 1.0.0
      */
     #[ArrayShape([
-        'error' => 'int',
+        'code' => 'int',
+        'error' => 'string',
         'error_description' => 'string',
         'errors' => 'Raxos\Http\Validate\Error\FieldException[]'
     ])]

@@ -30,9 +30,7 @@ class Integer extends Constraint
     public function __construct(
         public readonly ?int $maxValue = null,
         public readonly ?int $minValue = null
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

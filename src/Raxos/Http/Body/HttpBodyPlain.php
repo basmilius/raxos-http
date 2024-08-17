@@ -10,6 +10,4 @@ namespace Raxos\Http\Body;
  * @package Raxos\Http\Body
  * @since 1.0.0
  */
-final class HttpBodyPlain extends HttpBody
-{
-}
+final class HttpBodyPlain extends HttpBody {}

@@ -64,14 +64,14 @@ readonly class UserAgent implements JsonSerializable, Stringable
                 } else {
                     $platform = $result['platform'][0];
                 }
-            } else if (isset($result['platform'][0])) {
+            } elseif (isset($result['platform'][0])) {
                 $platform = $result['platform'][0];
             }
         }
 
         if ($platform === 'linux-gnu' || $platform === 'X11') {
             $platform = 'Linux';
-        } else if ($platform === 'CrOS') {
+        } elseif ($platform === 'CrOS') {
             $platform = 'Chrome OS';
         }
 
@@ -120,29 +120,29 @@ readonly class UserAgent implements JsonSerializable, Stringable
 
         if ($browser === 'Iceweasel' || strtolower($browser) === 'icecat') {
             $browser = 'Firefox';
-        } else if ($find('Playstation Vita', $key)) {
+        } elseif ($find('Playstation Vita', $key)) {
             $browser = 'Browser';
             $platform = 'PlayStation Vita';
-        } else if ($find(['Kindle Fire', 'Silk'], $key, $val)) {
+        } elseif ($find(['Kindle Fire', 'Silk'], $key, $val)) {
             $browser = $val === 'Silk' ? 'Silk' : 'Kindle';
             $platform = 'Kindle Fire';
 
             if (!($version = $result['version'][$key]) || !is_numeric($version[0])) {
                 $version = $result['version'][array_search('Version', $result['browser'])];
             }
-        } else if ($platform === 'Nintendo 3DS' || $find('NintendoBrowser', $key)) {
+        } elseif ($platform === 'Nintendo 3DS' || $find('NintendoBrowser', $key)) {
             $browser = 'NintendoBrowser';
             $version = $result['version'][$key];
-        } else if ($find('Kindle', $key, $platform)) {
+        } elseif ($find('Kindle', $key, $platform)) {
             $browser = $result['browser'][$key];
             $version = $result['version'][$key];
-        } else if ($find('OPR', $key)) {
+        } elseif ($find('OPR', $key)) {
             $browser = 'Opera Next';
             $version = $result['version'][$key];
-        } else if ($find('Opera', $key, $browser)) {
+        } elseif ($find('Opera', $key, $browser)) {
             $find('Version', $key);
             $version = $result['version'][$key];
-        } else if ($find('Puffin', $key, $browser)) {
+        } elseif ($find('Puffin', $key, $browser)) {
             $version = $result['version'][$key];
 
             if (strlen($version) > 3) {
@@ -157,24 +157,24 @@ readonly class UserAgent implements JsonSerializable, Stringable
                     }
                 }
             }
-        } else if ($find(['IEMobile', 'Edg', 'Edge', 'Midori', 'Vivaldi', 'SamsungBrowser', 'Valve Steam Tenfoot', 'Chrome'], $key, $browser)) {
+        } elseif ($find(['IEMobile', 'Edg', 'Edge', 'Midori', 'Vivaldi', 'SamsungBrowser', 'Valve Steam Tenfoot', 'Chrome'], $key, $browser)) {
             $version = $result['version'][$key];
-        } else if ($versionResult && $find('Trident', $key)) {
+        } elseif ($versionResult && $find('Trident', $key)) {
             $browser = 'MSIE';
             $version = $versionResult;
-        } else if ($find('UCBrowser', $key)) {
+        } elseif ($find('UCBrowser', $key)) {
             $browser = 'UC Browser';
             $version = $result['version'][$key];
-        } else if ($find('CriOS', $key)) {
+        } elseif ($find('CriOS', $key)) {
             $browser = 'Chrome';
             $version = $result['version'][$key];
-        } else if ($browser === 'AppleWebKit') {
+        } elseif ($browser === 'AppleWebKit') {
             if ($platform === 'Android' && !($key = 0)) {
                 $browser = 'Android Browser';
-            } else if (str_starts_with($platform, 'BB')) {
+            } elseif (str_starts_with($platform, 'BB')) {
                 $browser = 'BlackBerry Browser';
                 $platform = 'BlackBerry';
-            } else if ($platform === 'BlackBerry' || $platform === 'PlayBook') {
+            } elseif ($platform === 'BlackBerry' || $platform === 'PlayBook') {
                 $browser = 'BlackBerry Browser';
             } else {
                 $find('Safari', $key, $browser) || $find('TizenBrowser', $key, $browser);
@@ -182,7 +182,7 @@ readonly class UserAgent implements JsonSerializable, Stringable
 
             $find('Version', $key);
             $version = $result['version'][$key];
-        } else if ($pKey = preg_grep('/playstation \d/i', array_map(strtolower(...), $result['browser']))) {
+        } elseif ($pKey = preg_grep('/playstation \d/i', array_map(strtolower(...), $result['browser']))) {
             $pKey = reset($pKey);
             $browser = 'NetFront';
             $platform = 'PlayStation ' . preg_replace('/\D/', '', $pKey);

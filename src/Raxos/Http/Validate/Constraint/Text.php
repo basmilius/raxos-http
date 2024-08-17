@@ -36,9 +36,7 @@ class Text extends Constraint
         public readonly ?int $maxLength = null,
         public readonly ?int $minLength = null,
         public readonly ?string $matches = null
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -58,7 +56,7 @@ class Text extends Constraint
     public function validate(RequestField $field, mixed $data): void
     {
         if (!is_string($data)) {
-            throw new FieldException($field, '{{name}} must be a string.', []);
+            throw new FieldException($field, '{{name}} must be a string.');
         }
 
         $data = trim($data);

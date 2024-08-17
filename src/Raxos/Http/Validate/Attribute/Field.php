@@ -28,8 +28,6 @@ final readonly class Field
     public function __construct(
         public string $name,
         public ?string $alias = null
-    )
-    {
-    }
+    ) {}
 
 }

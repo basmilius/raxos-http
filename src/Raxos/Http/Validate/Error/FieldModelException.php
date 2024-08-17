@@ -26,7 +26,10 @@ class FieldModelException extends FieldException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(RequestField $field, private readonly ValidationException $err)
+    public function __construct(
+        RequestField $field,
+        private readonly ValidationException $err
+    )
     {
         parent::__construct($field, '{{name}} contains errors.');
     }
@@ -37,7 +40,8 @@ class FieldModelException extends FieldException
      * @since 1.0.0
      */
     #[ArrayShape([
-        'error' => 'int',
+        'code' => 'int',
+        'error' => 'string',
         'error_description' => 'string',
         'errors' => 'Raxos\Http\Validate\Error\FieldException[]'
     ])]

@@ -5,7 +5,7 @@ namespace Raxos\Http\Validate;
 
 use Raxos\Http\Validate\Attribute\{Field, Optional};
 use Raxos\Http\Validate\Constraint\Constraint;
-use Raxos\Http\Validate\Error\{ValidationException, ValidatorException};
+use Raxos\Http\Validate\Error\{ValidatorException};
 use function in_array;
 use function is_subclass_of;
 use function sprintf;
@@ -62,7 +62,6 @@ final class Validator
      * @param array $request
      *
      * @return T&RequestModel
-     * @throws ValidationException
      * @throws ValidatorException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
@@ -70,7 +69,7 @@ final class Validator
     public static function validate(string $requestModelClass, array $request): RequestModel
     {
         if (!is_subclass_of($requestModelClass, RequestModel::class)) {
-            throw new ValidatorException(sprintf('%s is not a valid %s.', $requestModelClass, RequestModel::class), ValidatorException::ERR_INVALID_MODEL);
+            throw ValidatorException::invalidModel(sprintf('%s is not a valid %s.', $requestModelClass, RequestModel::class));
         }
 
         /** @var RequestModel $model */

@@ -49,9 +49,7 @@ class HttpSendFile implements HttpSendFileInterface
         protected string $contentType = 'application/octet-stream',
         protected int $bytes = 40960,
         protected float $throttle = 0.1
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Validate\Constraint;
 
-use Raxos\Http\Validate\Error\{FieldException, ValidationException, ValidatorException};
+use Raxos\Http\Validate\Error\{FieldException, ValidatorException};
 use Raxos\Http\Validate\RequestField;
 
 /**
@@ -34,7 +34,6 @@ abstract class Constraint
      * @param mixed $data
      *
      * @throws FieldException
-     * @throws ValidationException
      * @throws ValidatorException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0

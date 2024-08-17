@@ -50,7 +50,9 @@ abstract class RequestModel implements JsonSerializable
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function __construct(private readonly array $data)
+    public final function __construct(
+        private readonly array $data
+    )
     {
         $this->prepare();
     }
@@ -58,7 +60,6 @@ abstract class RequestModel implements JsonSerializable
     /**
      * Validates the request.
      *
-     * @throws ValidationException
      * @throws ValidatorException
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
@@ -106,7 +107,7 @@ abstract class RequestModel implements JsonSerializable
                     };
 
                     if (!in_array($valueType, $field->types, true) && !ArrayUtil::some($field->types, static fn(string $type) => is_subclass_of($valueType, $type))) {
-                        throw new ValidatorException(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->types)), ValidatorException::ERR_INVALID_TYPE);
+                        throw ValidatorException::invalidType(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->types)));
                     }
 
                     $this->values[$name] = $value;
@@ -168,7 +169,7 @@ abstract class RequestModel implements JsonSerializable
 
         if ($propertyType instanceof ReflectionNamedType) {
             $types[] = $propertyType;
-        } else if ($propertyType instanceof ReflectionUnionType) {
+        } elseif ($propertyType instanceof ReflectionUnionType) {
             $types = $propertyType->getTypes();
         }
 
@@ -188,20 +189,20 @@ abstract class RequestModel implements JsonSerializable
 
         if (is_subclass_of($types[0], self::class)) {
             $constraints[] = new RequestModelConstraint($types[0]);
-        } else if ($types[0] === HttpFile::class) {
+        } elseif ($types[0] === HttpFile::class) {
             $constraints[] = new FileConstraint();
-        } else if (empty($constraints)) {
+        } elseif (empty($constraints)) {
             $constraints = match ($types[0]) {
                 'bool' => [new Boolean()],
                 'int' => [new Integer()],
                 'string' => [new Text()],
-                default => throw new ValidatorException(sprintf('Property %s::$%s must have a constraint.', $class->getName(), $property->getName()), ValidatorException::ERR_MISSING_CONSTRAINT)
+                default => throw ValidatorException::missingConstraint(sprintf('Property %s::$%s must have a constraint.', $class->name, $property->name))
             };
         }
 
         self::$fields[static::class][] = new RequestField(
-            $class->getName(),
-            $property->getName(),
+            $class->name,
+            $property->name,
             $fields[0],
             $constraints[0],
             !empty(array_filter($attributes, static fn(ReflectionAttribute $attr) => $attr->getName() === Optional::class)),
@@ -223,7 +224,7 @@ abstract class RequestModel implements JsonSerializable
     public function __get(string $name): mixed
     {
         if (!array_key_exists($name, $this->values)) {
-            throw new ValidatorException(sprintf('Property %s does not exist on request model %s.', $name, static::class), ValidatorException::ERR_INVALID_PROPERTY);
+            throw ValidatorException::invalidProperty(sprintf('Property %s does not exist on request model %s.', $name, static::class));
         }
 
         return $this->values[$name];
@@ -256,7 +257,7 @@ abstract class RequestModel implements JsonSerializable
      */
     public function __set(string $name, mixed $value): void
     {
-        throw new ValidatorException('Cannot modify request model instance.', ValidatorException::ERR_IMMUTABLE);
+        throw ValidatorException::immutable('Cannot modify request model instance.');
     }
 
     /**
@@ -271,7 +272,7 @@ abstract class RequestModel implements JsonSerializable
      */
     public function __unset(string $name): void
     {
-        throw new ValidatorException('Cannot modify request model instance.', ValidatorException::ERR_IMMUTABLE);
+        throw ValidatorException::immutable('Cannot modify request model instance.');
     }
 
     /**

@@ -31,7 +31,9 @@ class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(protected HttpClient $client)
+    public function __construct(
+        protected readonly HttpClient $client
+    )
     {
         $this->request = new Psr7Request();
         $this->header('Accept-Encoding', 'gzip');
@@ -208,7 +210,7 @@ class HttpClientRequest
 
             return new HttpClientResponse($this->client, $this, $response);
         } catch (GuzzleException $err) {
-            throw new HttpClientException('Request failed.', HttpClientException::ERR_REQUEST_FAILED, $err);
+            throw HttpClientException::requestFailed($err);
         }
     }
 

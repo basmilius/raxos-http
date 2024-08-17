@@ -3,19 +3,54 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Client;
 
-use Raxos\Foundation\Error\RaxosException;
+use GuzzleHttp\Exception\GuzzleException;
+use Raxos\Foundation\Error\{ExceptionId, RaxosException};
 
 /**
  * Class HttpClientException
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Client
- * @since 1.0.0
+ * @since 1.0.17
  */
 final class HttpClientException extends RaxosException
 {
 
-    public const int ERR_REQUEST_FAILED = 1;
-    public const int ERR_BAD_METHOD_CALL = 2;
+    /**
+     * Returns a bad call exception.
+     *
+     * @param string $message
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.17
+     */
+    public static function badCall(string $message): self
+    {
+        return new self(
+            ExceptionId::for(__METHOD__),
+            'http_client_bad_call',
+            $message
+        );
+    }
+
+    /**
+     * Returns a request failed exception.
+     *
+     * @param GuzzleException $err
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.17
+     */
+    public static function requestFailed(GuzzleException $err): self
+    {
+        return new self(
+            ExceptionId::for(__METHOD__),
+            'http_client_request_failed',
+            'The HTTP request failed.',
+            $err
+        );
+    }
 
 }

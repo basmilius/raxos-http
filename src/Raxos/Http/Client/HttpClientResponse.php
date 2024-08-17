@@ -6,7 +6,7 @@ namespace Raxos\Http\Client;
 use JetBrains\PhpStorm\ArrayShape;
 use JsonException;
 use Psr\Http\Message\{ResponseInterface, StreamInterface};
-use Raxos\Foundation\PHP\MagicMethods\DebugInfoInterface;
+use Raxos\Foundation\Contract\DebuggableInterface;
 use Raxos\Http\HttpResponseCode;
 use stdClass;
 use function array_map;
@@ -20,12 +20,12 @@ use const JSON_THROW_ON_ERROR;
  * @package Raxos\Http\Client
  * @since 1.0.0
  */
-readonly class HttpClientResponse implements DebugInfoInterface
+readonly class HttpClientResponse implements DebuggableInterface
 {
 
-    protected string $protocolVersion;
-    protected HttpResponseCode $responseCode;
-    protected string $responseText;
+    public string $protocolVersion;
+    public HttpResponseCode $responseCode;
+    public string $responseText;
 
     /**
      * HttpClientResponse constructor.
@@ -38,8 +38,8 @@ readonly class HttpClientResponse implements DebugInfoInterface
      * @since 1.0.0
      */
     public function __construct(
-        protected HttpClient $client,
-        protected HttpClientRequest $request,
+        public HttpClient $client,
+        public HttpClientRequest $request,
         protected ResponseInterface $response
     )
     {
@@ -186,30 +186,6 @@ readonly class HttpClientResponse implements DebugInfoInterface
     public function hasHeader(string $name): bool
     {
         return $this->response->hasHeader($name);
-    }
-
-    /**
-     * Gets the response code.
-     *
-     * @return HttpResponseCode
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function responseCode(): HttpResponseCode
-    {
-        return $this->responseCode;
-    }
-
-    /**
-     * Gets the response text.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function responseText(): string
-    {
-        return $this->responseText;
     }
 
     /**

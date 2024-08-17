@@ -14,7 +14,7 @@ use function array_merge;
  * @package Raxos\Http\Validate\Error
  * @since 1.0.0
  */
-class FieldModelException extends FieldException
+final class FieldModelException extends FieldException
 {
 
     /**

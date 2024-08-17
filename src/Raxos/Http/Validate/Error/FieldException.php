@@ -14,7 +14,7 @@ use Raxos\Http\Validate\RequestField;
  * @package Raxos\Http\Validate\Error
  * @since 1.0.0
  */
-final class FieldException extends ValidatorException
+class FieldException extends ValidatorException
 {
 
     public readonly array $params;

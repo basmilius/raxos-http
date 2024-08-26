@@ -26,9 +26,7 @@ abstract class HttpBody
      */
     public function __construct(
         protected readonly mixed $content
-    )
-    {
-    }
+    ) {}
 
     /**
      * Gets the raw content.
@@ -55,7 +53,7 @@ abstract class HttpBody
      */
     public static function parse(HttpRequest $request, string $content): HttpBody
     {
-        $contentType = $request->headers->get('content-type', '');
+        $contentType = $request->headers->get('content-type') ?? '';
 
         return match ($contentType) {
             'application/json' => new HttpBodyJson($content),

@@ -3,20 +3,15 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
-use JetBrains\PhpStorm\Pure;
 use JsonException;
-use Raxos\Foundation\Network\IP;
-use Raxos\Foundation\Network\IPv4;
-use Raxos\Foundation\Network\IPv6;
+use Raxos\Foundation\Network\{IP, IPv4, IPv6};
 use Raxos\Foundation\Storage\SimpleKeyValue;
-use Raxos\Http\Body\HttpBody;
-use Raxos\Http\Body\HttpBodyJson;
+use Raxos\Http\Body\{HttpBody, HttpBodyJson};
+use Raxos\Http\Store\{HttpCookieStore, HttpFileStore, HttpHeaderStore, HttpPostStore, HttpQueryStore, HttpServerStore};
 use RuntimeException;
-use function array_is_list;
 use function count;
 use function explode;
 use function file_get_contents;
-use function parse_str;
 use function strstr;
 use function strtolower;
 
@@ -30,37 +25,37 @@ use function strtolower;
 readonly class HttpRequest
 {
 
-    public SimpleKeyValue $cache;
-    public SimpleKeyValue $cookies;
-    public SimpleKeyValue $files;
-    public SimpleKeyValue $headers;
-    public SimpleKeyValue $post;
-    public SimpleKeyValue $queryString;
-    public SimpleKeyValue $server;
-
-    public HttpMethod $method;
-    public string $pathName;
-    public string $uri;
+    private SimpleKeyValue $cache;
 
     /**
      * HttpRequest constructor.
      *
+     * @param HttpCookieStore $cookies
+     * @param HttpFileStore $files
+     * @param HttpHeaderStore $headers
+     * @param HttpPostStore $post
+     * @param HttpQueryStore $query
+     * @param HttpServerStore $server
+     * @param HttpMethod $method
+     * @param string $pathName
+     * @param string $uri
+     *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.1.0
      */
-    public function __construct()
+    public function __construct(
+        public HttpCookieStore $cookies,
+        public HttpFileStore $files,
+        public HttpHeaderStore $headers,
+        public HttpPostStore $post,
+        public HttpQueryStore $query,
+        public HttpServerStore $server,
+        public HttpMethod $method,
+        public string $pathName,
+        public string $uri
+    )
     {
         $this->cache = new SimpleKeyValue();
-        $this->cookies = static::createCookiesKeyValue();
-        $this->files = static::createFilesKeyValue();
-        $this->headers = static::createHeadersKeyValue();
-        $this->post = static::createPostKeyValue();
-        $this->queryString = static::createQueryStringKeyValue();
-        $this->server = static::createServerKeyValue();
-
-        $this->method = HttpMethod::from(strtolower($this->server->get('REQUEST_METHOD', 'GET')));
-        $this->uri = $this->server->get('REQUEST_URI');
-        $this->pathName = strstr($this->uri, '?', true) ?: $this->uri;
     }
 
     /**
@@ -72,7 +67,7 @@ readonly class HttpRequest
      */
     public function contentType(): string
     {
-        $contentType = $this->headers->get('content-type', '');
+        $contentType = $this->headers->get('content-type') ?? '';
         $contentType = explode(';', $contentType);
 
         return $contentType[0];
@@ -131,7 +126,7 @@ readonly class HttpRequest
      */
     public function isSecure(): bool
     {
-        return $this->server->get('HTTPS', 'off') === 'on';
+        return ($this->server->get('HTTPS') ?? 'off') === 'on';
     }
 
     /**
@@ -209,7 +204,7 @@ readonly class HttpRequest
             return $this->cache->get('user_agent');
         }
 
-        $ua = new UserAgent($this->server->get('HTTP_USER_AGENT', 'Raxos/1.0'));
+        $ua = new UserAgent($this->server->get('HTTP_USER_AGENT') ?? 'Raxos/1.0');
 
         $this->cache->set('user_agent', $ua);
 
@@ -217,95 +212,26 @@ readonly class HttpRequest
     }
 
     /**
-     * Creates the cookies store.
+     * Returns the http request from globals.
      *
-     * @return SimpleKeyValue
+     * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.1.0
      */
-    #[Pure]
-    protected static function createCookiesKeyValue(): SimpleKeyValue
+    public static function fromGlobals(): self
     {
-        return new SimpleKeyValue($_COOKIE);
-    }
+        $cookies = HttpCookieStore::fromGlobals();
+        $files = HttpFileStore::fromGlobals();
+        $headers = HttpHeaderStore::fromGlobals();
+        $post = HttpPostStore::fromGlobals();
+        $query = HttpQueryStore::fromGlobals();
+        $server = HttpServerStore::fromGlobals();
 
-    /**
-     * Creates the files store.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    #[Pure]
-    protected static function createFilesKeyValue(): SimpleKeyValue
-    {
-        $files = [];
+        $method = HttpMethod::from(strtolower($server->get('REQUEST_METHOD') ?? 'GET'));
+        $uri = $server->get('REQUEST_URI') ?? '/';
+        $pathName = strstr($uri, '?', true) ?: $uri;
 
-        foreach ($_FILES as $name => $value) {
-            if (array_is_list($value)) {
-                $files[$name] ??= [];
-
-                foreach ($value as $file) {
-                    $files[$name][] = new HttpFile($file);
-                }
-            } else {
-                $files[$name] = new HttpFile($value);
-            }
-        }
-
-        return new SimpleKeyValue($files);
-    }
-
-    /**
-     * Creates the headers store.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    protected static function createHeadersKeyValue(): SimpleKeyValue
-    {
-        return new SimpleKeyValue(HttpUtil::getAllHeaders());
-    }
-
-    /**
-     * Creates the post store.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    #[Pure]
-    protected static function createPostKeyValue(): SimpleKeyValue
-    {
-        return new SimpleKeyValue($_POST);
-    }
-
-    /**
-     * Creates the query string store.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    protected static function createQueryStringKeyValue(): SimpleKeyValue
-    {
-        parse_str($_SERVER['QUERY_STRING'] ?? '', $queryString);
-
-        return new SimpleKeyValue($queryString);
-    }
-
-    /**
-     * Creates the server store.
-     *
-     * @return SimpleKeyValue
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    #[Pure]
-    protected static function createServerKeyValue(): SimpleKeyValue
-    {
-        return new SimpleKeyValue($_SERVER);
+        return new self($cookies, $files, $headers, $post, $query, $server, $method, $pathName, $uri);
     }
 
 }

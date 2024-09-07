@@ -799,6 +799,8 @@ enum HttpHeader: string
 
     case ACCESS_CONTROL_ALLOW_ORIGIN = 'access-control-allow-origin';
 
+    case ACCESS_CONTROL_EXPOSE_HEADERS = 'access-control-expose-headers';
+
     case ACCESS_CONTROL_MAX_AGE = 'access-control-max-age';
 
     case ACCESS_CONTROL_REQUEST_METHOD = 'access-control-request-method';

@@ -7,6 +7,7 @@ use ArrayIterator;
 use IteratorAggregate;
 use Raxos\Http\Store\HttpHeaderStore;
 use Traversable;
+use function array_key_exists;
 
 /**
  * Class HttpHeaders
@@ -62,7 +63,25 @@ final readonly class HttpHeaders implements IteratorAggregate
      */
     public function get(HttpHeader|string $name): ?array
     {
-        return $this->headers[$name] ?? null;
+        $key = $this->key($name);
+
+        return $this->headers[$key] ?? null;
+    }
+
+    /**
+     * Returns TRUE if a header with the given name exists.
+     *
+     * @param HttpHeader|string $name
+     *
+     * @return bool
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.1.0
+     */
+    public function has(HttpHeader|string $name): bool
+    {
+        $key = $this->key($name);
+
+        return array_key_exists($key, $this->headers);
     }
 
     /**

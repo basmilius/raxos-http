@@ -46,9 +46,19 @@ final class HttpHeadersMap extends Map
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
-    public function get(HttpHeader|string $key): mixed
+    public function get(HttpHeader|string $key, bool $multi = false): mixed
     {
-        return parent::get($this->normalize($key));
+        $result = parent::get($this->normalize($key));
+
+        if (empty($result)) {
+            return $multi ? [] : null;
+        }
+
+        if ($multi) {
+            return is_array($result) ? $result : [$result];
+        }
+
+        return $result[0] ?? null;
     }
 
     /**

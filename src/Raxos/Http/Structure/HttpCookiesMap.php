@@ -1,21 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Http\Store;
+namespace Raxos\Http\Structure;
 
 use Raxos\Foundation\Collection\Map;
 use function setcookie;
 
 /**
- * Class HttpCookieStore
+ * Class HttpCookiesMap
  *
- * @extends Map<string>
+ * @extends Map<string, string>
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Http\Store
- * @since 1.1.0
+ * @package Raxos\Http\Structure
+ * @since 1.2.0
  */
-final class HttpCookieStore extends Map
+final class HttpCookiesMap extends Map
 {
 
     /**
@@ -28,7 +28,7 @@ final class HttpCookieStore extends Map
      * @param bool $httpOnly
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
+     * @since 1.2.0
      */
     public function set(string $key, mixed $value, int $expires = 0, string $path = '', string $domain = '', bool $secure = false, bool $httpOnly = false): void
     {
@@ -46,7 +46,7 @@ final class HttpCookieStore extends Map
      * @param bool $httpOnly
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
+     * @since 1.2.0
      */
     public function unset(string $key, string $path = '', string $domain = '', bool $secure = false, bool $httpOnly = false): void
     {
@@ -56,13 +56,13 @@ final class HttpCookieStore extends Map
     }
 
     /**
-     * Returns the cookie store from globals.
+     * Creates from the global request.
      *
      * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
+     * @since 1.2.0
      */
-    public static function fromGlobals(): self
+    public static function createFromGlobals(): self
     {
         return new self($_COOKIE);
     }

@@ -12,12 +12,12 @@ namespace Raxos\Http;
  */
 enum HttpMethod: string
 {
-    case ANY = 'any';
-    case DELETE = 'delete';
-    case GET = 'get';
-    case HEAD = 'head';
-    case OPTIONS = 'options';
-    case PATCH = 'patch';
-    case POST = 'post';
-    case PUT = 'put';
+    case ANY = 'ANY';
+    case DELETE = 'DELETE';
+    case GET = 'GET';
+    case HEAD = 'HEAD';
+    case OPTIONS = 'OPTIONS';
+    case PATCH = 'PATCH';
+    case POST = 'POST';
+    case PUT = 'PUT';
 }

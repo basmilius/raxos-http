@@ -7,13 +7,13 @@ use JsonException;
 use Raxos\Foundation\Network\{IP, IPv4, IPv6};
 use Raxos\Foundation\Storage\SimpleKeyValue;
 use Raxos\Http\Body\{HttpBody, HttpBodyJson};
-use Raxos\Http\Store\{HttpCookieStore, HttpFileStore, HttpHeaderStore, HttpPostStore, HttpQueryStore, HttpServerStore};
+use Raxos\Http\Structure\{HttpCookiesMap, HttpFilesMap, HttpHeadersMap, HttpPostMap, HttpQueryMap, HttpServerMap};
 use RuntimeException;
 use function count;
 use function explode;
 use function file_get_contents;
 use function strstr;
-use function strtolower;
+use function strtoupper;
 
 /**
  * Class HttpRequest
@@ -30,12 +30,12 @@ readonly class HttpRequest
     /**
      * HttpRequest constructor.
      *
-     * @param HttpCookieStore $cookies
-     * @param HttpFileStore $files
-     * @param HttpHeaderStore $headers
-     * @param HttpPostStore $post
-     * @param HttpQueryStore $query
-     * @param HttpServerStore $server
+     * @param HttpCookiesMap $cookies
+     * @param HttpFilesMap $files
+     * @param HttpHeadersMap $headers
+     * @param HttpPostMap $post
+     * @param HttpQueryMap $query
+     * @param HttpServerMap $server
      * @param HttpMethod $method
      * @param string $pathName
      * @param string $uri
@@ -44,12 +44,12 @@ readonly class HttpRequest
      * @since 1.1.0
      */
     public function __construct(
-        public HttpCookieStore $cookies,
-        public HttpFileStore $files,
-        public HttpHeaderStore $headers,
-        public HttpPostStore $post,
-        public HttpQueryStore $query,
-        public HttpServerStore $server,
+        public HttpCookiesMap $cookies,
+        public HttpFilesMap $files,
+        public HttpHeadersMap $headers,
+        public HttpPostMap $post,
+        public HttpQueryMap $query,
+        public HttpServerMap $server,
         public HttpMethod $method,
         public string $pathName,
         public string $uri
@@ -154,7 +154,7 @@ readonly class HttpRequest
     }
 
     /**
-     * Ensures that the body is json.
+     * Ensures that the body is JSON.
      *
      * @return array
      * @author Bas Milius <bas@mili.us>
@@ -212,22 +212,22 @@ readonly class HttpRequest
     }
 
     /**
-     * Returns the http request from globals.
+     * Creates from globals.
      *
      * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
+     * @since 1.2.0
      */
-    public static function fromGlobals(): self
+    public static function createFromGlobals(): self
     {
-        $cookies = HttpCookieStore::fromGlobals();
-        $files = HttpFileStore::fromGlobals();
-        $headers = HttpHeaderStore::fromGlobals();
-        $post = HttpPostStore::fromGlobals();
-        $query = HttpQueryStore::fromGlobals();
-        $server = HttpServerStore::fromGlobals();
+        $cookies = HttpCookiesMap::createFromGlobals();
+        $files = HttpFilesMap::createFromGlobals();
+        $headers = HttpHeadersMap::createFromGlobals();
+        $post = HttpPostMap::createFromGlobals();
+        $query = HttpQueryMap::createFromGlobals();
+        $server = HttpServerMap::createFromGlobals();
 
-        $method = HttpMethod::from(strtolower($server->get('REQUEST_METHOD') ?? 'GET'));
+        $method = HttpMethod::from(strtoupper($server->get('REQUEST_METHOD') ?? 'GET'));
         $uri = $server->get('REQUEST_URI') ?? '/';
         $pathName = strstr($uri, '?', true) ?: $uri;
 

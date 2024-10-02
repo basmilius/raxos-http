@@ -32,7 +32,7 @@ final class HttpBodyJson extends HttpBody
     }
 
     /**
-     * Gets the json as an array.
+     * Gets the JSON as an array.
      *
      * @return array
      * @author Bas Milius <bas@mili.us>

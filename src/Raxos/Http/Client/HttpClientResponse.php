@@ -61,7 +61,7 @@ readonly class HttpClientResponse implements DebuggableInterface
     }
 
     /**
-     * Gets the response body as parsed json.
+     * Gets the response body as parsed JSON.
      *
      * @param bool $associative
      *

@@ -59,7 +59,7 @@ interface HttpSendFileInterface
     public function getPath(): string;
 
     /**
-     * Gets the amount of seconds to throttle.
+     * Gets the number of seconds to throttle.
      *
      * @return float
      * @author Bas Milius <bas@mili.us>
@@ -68,7 +68,7 @@ interface HttpSendFileInterface
     public function getThrottle(): float;
 
     /**
-     * Sets the amount of bytes sent per iteration.
+     * Sets the number of bytes sent per iteration.
      *
      * @param int $bytes
      *

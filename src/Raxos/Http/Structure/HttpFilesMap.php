@@ -1,32 +1,32 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Http\Store;
+namespace Raxos\Http\Structure;
 
-use Raxos\Foundation\Collection\ReadonlyMap;
+use Raxos\Foundation\Collection\Map;
 use Raxos\Http\HttpFile;
 use function array_is_list;
 
 /**
- * Class HttpFileStore
+ * Class HttpFilesMap
  *
- * @extends ReadonlyMap<HttpFile[]>
+ * @extends Map<string, HttpFile[]>
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Http\Store
- * @since 1.1.0
+ * @package Raxos\Http\Structure
+ * @since 1.2.0
  */
-final readonly class HttpFileStore extends ReadonlyMap
+final class HttpFilesMap extends Map
 {
 
     /**
-     * Returns the file store from globals.
+     * Creates from the global request.
      *
      * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 1.1.0
+     * @since 1.2.0
      */
-    public static function fromGlobals(): self
+    public static function createFromGlobals(): self
     {
         $files = [];
 

@@ -27,8 +27,7 @@ final class Validator
     ];
 
     /**
-     * Returns TRUE if the given attribute class should be handled
-     * by our validator.
+     * Returns TRUE if our validator should handle the given attribute class.
      *
      * @param string $attributeClass
      *

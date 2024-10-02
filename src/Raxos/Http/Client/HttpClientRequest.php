@@ -158,7 +158,7 @@ class HttpClientRequest
     }
 
     /**
-     * Sets the request body to the given json.
+     * Sets the request body to the given JSON.
      *
      * @param array $json
      *

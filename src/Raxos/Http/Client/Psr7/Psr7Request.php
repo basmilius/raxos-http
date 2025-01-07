@@ -22,8 +22,10 @@ final class Psr7Request implements RequestInterface
 
     use MessageTrait;
 
+    /** @noinspection PhpGetterAndSetterCanBeReplacedWithPropertyHooksInspection */
     private ?string $method = null;
     private mixed $requestTarget = null;
+    /** @noinspection PhpGetterAndSetterCanBeReplacedWithPropertyHooksInspection */
     private ?UriInterface $uri = null;
 
     /**

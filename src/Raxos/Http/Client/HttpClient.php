@@ -16,10 +16,10 @@ use function sprintf;
  * @package Raxos\Http\Client
  * @since 1.0.0
  */
-class HttpClient
+readonly class HttpClient
 {
 
-    protected GuzzleClient $client;
+    public GuzzleClient $client;
 
     /**
      * HttpClient constructor.
@@ -30,25 +30,13 @@ class HttpClient
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function __construct(string $baseUrl = null, float $timeout = 5.0)
+    public function __construct(?string $baseUrl = null, float $timeout = 5.0)
     {
         $this->client = new GuzzleClient([
             'base_uri' => $baseUrl,
             'http_errors' => false,
             'timeout' => $timeout
         ]);
-    }
-
-    /**
-     * Gets the Guzzle client.
-     *
-     * @return GuzzleClient
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getClient(): GuzzleClient
-    {
-        return $this->client;
     }
 
     /**

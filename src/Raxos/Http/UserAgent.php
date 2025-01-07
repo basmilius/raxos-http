@@ -96,7 +96,7 @@ readonly class UserAgent implements JsonSerializable, Stringable
 
         $lowerBrowser = array_map(strtolower(...), $result['browser']);
 
-        $find = static function (string|array $search, int &$key, string &$value = null) use ($lowerBrowser): bool {
+        $find = static function (string|array $search, int &$key, ?string &$value = null) use ($lowerBrowser): bool {
             if (!is_array($search)) {
                 $search = [$search];
             }

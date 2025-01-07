@@ -42,7 +42,7 @@ final class FileConstraint extends Constraint
             throw new FieldException($field, '{{name}} must be a file.', []);
         }
 
-        if (!$data->isValid()) {
+        if (!$data->isValid) {
             throw new FieldException($field, '{{name}} failed to upload.', []);
         }
     }

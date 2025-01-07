@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
-use Raxos\Foundation\Environment;
 use function function_exists;
 use function getallheaders;
+use function Raxos\Foundation\isCommandLineInterface;
 use function str_starts_with;
 use function strtolower;
 use function strtr;
@@ -30,7 +30,7 @@ final class HttpUtil
      */
     public static function getAllHeaders(): array
     {
-        if (Environment::isCommandLineInterface()) {
+        if (isCommandLineInterface()) {
             return [];
         }
 

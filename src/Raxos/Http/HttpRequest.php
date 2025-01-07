@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 use JsonException;
-use Raxos\Foundation\Network\{IP, IPv4, IPv6};
-use Raxos\Foundation\Storage\SimpleKeyValue;
+use Raxos\Foundation\Collection\Map;
+use Raxos\Foundation\Network\IP;
 use Raxos\Http\Body\{HttpBody, HttpBodyJson};
 use Raxos\Http\Structure\{HttpCookiesMap, HttpFilesMap, HttpHeadersMap, HttpPostMap, HttpQueryMap, HttpServerMap};
 use RuntimeException;
@@ -25,7 +25,7 @@ use function strtoupper;
 readonly class HttpRequest
 {
 
-    private SimpleKeyValue $cache;
+    private Map $cache;
 
     /**
      * HttpRequest constructor.
@@ -55,7 +55,7 @@ readonly class HttpRequest
         public string $uri
     )
     {
-        $this->cache = new SimpleKeyValue();
+        $this->cache = new Map();
     }
 
     /**
@@ -100,11 +100,11 @@ readonly class HttpRequest
     /**
      * Gets the IP address.
      *
-     * @return IPv4|IPv6|null
+     * @return ?IP
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function ip(): IPv4|IPv6|null
+    public function ip(): ?IP
     {
         if ($this->cache->has('ip')) {
             return $this->cache->get('ip');

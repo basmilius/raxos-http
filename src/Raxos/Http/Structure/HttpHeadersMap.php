@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace Raxos\Http\Structure;
 
 use Raxos\Foundation\Collection\Map;
-use Raxos\Http\{HttpHeader, HttpUtil};
+use Raxos\Http\HttpUtil;
+use function array_map;
 use function is_array;
 use function strtolower;
 
 /**
  * Class HttpHeadersMap
  *
- * @extends Map<HttpHeader|string, string[]>
+ * @extends Map<string, string[]>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Structure
@@ -23,16 +24,16 @@ final class HttpHeadersMap extends Map
     /**
      * Adds a header.
      *
-     * @param HttpHeader|string $key
+     * @param string $key
      * @param mixed $value
      *
      * @return void
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
-    public function add(HttpHeader|string $key, mixed $value): void
+    public function add(string $key, mixed $value): void
     {
-        $key = $this->normalize($key);
+        $key = strtolower($key);
 
         if (isset($this->data[$key]) && !is_array($this->data[$key])) {
             $this->data[$key] = [$this->data[$key]];
@@ -46,9 +47,9 @@ final class HttpHeadersMap extends Map
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
-    public function get(HttpHeader|string $key, bool $multi = false): mixed
+    public function get(string $key, bool $multi = false): mixed
     {
-        $result = parent::get($this->normalize($key));
+        $result = parent::get(strtolower($key));
 
         if (empty($result)) {
             return $multi ? [] : null;
@@ -66,9 +67,9 @@ final class HttpHeadersMap extends Map
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
-    public function has(HttpHeader|string $key): bool
+    public function has(string $key): bool
     {
-        return parent::has($this->normalize($key));
+        return parent::has(strtolower($key));
     }
 
     /**
@@ -76,9 +77,9 @@ final class HttpHeadersMap extends Map
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
-    public function set(HttpHeader|string $key, mixed $value): void
+    public function set(string $key, mixed $value): void
     {
-        parent::set($this->normalize($key), [$value]);
+        parent::set(strtolower($key), [$value]);
     }
 
     /**
@@ -86,27 +87,9 @@ final class HttpHeadersMap extends Map
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
-    public function unset(HttpHeader|string $key): void
+    public function unset(string $key): void
     {
-        parent::unset($this->normalize($key));
-    }
-
-    /**
-     * Normalizes the header to a string.
-     *
-     * @param HttpHeader|string $key
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.2.0
-     */
-    private function normalize(HttpHeader|string $key): string
-    {
-        if ($key instanceof HttpHeader) {
-            return $key->value;
-        }
-
-        return strtolower($key);
+        parent::unset(strtolower($key));
     }
 
     /**
@@ -118,13 +101,7 @@ final class HttpHeadersMap extends Map
      */
     public static function createFromGlobals(): self
     {
-        $headers = [];
-
-        foreach (HttpUtil::getAllHeaders() as $name => $value) {
-            $headers[$name] = is_array($value) ? $value : [$value];
-        }
-
-        return new self($headers);
+        return new self(array_map(static fn($value) => is_array($value) ? $value : [$value], HttpUtil::getAllHeaders()));
     }
 
 }

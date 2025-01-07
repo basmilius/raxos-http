@@ -43,73 +43,13 @@ class HttpSendFile implements HttpSendFileInterface
      * @since 1.0.0
      */
     public function __construct(
-        protected string $path,
-        protected string $contentDisposition = 'file',
-        protected string $contentDispositionType = 'inline',
-        protected string $contentType = 'application/octet-stream',
-        protected int $bytes = 40960,
-        protected float $throttle = 0.1
+        public protected(set) string $path,
+        public protected(set) string $contentDisposition = 'file',
+        public protected(set) string $contentDispositionType = 'inline',
+        public protected(set) string $contentType = 'application/octet-stream',
+        public protected(set) int $bytes = 40960,
+        public protected(set) float $throttle = 0.1
     ) {}
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getBytes(): int
-    {
-        return $this->bytes;
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getContentDisposition(): string
-    {
-        return $this->contentDisposition;
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getContentDispositionType(): string
-    {
-        return $this->contentDispositionType;
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getContentType(): string
-    {
-        return $this->contentType;
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getPath(): string
-    {
-        return $this->path;
-    }
-
-    /**
-     * {@inheritdoc}
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public final function getThrottle(): float
-    {
-        return $this->throttle;
-    }
 
     /**
      * {@inheritdoc}

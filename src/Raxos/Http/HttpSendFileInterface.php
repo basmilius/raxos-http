@@ -14,58 +14,76 @@ interface HttpSendFileInterface
 {
 
     /**
-     * Gets the bytes read per iteration.
+     * Returns the bytes read per iteration.
      *
-     * @return int
+     * @var int
+     *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.4.0
      */
-    public function getBytes(): int;
+    public int $bytes {
+        get;
+    }
 
     /**
-     * Gets the content disposition filename.
+     * Returns the content disposition filename.
      *
-     * @return string
+     * @var string
+     *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.4.0
      */
-    public function getContentDisposition(): string;
+    public string $contentDisposition {
+        get;
+    }
 
     /**
-     * Gets the content disposition type.
+     * Returns the content disposition type.
      *
-     * @return string
+     * @var string
+     *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.4.0
      */
-    public function getContentDispositionType(): string;
+    public string $contentDispositionType {
+        get;
+    }
 
     /**
-     * Gets the content type.
+     * Returns the content type.
      *
-     * @return string
+     * @var string
+     *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.4.0
      */
-    public function getContentType(): string;
+    public string $contentType {
+        get;
+    }
 
     /**
-     * Gets the file path.
+     * Returns the file path.
      *
-     * @return string
+     * @var string
+     *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.4.0
      */
-    public function getPath(): string;
+    public string $path {
+        get;
+    }
 
     /**
-     * Gets the number of seconds to throttle.
+     * Returns the number of seconds to throttle.
      *
-     * @return float
+     * @var float
+     *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.4.0
      */
-    public function getThrottle(): float;
+    public float $throttle {
+        get;
+    }
 
     /**
      * Sets the number of bytes sent per iteration.

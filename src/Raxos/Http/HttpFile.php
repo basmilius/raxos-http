@@ -16,6 +16,12 @@ use const UPLOAD_ERR_OK;
 final readonly class HttpFile
 {
 
+    public bool $isValid;
+    public string $contentType;
+    public string $name;
+    public int $size;
+    public string $temporaryFile;
+
     /**
      * HttpFile constructor.
      *
@@ -26,66 +32,13 @@ final readonly class HttpFile
      */
     public function __construct(
         private array $file
-    ) {}
-
-    /**
-     * Returns TRUE if the upload was valid.
-     *
-     * @return bool
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function isValid(): bool
+    )
     {
-        return $this->file['error'] === UPLOAD_ERR_OK;
-    }
-
-    /**
-     * Gets the content type.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function getContentType(): string
-    {
-        return $this->file['type'];
-    }
-
-    /**
-     * Gets the file name.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function getName(): string
-    {
-        return $this->file['name'];
-    }
-
-    /**
-     * Gets the file size.
-     *
-     * @return int
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function getSize(): int
-    {
-        return $this->file['size'];
-    }
-
-    /**
-     * Gets the temporary file path.
-     *
-     * @return string
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function getTemporaryFile(): string
-    {
-        return $this->file['tmp_name'];
+        $this->isValid = $this->file['error'] === UPLOAD_ERR_OK;
+        $this->contentType = $this->file['type'];
+        $this->name = $this->file['name'];
+        $this->size = $this->file['size'];
+        $this->temporaryFile = $this->file['tmp_name'];
     }
 
     /**
@@ -104,10 +57,10 @@ final readonly class HttpFile
     public function __debugInfo(): ?array
     {
         return [
-            'content_type' => $this->getContentType(),
-            'name' => $this->getName(),
-            'size' => $this->getSize(),
-            'temporary_file' => $this->getTemporaryFile()
+            'content_type' => $this->contentType,
+            'name' => $this->name,
+            'size' => $this->size,
+            'temporary_file' => $this->temporaryFile
         ];
     }
 

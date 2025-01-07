@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 /**
- * Enum HttpHeader
+ * Class HttpHeader
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http
  * @since 1.1.0
  */
-enum HttpHeader: string
+final class HttpHeader
 {
 
     #region Permanent Message Headers
@@ -18,766 +18,766 @@ enum HttpHeader: string
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case A_IM = 'a-im';
+    public const string A_IM = 'a-im';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.3.2
      */
-    case ACCEPT = 'accept';
+    public const string ACCEPT = 'accept';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case ACCEPT_ADDITIONS = 'accept-additions';
+    public const string ACCEPT_ADDITIONS = 'accept-additions';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.3.3
      */
-    case ACCEPT_CHARSET = 'accept-charset';
+    public const string ACCEPT_CHARSET = 'accept-charset';
 
     /**
      * @see https://tools.ietf.org/html/rfc7089
      */
-    case ACCEPT_DATETIME = 'accept-datetime';
+    public const string ACCEPT_DATETIME = 'accept-datetime';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.3.4
      * @see https://tools.ietf.org/html/rfc7694#section-3
      */
-    case ACCEPT_ENCODING = 'accept-encoding';
+    public const string ACCEPT_ENCODING = 'accept-encoding';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case ACCEPT_FEATURES = 'accept-features';
+    public const string ACCEPT_FEATURES = 'accept-features';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.3.5
      */
-    case ACCEPT_LANGUAGE = 'accept-language';
+    public const string ACCEPT_LANGUAGE = 'accept-language';
 
     /**
      * @see https://tools.ietf.org/html/rfc5789
      */
-    case ACCEPT_PATCH = 'accept-patch';
+    public const string ACCEPT_PATCH = 'accept-patch';
 
     /**
      * @see https://www.w3.org/TR/ldp/
      */
-    case ACCEPT_POST = 'accept-post';
+    public const string ACCEPT_POST = 'accept-post';
 
     /**
      * @see https://tools.ietf.org/html/rfc7233#section-2.3
      */
-    case ACCEPT_RANGES = 'accept-ranges';
+    public const string ACCEPT_RANGES = 'accept-ranges';
 
     /**
      * @see https://tools.ietf.org/html/rfc7234#section-5.1
      */
-    case AGE = 'age';
+    public const string AGE = 'age';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-7.4.1
      */
-    case ALLOW = 'allow';
+    public const string ALLOW = 'allow';
 
     /**
      * @see https://tools.ietf.org/html/rfc7639#section-2
      */
-    case ALPN = 'alpn';
+    public const string ALPN = 'alpn';
 
     /**
      * @see https://tools.ietf.org/html/rfc7838
      */
-    case ALT_SVC = 'alt-svc';
+    public const string ALT_SVC = 'alt-svc';
 
     /**
      * @see https://tools.ietf.org/html/rfc7838
      */
-    case ALT_USED = 'alt-used';
+    public const string ALT_USED = 'alt-used';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case ALTERNATES = 'alternates';
+    public const string ALTERNATES = 'alternates';
 
     /**
      * @see https://tools.ietf.org/html/rfc4437
      */
-    case APPLY_TO_REDIRECT_REF = 'apply-to-redirect-ref';
+    public const string APPLY_TO_REDIRECT_REF = 'apply-to-redirect-ref';
 
     /**
      * @see https://tools.ietf.org/html/rfc8053#section-4
      */
-    case AUTHENTICATION_CONTROL = 'authentication-control';
+    public const string AUTHENTICATION_CONTROL = 'authentication-control';
 
     /**
      * @see https://tools.ietf.org/html/rfc7615#section-3
      */
-    case AUTHENTICATION_INFO = 'authentication-info';
+    public const string AUTHENTICATION_INFO = 'authentication-info';
 
     /**
      * @see https://tools.ietf.org/html/rfc7235#section-4.2
      */
-    case AUTHORIZATION = 'authorization';
+    public const string AUTHORIZATION = 'authorization';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case C_EXT = 'c-ext';
+    public const string C_EXT = 'c-ext';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case C_MAN = 'c-man';
+    public const string C_MAN = 'c-man';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case C_OPT = 'c-opt';
+    public const string C_OPT = 'c-opt';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case C_PEP = 'c-pep';
+    public const string C_PEP = 'c-pep';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case C_PEP_INFO = 'c-pep-info';
+    public const string C_PEP_INFO = 'c-pep-info';
 
     /**
      * @see https://tools.ietf.org/html/rfc7234#section-5.2
      */
-    case CACHE_CONTROL = 'cache-control';
+    public const string CACHE_CONTROL = 'cache-control';
 
     /**
      * @see https://tools.ietf.org/html/rfc7809#section-7.1
      */
-    case CALDAV_TIMEZONES = 'caldav-timezones';
+    public const string CALDAV_TIMEZONES = 'caldav-timezones';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-8.1
      */
-    case CLOSE = 'close';
+    public const string CLOSE = 'close';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-6.1
      */
-    case CONNECTION = 'connection';
+    public const string CONNECTION = 'connection';
 
     /**
      * @deprecated
      * @see https://tools.ietf.org/html/rfc2068
      */
-    case CONTENT_BASE = 'content-base';
+    public const string CONTENT_BASE = 'content-base';
 
     /**
      * @see https://tools.ietf.org/html/rfc6266
      */
-    case CONTENT_DISPOSITION = 'content-disposition';
+    public const string CONTENT_DISPOSITION = 'content-disposition';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-3.1.2.2
      */
-    case CONTENT_ENCODING = 'content-encoding';
+    public const string CONTENT_ENCODING = 'content-encoding';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case CONTENT_ID = 'content-id';
+    public const string CONTENT_ID = 'content-id';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-3.1.3.2
      */
-    case CONTENT_LANGUAGE = 'content-language';
+    public const string CONTENT_LANGUAGE = 'content-language';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-3.3.2
      */
-    case CONTENT_LENGTH = 'content-length';
+    public const string CONTENT_LENGTH = 'content-length';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-3.1.4.2
      */
-    case CONTENT_LOCATION = 'content-location';
+    public const string CONTENT_LOCATION = 'content-location';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case CONTENT_MD5 = 'content-md5';
+    public const string CONTENT_MD5 = 'content-md5';
 
     /**
      * @see https://tools.ietf.org/html/rfc7233#section-4.2
      */
-    case CONTENT_RANGE = 'content-range';
+    public const string CONTENT_RANGE = 'content-range';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case CONTENT_SCRIPT_TYPE = 'content-script-type';
+    public const string CONTENT_SCRIPT_TYPE = 'content-script-type';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case CONTENT_STYLE_TYPE = 'content-style-type';
+    public const string CONTENT_STYLE_TYPE = 'content-style-type';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-3.1.1.5
      */
-    case CONTENT_TYPE = 'content-type';
+    public const string CONTENT_TYPE = 'content-type';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case CONTENT_VERSION = 'content-version';
+    public const string CONTENT_VERSION = 'content-version';
 
     /**
      * @see https://tools.ietf.org/html/rfc6265
      */
-    case COOKIE = 'cookie';
+    public const string COOKIE = 'cookie';
 
     /**
      * @deprecated
      * @see https://tools.ietf.org/html/rfc2965
      */
-    case COOKIE2 = 'cookie2';
+    public const string COOKIE2 = 'cookie2';
 
     /**
      * @see https://tools.ietf.org/html/rfc5323
      */
-    case DASL = 'dasl';
+    public const string DASL = 'dasl';
 
     /**
      * @see https://tools.ietf.org/html/rfc4918
      */
-    case DAV = 'dav';
+    public const string DAV = 'dav';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-7.1.1.2
      */
-    case DATE = 'date';
+    public const string DATE = 'date';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case DEFAULT_STYLE = 'default-style';
+    public const string DEFAULT_STYLE = 'default-style';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case DELTA_BASE = 'delta-base';
+    public const string DELTA_BASE = 'delta-base';
 
     /**
      * @see https://tools.ietf.org/html/rfc4918
      */
-    case DEPTH = 'depth';
+    public const string DEPTH = 'depth';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case DERIVED_FROM = 'derived-from';
+    public const string DERIVED_FROM = 'derived-from';
 
     /**
      * @see https://tools.ietf.org/html/rfc4918
      */
-    case DESTINATION = 'destination';
+    public const string DESTINATION = 'destination';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case DIFFERENTIAL_ID = 'differential-id';
+    public const string DIFFERENTIAL_ID = 'differential-id';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case DIGEST = 'digest';
+    public const string DIGEST = 'digest';
 
     /**
      * @see https://tools.ietf.org/html/rfc7232#section-2.3
      */
-    case ETAG = 'etag';
+    public const string ETAG = 'etag';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.1.1
      */
-    case EXPECT = 'expect';
+    public const string EXPECT = 'expect';
 
     /**
      * @see https://tools.ietf.org/html/rfc7234#section-5.3
      */
-    case EXPIRES = 'expires';
+    public const string EXPIRES = 'expires';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case EXT = 'ext';
+    public const string EXT = 'ext';
 
     /**
      * @see https://tools.ietf.org/html/rfc7239
      */
-    case FORWARDED = 'forwarded';
+    public const string FORWARDED = 'forwarded';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.5.1
      */
-    case FROM = 'from';
+    public const string FROM = 'from';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case GETPROFILE = 'getprofile';
+    public const string GETPROFILE = 'getprofile';
 
     /**
      * @see https://tools.ietf.org/html/rfc7486#section-6.1.1
      */
-    case HOBAREG = 'hobareg';
+    public const string HOBAREG = 'hobareg';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-5.4
      */
-    case HOST = 'host';
+    public const string HOST = 'host';
 
     /**
      * @see https://tools.ietf.org/html/rfc7540#section-3.2.1
      */
-    case HTTP2_SETTINGS = 'http2-settings';
+    public const string HTTP2_SETTINGS = 'http2-settings';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case IM = 'im';
+    public const string IM = 'im';
 
     /**
      * @see https://tools.ietf.org/html/rfc4918
      */
-    case IF = 'if';
+    public const string IF = 'if';
 
     /**
      * @see https://tools.ietf.org/html/rfc7232#section-3.1
      */
-    case IF_MATCH = 'if-match';
+    public const string IF_MATCH = 'if-match';
 
     /**
      * @see https://tools.ietf.org/html/rfc7232#section-3.3
      */
-    case IF_MODIFIED_SINCE = 'if-modified-since';
+    public const string IF_MODIFIED_SINCE = 'if-modified-since';
 
     /**
      * @see https://tools.ietf.org/html/rfc7232#section-3.2
      */
-    case IF_NONE_MATCH = 'if-none-match';
+    public const string IF_NONE_MATCH = 'if-none-match';
 
     /**
      * @see https://tools.ietf.org/html/rfc7233#section-3.2
      */
-    case IF_RANGE = 'if-range';
+    public const string IF_RANGE = 'if-range';
 
     /**
      * @see https://tools.ietf.org/html/rfc6638
      */
-    case IF_SCHEDULE_TAG_MATCH = 'if-schedule-tag-match';
+    public const string IF_SCHEDULE_TAG_MATCH = 'if-schedule-tag-match';
 
     /**
      * @see https://tools.ietf.org/html/rfc7232#section-3.4
      */
-    case IF_UNMODIFIED_SINCE = 'if-unmodified-since';
+    public const string IF_UNMODIFIED_SINCE = 'if-unmodified-since';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case KEEP_ALIVE = 'keep-alive';
+    public const string KEEP_ALIVE = 'keep-alive';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case LABEL = 'label';
+    public const string LABEL = 'label';
 
     /**
      * @see https://tools.ietf.org/html/rfc7232#section-2.2
      */
-    case LAST_MODIFIED = 'last-modified';
+    public const string LAST_MODIFIED = 'last-modified';
 
     /**
      * @see https://tools.ietf.org/html/rfc5988
      */
-    case LINK = 'link';
+    public const string LINK = 'link';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-7.1.2
      */
-    case LOCATION = 'location';
+    public const string LOCATION = 'location';
 
     /**
      * @see https://tools.ietf.org/html/rfc4918
      */
-    case LOCK_TOKEN = 'lock-token';
+    public const string LOCK_TOKEN = 'lock-token';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case MAN = 'man';
+    public const string MAN = 'man';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.1.2
      */
-    case MAX_FORWARDS = 'max-forwards';
+    public const string MAX_FORWARDS = 'max-forwards';
 
     /**
      * @see https://tools.ietf.org/html/rfc7089
      */
-    case MEMENTO_DATETIME = 'memento-datetime';
+    public const string MEMENTO_DATETIME = 'memento-datetime';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case METER = 'meter';
+    public const string METER = 'meter';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231
      */
-    case MIME_VERSION = 'mime-version';
+    public const string MIME_VERSION = 'mime-version';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case NEGOTIATE = 'negotiate';
+    public const string NEGOTIATE = 'negotiate';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case OPT = 'opt';
+    public const string OPT = 'opt';
 
     /**
      * @see https://tools.ietf.org/html/rfc8053#section-3
      */
-    case OPTIONAL_WWW_AUTHENTICATE = 'optional-www-authenticate';
+    public const string OPTIONAL_WWW_AUTHENTICATE = 'optional-www-authenticate';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case ORDERING_TYPE = 'ordering-type';
+    public const string ORDERING_TYPE = 'ordering-type';
 
     /**
      * @see https://tools.ietf.org/html/rfc6454
      */
-    case ORIGIN = 'origin';
+    public const string ORIGIN = 'origin';
 
     /**
      * @see https://tools.ietf.org/html/rfc4918
      */
-    case OVERWRITE = 'overwrite';
+    public const string OVERWRITE = 'overwrite';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case P3P = 'p3p';
+    public const string P3P = 'p3p';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PEP = 'pep';
+    public const string PEP = 'pep';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PICS_LABEL = 'pics-label';
+    public const string PICS_LABEL = 'pics-label';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PEP_INFO = 'pep-info';
+    public const string PEP_INFO = 'pep-info';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case POSITION = 'position';
+    public const string POSITION = 'position';
 
     /**
      * @see https://tools.ietf.org/html/rfc7234#section-5.4
      */
-    case PRAGMA = 'pragma';
+    public const string PRAGMA = 'pragma';
 
     /**
      * @see https://tools.ietf.org/html/rfc7240
      */
-    case PREFER = 'prefer';
+    public const string PREFER = 'prefer';
 
     /**
      * @see https://tools.ietf.org/html/rfc7240
      */
-    case PREFERENCE_APPLIED = 'preference-applied';
+    public const string PREFERENCE_APPLIED = 'preference-applied';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PROFILEOBJECT = 'profileobject';
+    public const string PROFILEOBJECT = 'profileobject';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PROTOCOL = 'protocol';
+    public const string PROTOCOL = 'protocol';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PROTOCOL_INFO = 'protocol-info';
+    public const string PROTOCOL_INFO = 'protocol-info';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PROTOCOL_QUERY = 'protocol-query';
+    public const string PROTOCOL_QUERY = 'protocol-query';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PROTOCOL_REQUEST = 'protocol-request';
+    public const string PROTOCOL_REQUEST = 'protocol-request';
 
     /**
      * @see https://tools.ietf.org/html/rfc7235#section-4.3
      */
-    case PROXY_AUTHENTICATE = 'proxy-authenticate';
+    public const string PROXY_AUTHENTICATE = 'proxy-authenticate';
 
     /**
      * @see https://tools.ietf.org/html/rfc7615#section-4
      */
-    case PROXY_AUTHENTICATION_INFO = 'proxy-authentication-info';
+    public const string PROXY_AUTHENTICATION_INFO = 'proxy-authentication-info';
 
     /**
      * @see https://tools.ietf.org/html/rfc7235#section-4.4
      */
-    case PROXY_AUTHORIZATION = 'proxy-authorization';
+    public const string PROXY_AUTHORIZATION = 'proxy-authorization';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PROXY_FEATURES = 'proxy-features';
+    public const string PROXY_FEATURES = 'proxy-features';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PROXY_INSTRUCTION = 'proxy-instruction';
+    public const string PROXY_INSTRUCTION = 'proxy-instruction';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case PUBLIC = 'public';
+    public const string PUBLIC = 'public';
 
     /**
      * @see https://tools.ietf.org/html/rfc7469
      */
-    case PUBLIC_KEY_PINS = 'public-key-pins';
+    public const string PUBLIC_KEY_PINS = 'public-key-pins';
 
     /**
      * @see https://tools.ietf.org/html/rfc7469
      */
-    case PUBLIC_KEY_PINS_REPORT_ONLY = 'public-key-pins-report-only';
+    public const string PUBLIC_KEY_PINS_REPORT_ONLY = 'public-key-pins-report-only';
 
     /**
      * @see https://tools.ietf.org/html/rfc7233#section-3.1
      */
-    case RANGE = 'range';
+    public const string RANGE = 'range';
 
     /**
      * @see https://tools.ietf.org/html/rfc4437
      */
-    case REDIRECT_REF = 'redirect-ref';
+    public const string REDIRECT_REF = 'redirect-ref';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.5.2
      */
-    case REFERER = 'referer';
+    public const string REFERER = 'referer';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-7.1.3
      */
-    case RETRY_AFTER = 'retry-after';
+    public const string RETRY_AFTER = 'retry-after';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case SAFE = 'safe';
+    public const string SAFE = 'safe';
 
     /**
      * @see https://tools.ietf.org/html/rfc6638
      */
-    case SCHEDULE_REPLY = 'schedule-reply';
+    public const string SCHEDULE_REPLY = 'schedule-reply';
 
     /**
      * @see https://tools.ietf.org/html/rfc6638
      */
-    case SCHEDULE_TAG = 'schedule-tag';
+    public const string SCHEDULE_TAG = 'schedule-tag';
 
     /**
      * @see https://tools.ietf.org/html/rfc6455
      */
-    case SEC_WEBSOCKET_ACCEPT = 'sec-websocket-accept';
+    public const string SEC_WEBSOCKET_ACCEPT = 'sec-websocket-accept';
 
     /**
      * @see https://tools.ietf.org/html/rfc6455
      */
-    case SEC_WEBSOCKET_EXTENSIONS = 'sec-websocket-extensions';
+    public const string SEC_WEBSOCKET_EXTENSIONS = 'sec-websocket-extensions';
 
     /**
      * @see https://tools.ietf.org/html/rfc6455
      */
-    case SEC_WEBSOCKET_KEY = 'sec-websocket-key';
+    public const string SEC_WEBSOCKET_KEY = 'sec-websocket-key';
 
     /**
      * @see https://tools.ietf.org/html/rfc6455
      */
-    case SEC_WEBSOCKET_PROTOCOL = 'sec-websocket-protocol';
+    public const string SEC_WEBSOCKET_PROTOCOL = 'sec-websocket-protocol';
 
     /**
      * @see https://tools.ietf.org/html/rfc6455
      */
-    case SEC_WEBSOCKET_VERSION = 'sec-websocket-version';
+    public const string SEC_WEBSOCKET_VERSION = 'sec-websocket-version';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case SECURITY_SCHEME = 'security-scheme';
+    public const string SECURITY_SCHEME = 'security-scheme';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-7.4.2
      */
-    case SERVER = 'server';
+    public const string SERVER = 'server';
 
     /**
      * @see https://tools.ietf.org/html/rfc6265
      */
-    case SET_COOKIE = 'set-cookie';
+    public const string SET_COOKIE = 'set-cookie';
 
     /**
      * @deprecated
      * @see https://tools.ietf.org/html/rfc2965
      */
-    case SET_COOKIE2 = 'set-cookie2';
+    public const string SET_COOKIE2 = 'set-cookie2';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case SETPROFILE = 'setprofile';
+    public const string SETPROFILE = 'setprofile';
 
     /**
      * @see https://tools.ietf.org/html/rfc5023
      */
-    case SLUG = 'slug';
+    public const string SLUG = 'slug';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case SOAPACTION = 'soapaction';
+    public const string SOAPACTION = 'soapaction';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case STATUS_URI = 'status-uri';
+    public const string STATUS_URI = 'status-uri';
 
     /**
      * @see https://tools.ietf.org/html/rfc6797
      */
-    case STRICT_TRANSPORT_SECURITY = 'strict-transport-security';
+    public const string STRICT_TRANSPORT_SECURITY = 'strict-transport-security';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case SURROGATE_CAPABILITY = 'surrogate-capability';
+    public const string SURROGATE_CAPABILITY = 'surrogate-capability';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case SURROGATE_CONTROL = 'surrogate-control';
+    public const string SURROGATE_CONTROL = 'surrogate-control';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case TCN = 'tcn';
+    public const string TCN = 'tcn';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-4.3
      */
-    case TE = 'te';
+    public const string TE = 'te';
 
     /**
      * @see https://tools.ietf.org/html/rfc4918
      */
-    case TIMEOUT = 'timeout';
+    public const string TIMEOUT = 'timeout';
 
     /**
      * @see https://tools.ietf.org/html/rfc8030#section-5.4
      */
-    case TOPIC = 'topic';
+    public const string TOPIC = 'topic';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-4.4
      */
-    case TRAILER = 'trailer';
+    public const string TRAILER = 'trailer';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-3.3.1
      */
-    case TRANSFER_ENCODING = 'transfer-encoding';
+    public const string TRANSFER_ENCODING = 'transfer-encoding';
 
     /**
      * @see https://tools.ietf.org/html/rfc8030#section-5.2
      */
-    case TTL = 'ttl';
+    public const string TTL = 'ttl';
 
     /**
      * @see https://tools.ietf.org/html/rfc8030#section-5.3
      */
-    case URGENCY = 'urgency';
+    public const string URGENCY = 'urgency';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case URI = 'uri';
+    public const string URI = 'uri';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-6.7
      */
-    case UPGRADE = 'upgrade';
+    public const string UPGRADE = 'upgrade';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-5.5.3
      */
-    case USER_AGENT = 'user-agent';
+    public const string USER_AGENT = 'user-agent';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case VARIANT_VARY = 'variant-vary';
+    public const string VARIANT_VARY = 'variant-vary';
 
     /**
      * @see https://tools.ietf.org/html/rfc7231#section-7.1.4
      */
-    case VARY = 'vary';
+    public const string VARY = 'vary';
 
     /**
      * @see https://tools.ietf.org/html/rfc7230#section-5.7.1
      */
-    case VIA = 'via';
+    public const string VIA = 'via';
 
     /**
      * @see https://tools.ietf.org/html/rfc7235#section-4.1
      */
-    case WWW_AUTHENTICATE = 'www-authenticate';
+    public const string WWW_AUTHENTICATE = 'www-authenticate';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case WANT_DIGEST = 'want-digest';
+    public const string WANT_DIGEST = 'want-digest';
 
     /**
      * @see https://tools.ietf.org/html/rfc7234#section-5.5
      */
-    case WARNING = 'warning';
+    public const string WARNING = 'warning';
 
     /**
      * @see https://tools.ietf.org/html/rfc7034
      */
-    case X_FRAME_OPTIONS = 'x-frame-options';
+    public const string X_FRAME_OPTIONS = 'x-frame-options';
 
     #endregion
 
@@ -786,141 +786,141 @@ enum HttpHeader: string
     /**
      * @deprecated
      */
-    case ACCESS_CONTROL = 'access-control';
+    public const string ACCESS_CONTROL = 'access-control';
 
     /**
      * @see https://fetch.spec.whatwg.org/#http-requests
      */
-    case ACCESS_CONTROL_ALLOW_CREDENTIALS = 'access-control-allow-credentials';
+    public const string ACCESS_CONTROL_ALLOW_CREDENTIALS = 'access-control-allow-credentials';
 
-    case ACCESS_CONTROL_ALLOW_HEADERS = 'access-control-allow-headers';
+    public const string ACCESS_CONTROL_ALLOW_HEADERS = 'access-control-allow-headers';
 
-    case ACCESS_CONTROL_ALLOW_METHODS = 'access-control-allow-methods';
+    public const string ACCESS_CONTROL_ALLOW_METHODS = 'access-control-allow-methods';
 
-    case ACCESS_CONTROL_ALLOW_ORIGIN = 'access-control-allow-origin';
+    public const string ACCESS_CONTROL_ALLOW_ORIGIN = 'access-control-allow-origin';
 
-    case ACCESS_CONTROL_EXPOSE_HEADERS = 'access-control-expose-headers';
+    public const string ACCESS_CONTROL_EXPOSE_HEADERS = 'access-control-expose-headers';
 
-    case ACCESS_CONTROL_MAX_AGE = 'access-control-max-age';
+    public const string ACCESS_CONTROL_MAX_AGE = 'access-control-max-age';
 
-    case ACCESS_CONTROL_REQUEST_METHOD = 'access-control-request-method';
+    public const string ACCESS_CONTROL_REQUEST_METHOD = 'access-control-request-method';
 
-    case ACCESS_CONTROL_REQUEST_HEADERS = 'access-control-request-headers';
-
-    /**
-     * @see https://tools.ietf.org/html/rfc4229
-     */
-    case COMPLIANCE = 'compliance';
+    public const string ACCESS_CONTROL_REQUEST_HEADERS = 'access-control-request-headers';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case CONTENT_TRANSFER_ENCODING = 'content-transfer-encoding';
+    public const string COMPLIANCE = 'compliance';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case COST = 'cost';
+    public const string CONTENT_TRANSFER_ENCODING = 'content-transfer-encoding';
+
+    /**
+     * @see https://tools.ietf.org/html/rfc4229
+     */
+    public const string COST = 'cost';
 
     /**
      * @see https://tools.ietf.org/html/rfc6017
      */
-    case EDIINT_FEATURES = 'ediint-features';
+    public const string EDIINT_FEATURES = 'ediint-features';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case MESSAGE_ID = 'message-id';
+    public const string MESSAGE_ID = 'message-id';
 
     /**
      * @deprecated
      */
-    case METHOD_CHECK = 'method-check';
+    public const string METHOD_CHECK = 'method-check';
 
     /**
      * @deprecated
      */
-    case METHOD_CHECK_EXPIRES = 'method-check-expires';
+    public const string METHOD_CHECK_EXPIRES = 'method-check-expires';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case NON_COMPLIANCE = 'non-compliance';
+    public const string NON_COMPLIANCE = 'non-compliance';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case OPTIONAL = 'optional';
+    public const string OPTIONAL = 'optional';
 
     /**
      * @deprecated
      */
-    case REFERER_ROOT = 'referer-root';
+    public const string REFERER_ROOT = 'referer-root';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case RESOLUTION_HINT = 'resolution-hint';
+    public const string RESOLUTION_HINT = 'resolution-hint';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case RESOLVER_LOCATION = 'resolver-location';
+    public const string RESOLVER_LOCATION = 'resolver-location';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case SUBOK = 'subok';
+    public const string SUBOK = 'subok';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case SUBST = 'subst';
+    public const string SUBST = 'subst';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case TITLE = 'title';
+    public const string TITLE = 'title';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case UA_COLOR = 'ua-color';
+    public const string UA_COLOR = 'ua-color';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case UA_MEDIA = 'ua-media';
+    public const string UA_MEDIA = 'ua-media';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case UA_PIXELS = 'ua-pixels';
+    public const string UA_PIXELS = 'ua-pixels';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case UA_RESOLUTION = 'ua-resolution';
+    public const string UA_RESOLUTION = 'ua-resolution';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case UA_WINDOWPIXELS = 'ua-windowpixels';
+    public const string UA_WINDOWPIXELS = 'ua-windowpixels';
 
     /**
      * @see https://tools.ietf.org/html/rfc4229
      */
-    case VERSION = 'version';
+    public const string VERSION = 'version';
 
-    case X_DEVICE_ACCEPT = 'x-device-accept';
+    public const string X_DEVICE_ACCEPT = 'x-device-accept';
 
-    case X_DEVICE_ACCEPT_CHARSET = 'x-device-accept-charset';
+    public const string X_DEVICE_ACCEPT_CHARSET = 'x-device-accept-charset';
 
-    case X_DEVICE_ACCEPT_ENCODING = 'x-device-accept-encoding';
+    public const string X_DEVICE_ACCEPT_ENCODING = 'x-device-accept-encoding';
 
-    case X_DEVICE_ACCEPT_LANGUAGE = 'x-device-accept-language';
+    public const string X_DEVICE_ACCEPT_LANGUAGE = 'x-device-accept-language';
 
-    case X_DEVICE_USER_AGENT = 'x-device-user-agent';
+    public const string X_DEVICE_USER_AGENT = 'x-device-user-agent';
 
     #endregion
 
@@ -929,49 +929,49 @@ enum HttpHeader: string
     /**
      * @see https://www.w3.org/TR/CSP3/#csp-header
      */
-    case CONTENT_SECURITY_POLICY = 'content-security-policy';
+    public const string CONTENT_SECURITY_POLICY = 'content-security-policy';
 
-    case DNT = 'dnt';
+    public const string DNT = 'dnt';
 
-    case PROXY_CONNECTION = 'proxy-connection';
+    public const string PROXY_CONNECTION = 'proxy-connection';
 
-    case STATUS = 'status';
+    public const string STATUS = 'status';
 
-    case UPGRADE_INSECURE_REQUESTS = 'upgrade-insecure-requests';
+    public const string UPGRADE_INSECURE_REQUESTS = 'upgrade-insecure-requests';
 
-    case X_CONTENT_DURATION = 'x-content-duration';
+    public const string X_CONTENT_DURATION = 'x-content-duration';
 
-    case X_CONTENT_SECURITY_POLICY = 'x-content-security-policy';
+    public const string X_CONTENT_SECURITY_POLICY = 'x-content-security-policy';
 
-    case X_CONTENT_TYPE_OPTIONS = 'x-content-type-options';
+    public const string X_CONTENT_TYPE_OPTIONS = 'x-content-type-options';
 
-    case X_CORRELATION_ID = 'x-correlation-id';
+    public const string X_CORRELATION_ID = 'x-correlation-id';
 
-    case X_CSRF_TOKEN = 'x-csrf-token';
+    public const string X_CSRF_TOKEN = 'x-csrf-token';
 
-    case X_FORWARDED_FOR = 'x-forwarded-for';
+    public const string X_FORWARDED_FOR = 'x-forwarded-for';
 
-    case X_FORWARDED_HOST = 'x-forwarded-host';
+    public const string X_FORWARDED_HOST = 'x-forwarded-host';
 
-    case X_FORWARDED_PROTO = 'x-forwarded-proto';
+    public const string X_FORWARDED_PROTO = 'x-forwarded-proto';
 
-    case X_HTTP_METHOD_OVERRIDE = 'x-http-method-override';
+    public const string X_HTTP_METHOD_OVERRIDE = 'x-http-method-override';
 
-    case X_POWERED_BY = 'x-powered-by';
+    public const string X_POWERED_BY = 'x-powered-by';
 
-    case X_REQUEST_ID = 'x-request-id';
+    public const string X_REQUEST_ID = 'x-request-id';
 
-    case X_REQUESTED_WITH = 'x-requested-with';
+    public const string X_REQUESTED_WITH = 'x-requested-with';
 
-    case X_UA_COMPATIBLE = 'x-ua-compatible';
+    public const string X_UA_COMPATIBLE = 'x-ua-compatible';
 
-    case X_UIDH = 'x-uidh';
+    public const string X_UIDH = 'x-uidh';
 
-    case X_WAP_PROFILE = 'x-wap-profile';
+    public const string X_WAP_PROFILE = 'x-wap-profile';
 
-    case X_WEBKIT_CSP = 'x-webkit-csp';
+    public const string X_WEBKIT_CSP = 'x-webkit-csp';
 
-    case X_XSS_PROTECTION = 'x-xss-protection';
+    public const string X_XSS_PROTECTION = 'x-xss-protection';
 
     #endregion
 

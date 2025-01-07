@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate;
 
 use JsonSerializable;
-use Raxos\Foundation\Util\ArrayUtil;
 use Raxos\Http\HttpFile;
 use Raxos\Http\Validate\Attribute\{Field, Optional};
 use Raxos\Http\Validate\Constraint\{Boolean, Constraint, FileConstraint, Integer, RequestModelConstraint, Text};
@@ -14,6 +13,7 @@ use ReflectionClass;
 use ReflectionNamedType;
 use ReflectionProperty;
 use ReflectionUnionType;
+use function array_any;
 use function array_filter;
 use function array_key_exists;
 use function array_map;
@@ -106,7 +106,7 @@ abstract class RequestModel implements JsonSerializable
                         default => $valueType
                     };
 
-                    if (!in_array($valueType, $field->types, true) && !ArrayUtil::some($field->types, static fn(string $type) => is_subclass_of($valueType, $type))) {
+                    if (!in_array($valueType, $field->types, true) && !array_any($field->types, static fn(string $type) => is_subclass_of($valueType, $type))) {
                         throw ValidatorException::invalidType(sprintf('Value type %s is not assignable to %s.', $valueType, implode('|', $field->types)));
                     }
 

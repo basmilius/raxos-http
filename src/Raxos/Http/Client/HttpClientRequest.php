@@ -206,7 +206,7 @@ class HttpClientRequest
             $this->request->withMethod($method->value);
             $this->request->withUri(new Uri($uri));
 
-            $response = $this->client->getClient()->send($this->request, $this->options);
+            $response = $this->client->client->send($this->request, $this->options);
 
             return new HttpClientResponse($this->client, $this, $response);
         } catch (GuzzleException $err) {

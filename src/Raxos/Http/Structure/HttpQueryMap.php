@@ -41,6 +41,10 @@ final class HttpQueryMap extends HttpParametersMap
      */
     public static function createFromString(string $raw): self
     {
+        if (empty($raw)) {
+            return new self();
+        }
+
         parse_str($raw, $query);
 
         return new self($query);

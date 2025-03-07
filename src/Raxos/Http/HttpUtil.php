@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
+use function array_change_key_case;
 use function function_exists;
 use function getallheaders;
 use function Raxos\Foundation\isCommandLineInterface;
 use function str_starts_with;
-use function strtolower;
 use function strtr;
 use function substr;
 
@@ -45,19 +45,13 @@ final class HttpUtil
                 }
 
                 $name = substr($name, 5);
-                $name = strtr($name, ['_' => '-']);
+                $name = strtr($name, '_', '-');
 
                 $headers[$name] = $value;
             }
         }
 
-        $result = [];
-
-        foreach ($headers as $name => $value) {
-            $result[strtolower($name)] = $value;
-        }
-
-        return $result;
+        return array_change_key_case($headers);
     }
 
 }

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Raxos\Http;
+namespace Raxos\Http\Contract;
 
 /**
  * Interface HttpSendFileInterface
  *
  * @author Bas Milius <bas@mili.us>
- * @package Raxos\Http
- * @since 1.0.2
+ * @package Raxos\Http\Contract
+ * @since 1.7.0
  */
 interface HttpSendFileInterface
 {
@@ -19,7 +19,7 @@ interface HttpSendFileInterface
      * @var int
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.4.0
+     * @since 1.7.0
      */
     public int $bytes {
         get;
@@ -31,7 +31,7 @@ interface HttpSendFileInterface
      * @var string
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.4.0
+     * @since 1.7.0
      */
     public string $contentDisposition {
         get;
@@ -43,7 +43,7 @@ interface HttpSendFileInterface
      * @var string
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.4.0
+     * @since 1.7.0
      */
     public string $contentDispositionType {
         get;
@@ -55,7 +55,7 @@ interface HttpSendFileInterface
      * @var string
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.4.0
+     * @since 1.7.0
      */
     public string $contentType {
         get;
@@ -67,7 +67,7 @@ interface HttpSendFileInterface
      * @var string
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.4.0
+     * @since 1.7.0
      */
     public string $path {
         get;
@@ -79,7 +79,7 @@ interface HttpSendFileInterface
      * @var float
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.4.0
+     * @since 1.7.0
      */
     public float $throttle {
         get;
@@ -92,7 +92,7 @@ interface HttpSendFileInterface
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.7.0
      */
     public function setBytes(int $bytes): static;
 
@@ -104,7 +104,7 @@ interface HttpSendFileInterface
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.7.0
      */
     public function setContentDisposition(string $name, string $type): static;
 
@@ -115,7 +115,7 @@ interface HttpSendFileInterface
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.7.0
      */
     public function setContentType(string $contentType): static;
 
@@ -126,7 +126,7 @@ interface HttpSendFileInterface
      *
      * @return $this
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.7.0
      */
     public function setThrottle(float $throttle): static;
 
@@ -136,7 +136,7 @@ interface HttpSendFileInterface
      * @param string|null $rangeHeader
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.2
+     * @since 1.7.0
      */
     public function handle(?string $rangeHeader): void;
 

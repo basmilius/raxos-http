@@ -7,29 +7,32 @@ use Attribute;
 use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
 use Raxos\Http\Validate\Error\HttpConstraintException;
 use ReflectionProperty;
-use function in_array;
+use function assert;
+use function is_numeric;
 
 /**
- * Class Choice
+ * Class Max
+ *
+ * @implements ConstraintAttributeInterface<int|float>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Validate\Constraint
  * @since 1.7.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final readonly class Choice implements ConstraintAttributeInterface
+final readonly class Max implements ConstraintAttributeInterface
 {
 
     /**
-     * Choice constructor.
+     * Max constructor.
      *
-     * @param array $options
+     * @param int|float $max
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
     public function __construct(
-        public array $options
+        public int|float $max
     ) {}
 
     /**
@@ -37,10 +40,12 @@ final readonly class Choice implements ConstraintAttributeInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    public function check(ReflectionProperty $property, mixed $value): mixed
+    public function check(ReflectionProperty $property, mixed $value): int|float
     {
-        if (!in_array($value, $this->options, true)) {
-            throw HttpConstraintException::choice();
+        assert(is_numeric($value));
+
+        if ($this->max !== null && $value > $this->max) {
+            throw HttpConstraintException::max($this->max);
         }
 
         return $value;

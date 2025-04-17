@@ -7,30 +7,23 @@ use Attribute;
 use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
 use Raxos\Http\Validate\Error\HttpConstraintException;
 use ReflectionProperty;
-use function in_array;
+use function assert;
+use function filter_var;
+use function is_string;
+use const FILTER_VALIDATE_URL;
 
 /**
- * Class Choice
+ * Class Url
+ *
+ * @implements ConstraintAttributeInterface<string>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Validate\Constraint
  * @since 1.7.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final readonly class Choice implements ConstraintAttributeInterface
+final readonly class Url implements ConstraintAttributeInterface
 {
-
-    /**
-     * Choice constructor.
-     *
-     * @param array $options
-     *
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.7.0
-     */
-    public function __construct(
-        public array $options
-    ) {}
 
     /**
      * {@inheritdoc}
@@ -39,8 +32,10 @@ final readonly class Choice implements ConstraintAttributeInterface
      */
     public function check(ReflectionProperty $property, mixed $value): mixed
     {
-        if (!in_array($value, $this->options, true)) {
-            throw HttpConstraintException::choice();
+        assert(is_string($value));
+
+        if (!filter_var($value, FILTER_VALIDATE_URL)) {
+            throw HttpConstraintException::url();
         }
 
         return $value;

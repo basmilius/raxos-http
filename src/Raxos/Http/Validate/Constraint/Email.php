@@ -4,57 +4,41 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Http\Validate\Error\FieldException;
-use Raxos\Http\Validate\RequestField;
+use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
+use Raxos\Http\Validate\Error\HttpConstraintException;
+use ReflectionProperty;
+use function assert;
 use function filter_var;
+use function is_string;
 use const FILTER_VALIDATE_EMAIL;
 
 /**
  * Class Email
  *
+ * @implements ConstraintAttributeInterface<string>
+ *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Validate\Constraint
- * @since 1.0.0
+ * @since 1.7.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Email extends Text
+final readonly class Email implements ConstraintAttributeInterface
 {
-
-    /**
-     * Email constructor.
-     *
-     * @param int|null $maxLength
-     * @param int|null $minLength
-     *
-     * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
-     */
-    public function __construct(
-        ?int $maxLength = null,
-        ?int $minLength = null
-    )
-    {
-        parent::__construct($maxLength, $minLength);
-    }
 
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.7.0
      */
-    public function validate(RequestField $field, mixed $data): void
+    public function check(ReflectionProperty $property, mixed $value): mixed
     {
-        parent::validate($field, $data);
+        assert(is_string($value));
 
-        if ($field->isOptional && empty($data)) {
-            return;
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            throw HttpConstraintException::email();
         }
 
-        $data = (string)$data;
-
-        if (!filter_var($data, FILTER_VALIDATE_EMAIL)) {
-            throw new FieldException($field, '{{name}} is not a valid e-mail address.');
-        }
+        return $value;
     }
 
 }

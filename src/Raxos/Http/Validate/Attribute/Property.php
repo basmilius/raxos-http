@@ -4,30 +4,31 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Attribute;
 
 use Attribute;
+use Raxos\Http\Validate\Contract\AttributeInterface;
 
 /**
- * Class Field
+ * Class Property
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Validate\Attribute
- * @since 1.0.0
+ * @since 1.7.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final readonly class Field
+final readonly class Property implements AttributeInterface
 {
 
     /**
-     * Field constructor.
+     * Property constructor.
      *
-     * @param string $name
      * @param string|null $alias
+     * @param bool $optional
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 1.7.0
      */
     public function __construct(
-        public string $name,
-        public ?string $alias = null
+        public ?string $alias = null,
+        public bool $optional = false
     ) {}
 
 }

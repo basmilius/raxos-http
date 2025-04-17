@@ -34,5 +34,11 @@
         "jetbrains/phpstorm-attributes": "^1.2",
         "guzzlehttp/guzzle": "^7",
         "raxos/foundation": "*"
+    },
+    "require-dev": {
+        "raxos/database": "*"
+    },
+    "suggest": {
+        "raxos/database": "to use the Model constraint attribute."
     }
 }

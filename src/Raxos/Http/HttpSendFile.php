@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
+use Raxos\Http\Contract\HttpSendFileInterface;
 use function connection_aborted;
 use function explode;
 use function fclose;

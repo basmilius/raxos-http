@@ -7,29 +7,30 @@ use Attribute;
 use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
 use Raxos\Http\Validate\Error\HttpConstraintException;
 use ReflectionProperty;
-use function in_array;
+use function is_string;
+use function preg_match;
 
 /**
- * Class Choice
+ * Class Matches
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Validate\Constraint
  * @since 1.7.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final readonly class Choice implements ConstraintAttributeInterface
+final readonly class Matches implements ConstraintAttributeInterface
 {
 
     /**
-     * Choice constructor.
+     * Matches constructor.
      *
-     * @param array $options
+     * @param string $pattern
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
     public function __construct(
-        public array $options
+        public string $pattern
     ) {}
 
     /**
@@ -37,10 +38,10 @@ final readonly class Choice implements ConstraintAttributeInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    public function check(ReflectionProperty $property, mixed $value): mixed
+    public function check(ReflectionProperty $property, mixed $value): string
     {
-        if (!in_array($value, $this->options, true)) {
-            throw HttpConstraintException::choice();
+        if (!is_string($value) || !preg_match($this->pattern, $value)) {
+            throw HttpConstraintException::matches($this->pattern);
         }
 
         return $value;

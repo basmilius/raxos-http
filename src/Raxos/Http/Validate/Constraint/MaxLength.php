@@ -7,29 +7,33 @@ use Attribute;
 use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
 use Raxos\Http\Validate\Error\HttpConstraintException;
 use ReflectionProperty;
-use function in_array;
+use function assert;
+use function is_string;
+use function mb_strlen;
 
 /**
- * Class Choice
+ * Class MaxLength
+ *
+ * @implements ConstraintAttributeInterface<string>
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Validate\Constraint
  * @since 1.7.0
  */
 #[Attribute(Attribute::TARGET_PROPERTY)]
-final readonly class Choice implements ConstraintAttributeInterface
+final readonly class MaxLength implements ConstraintAttributeInterface
 {
 
     /**
-     * Choice constructor.
+     * MaxLength constructor.
      *
-     * @param array $options
+     * @param int $max
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
     public function __construct(
-        public array $options
+        public int $max
     ) {}
 
     /**
@@ -39,8 +43,10 @@ final readonly class Choice implements ConstraintAttributeInterface
      */
     public function check(ReflectionProperty $property, mixed $value): mixed
     {
-        if (!in_array($value, $this->options, true)) {
-            throw HttpConstraintException::choice();
+        assert(is_string($value));
+
+        if ($this->max !== null && mb_strlen($value) > $this->max) {
+            throw HttpConstraintException::maxLength($this->max);
         }
 
         return $value;

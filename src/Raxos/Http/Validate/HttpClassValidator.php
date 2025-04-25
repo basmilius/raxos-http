@@ -147,9 +147,15 @@ final class HttpClassValidator
                 $transformer = Singleton::get(self::BUILTIN_TRANSFORMERS[$propertyType]);
                 $propertyValue = $transformer->transform($propertyValue);
             } elseif (is_subclass_of($propertyType, HttpRequestModelInterface::class)) {
-                $validator = new self($propertyType);
-                $validator->validate($propertyValue);
-                $propertyValue = $validator->get();
+                if ($propertyValue !== null) {
+                    $validator = new self($propertyType);
+                    $validator->validate($propertyValue);
+                    $propertyValue = $validator->get();
+                } else if ($propertyAttr->optional) {
+                    $propertyValue = null;
+                } else {
+                    throw HttpConstraintException::missing($propertyKey);
+                }
             } elseif (is_subclass_of($propertyType, BackedEnum::class)) {
                 $propertyValue = $propertyType::tryFrom($propertyValue);
 

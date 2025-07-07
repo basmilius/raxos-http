@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Raxos\Foundation\Contract\DebuggableInterface;
 use const UPLOAD_ERR_OK;
 
 /**
@@ -13,7 +14,7 @@ use const UPLOAD_ERR_OK;
  * @package Raxos\Http
  * @since 1.0.0
  */
-final readonly class HttpFile
+final readonly class HttpFile implements DebuggableInterface
 {
 
     public bool $isValid;
@@ -42,9 +43,7 @@ final readonly class HttpFile
     }
 
     /**
-     * Gets debug info.
-     *
-     * @return array|null
+     * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -54,7 +53,7 @@ final readonly class HttpFile
         'size' => 'int',
         'temporary_file' => 'string'
     ])]
-    public function __debugInfo(): ?array
+    public function __debugInfo(): array
     {
         return [
             'content_type' => $this->contentType,

@@ -18,7 +18,7 @@ final class HttpValidator
     /**
      * Validates the data with the given class.
      *
-     * @template TClass
+     * @template TClass of object
      *
      * @param class-string<TClass> $class
      * @param array<string, mixed> $data
@@ -28,7 +28,7 @@ final class HttpValidator
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    public static function validate(string $class, array $data): mixed
+    public static function validate(string $class, array $data): object
     {
         $validator = new HttpClassValidator($class);
         $validator->validate($data);

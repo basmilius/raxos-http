@@ -103,7 +103,7 @@ class HttpClientRequest
         if ($replace) {
             $this->request = $this->request->withHeader($name, $value);
         } else {
-            $this->request = $this->request->withADdedHeader($name, $value);
+            $this->request = $this->request->withAddedHeader($name, $value);
         }
 
         return $this;

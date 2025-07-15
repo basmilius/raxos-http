@@ -86,7 +86,7 @@ final class HttpClassValidator
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    public function get(): mixed
+    public function get(): object
     {
         if (!empty($this->errors)) {
             throw HttpValidatorException::errors($this->errors);
@@ -115,6 +115,7 @@ final class HttpClassValidator
         $this->result = [];
 
         foreach ($this->propertyRefs as $propertyRef) {
+            /** @var ReflectionAttribute<Property> $propertyAttr */
             $propertyAttr = $propertyRef->getAttributes(Property::class)[0] ?? null;
 
             if ($propertyAttr === null) {

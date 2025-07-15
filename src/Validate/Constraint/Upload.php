@@ -25,7 +25,7 @@ final readonly class Upload implements ConstraintAttributeInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    public function check(ReflectionProperty $property, mixed $value): mixed
+    public function check(ReflectionProperty $property, mixed $value): HttpFile
     {
         if (!($value instanceof HttpFile)) {
             throw HttpConstraintException::upload();

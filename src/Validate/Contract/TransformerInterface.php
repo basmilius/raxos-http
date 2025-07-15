@@ -8,7 +8,7 @@ use Raxos\Http\Validate\Error\HttpTransformerException;
 /**
  * Interface TransformerInterface
  *
- * @template T
+ * @template T of mixed
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Validate\Contract

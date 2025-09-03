@@ -33,6 +33,7 @@
         "ext-mbstring": "*",
         "jetbrains/phpstorm-attributes": "^1.2",
         "guzzlehttp/guzzle": "^7",
+        "raxos/datetime": "*",
         "raxos/foundation": "*"
     },
     "require-dev": {

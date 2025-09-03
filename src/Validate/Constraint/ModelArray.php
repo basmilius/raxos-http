@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Validate\Constraint;
 
+use Attribute;
 use Raxos\Database\Error\DatabaseException;
 use Raxos\Database\Orm\Model as DatabaseModel;
 use Raxos\Http\Validate\Contract\{ConstraintAttributeInterface, TransformerInterface};
@@ -23,6 +24,7 @@ use function is_string;
  * @package Raxos\Http\Validate\Constraint
  * @since 1.7.0
  */
+#[Attribute(Attribute::TARGET_PROPERTY)]
 final readonly class ModelArray implements ConstraintAttributeInterface, TransformerInterface
 {
 

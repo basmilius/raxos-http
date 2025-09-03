@@ -79,6 +79,38 @@ final class HttpConstraintException extends RaxosException
     }
 
     /**
+     * Returns the exception for when the date constraint failed.
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public static function date(): self
+    {
+        return new self(
+            ExceptionId::guess(),
+            'date',
+            'Must be a valid date string.'
+        );
+    }
+
+    /**
+     * Returns the exception for when the datetime constraint failed.
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public static function datetime(): self
+    {
+        return new self(
+            ExceptionId::guess(),
+            'date_time',
+            'Must be a valid datetime string.'
+        );
+    }
+
+    /**
      * Returns the exception for when the email constraint fails.
      *
      * @return self
@@ -267,6 +299,22 @@ final class HttpConstraintException extends RaxosException
             $errorDescription,
             $params,
             $previous
+        );
+    }
+
+    /**
+     * Returns the exception for when the time constraint failed.
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public static function time(): self
+    {
+        return new self(
+            ExceptionId::guess(),
+            'time',
+            'Must be a valid time string.'
         );
     }
 

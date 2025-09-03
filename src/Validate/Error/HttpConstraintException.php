@@ -240,6 +240,25 @@ final class HttpConstraintException extends RaxosException
     }
 
     /**
+     * Returns the exception for when a nested request model is invalid.
+     *
+     * @param string $property
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.0.0
+     */
+    public static function nested(string $property): self
+    {
+        return new self(
+            ExceptionId::guess(),
+            'nested',
+            sprintf('Property %s should be a nested request model.', $property),
+            ['property' => $property]
+        );
+    }
+
+    /**
      * Returns the exception for when a database model instance was not found.
      *
      * @param string|int $id

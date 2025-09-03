@@ -193,7 +193,7 @@ final class HttpClassValidator
      * @param ReflectionProperty $propertyRef
      * @param string $propertyKey
      *
-     * @return array
+     * @return array{0: mixed, 1: bool}
      * @throws HttpConstraintException
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0

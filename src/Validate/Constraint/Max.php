@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
-use Raxos\Http\Validate\Error\HttpConstraintException;
+use Raxos\Contract\Http\Validate\ConstraintAttributeInterface;
+use Raxos\Http\Validate\Error\MaxConstraintException;
 use ReflectionProperty;
 use function assert;
 use function is_numeric;
@@ -45,7 +45,7 @@ final readonly class Max implements ConstraintAttributeInterface
         assert(is_numeric($value));
 
         if ($this->max !== null && $value > $this->max) {
-            throw HttpConstraintException::max($this->max);
+            throw new MaxConstraintException($this->max);
         }
 
         return $value;

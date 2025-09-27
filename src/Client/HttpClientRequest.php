@@ -6,6 +6,8 @@ namespace Raxos\Http\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
+use Raxos\Contract\Http\HttpClientExceptionInterface;
+use Raxos\Http\Client\Error\RequestFailedException;
 use Raxos\Http\Client\Psr7\Psr7Request;
 use Raxos\Http\HttpMethod;
 use function array_merge_recursive;
@@ -196,7 +198,7 @@ class HttpClientRequest
      * @param string $uri
      *
      * @return HttpClientResponse
-     * @throws HttpClientException
+     * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -210,7 +212,7 @@ class HttpClientRequest
 
             return new HttpClientResponse($this->client, $this, $response);
         } catch (GuzzleException $err) {
-            throw HttpClientException::requestFailed($err);
+            throw new RequestFailedException($err);
         }
     }
 
@@ -221,7 +223,7 @@ class HttpClientRequest
      * @param array|null $query
      *
      * @return HttpClientResponse
-     * @throws HttpClientException
+     * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -241,7 +243,7 @@ class HttpClientRequest
      * @param array|null $json
      *
      * @return HttpClientResponse
-     * @throws HttpClientException
+     * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -260,7 +262,7 @@ class HttpClientRequest
      * @param string $uri
      *
      * @return HttpClientResponse
-     * @throws HttpClientException
+     * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Raxos\Foundation\Contract\DebuggableInterface;
+use Raxos\Contract\DebuggableInterface;
 use const UPLOAD_ERR_OK;
 
 /**

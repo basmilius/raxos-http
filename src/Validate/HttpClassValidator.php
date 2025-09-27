@@ -4,12 +4,11 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate;
 
 use BackedEnum;
-use Raxos\Foundation\Util\ReflectionUtil;
-use Raxos\Foundation\Util\Singleton;
-use Raxos\Http\Contract\HttpRequestModelInterface;
+use Raxos\Contract\Http\HttpRequestModelInterface;
+use Raxos\Contract\Http\Validate\{ConstraintAttributeInterface, ConstraintExceptionInterface, TransformerExceptionInterface, TransformerInterface, ValidatorExceptionInterface};
+use Raxos\Foundation\Util\{ReflectionUtil, Singleton};
 use Raxos\Http\Validate\Attribute\Property;
-use Raxos\Http\Validate\Contract\{ConstraintAttributeInterface, TransformerInterface};
-use Raxos\Http\Validate\Error\{HttpConstraintException, HttpTransformerException, HttpValidatorException};
+use Raxos\Http\Validate\Error\{InvalidValueTransformerException, MissingConstraintException, ReflectionErrorException, UnvalidatableException, ValidationNotOkException};
 use Raxos\Http\Validate\Transformer\{BooleanTransformer, FloatTransformer, IntegerTransformer};
 use ReflectionAttribute;
 use ReflectionClass;
@@ -56,7 +55,7 @@ final class HttpClassValidator
      *
      * @param class-string<TClass> $class
      *
-     * @throws HttpValidatorException
+     * @throws ValidatorExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -65,7 +64,7 @@ final class HttpClassValidator
     )
     {
         if (!is_subclass_of($class, HttpRequestModelInterface::class)) {
-            throw HttpValidatorException::unvalidatable($class);
+            throw new UnvalidatableException($class);
         }
 
         try {
@@ -74,7 +73,7 @@ final class HttpClassValidator
             $this->parameterRefs = $this->constructorRef?->getParameters() ?? [];
             $this->propertyRefs = $this->classRef->getProperties();
         } catch (ReflectionException $err) {
-            throw HttpValidatorException::reflection($err);
+            throw new ReflectionErrorException($err);
         }
     }
 
@@ -82,20 +81,20 @@ final class HttpClassValidator
      * Returns the validated class.
      *
      * @return TClass
-     * @throws HttpValidatorException
+     * @throws ValidatorExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
     public function get(): object
     {
         if (!empty($this->errors)) {
-            throw HttpValidatorException::errors($this->errors);
+            throw new ValidationNotOkException($this->errors);
         }
 
         try {
             return $this->classRef->newInstanceArgs($this->result);
         } catch (ReflectionException $err) {
-            throw HttpValidatorException::reflection($err);
+            throw new ReflectionErrorException($err);
         }
     }
 
@@ -152,16 +151,16 @@ final class HttpClassValidator
                     $validator = new self($propertyType);
                     $validator->validate($propertyValue);
                     $propertyValue = $validator->get();
-                } else if ($propertyAttr->optional) {
+                } elseif ($propertyAttr->optional) {
                     $propertyValue = null;
                 } else {
-                    throw HttpConstraintException::missing($propertyKey);
+                    throw new MissingConstraintException($propertyKey);
                 }
             } elseif (is_subclass_of($propertyType, BackedEnum::class)) {
                 $propertyValue = $propertyType::tryFrom($propertyValue);
 
                 if ($propertyValue === null && !in_array('null', $propertyTypes, true)) {
-                    throw HttpTransformerException::invalidValue(sprintf('Invalid enum value for enum %s.', $propertyType));
+                    throw new InvalidValueTransformerException(sprintf('Invalid enum value for enum %s.', $propertyType));
                 }
             }
 
@@ -181,7 +180,7 @@ final class HttpClassValidator
             }
 
             $this->result[$propertyRef->name] = $propertyValue;
-        } catch (HttpConstraintException|HttpTransformerException|HttpValidatorException $err) {
+        } catch (ConstraintExceptionInterface|TransformerExceptionInterface|ValidatorExceptionInterface $err) {
             $this->errors[$propertyKey] = $err;
         }
     }
@@ -194,7 +193,7 @@ final class HttpClassValidator
      * @param string $propertyKey
      *
      * @return array{0: mixed, 1: bool}
-     * @throws HttpConstraintException
+     * @throws ConstraintExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -209,7 +208,7 @@ final class HttpClassValidator
         }
 
         if (!$propertyAttr->optional) {
-            throw HttpConstraintException::missing($propertyKey);
+            throw new MissingConstraintException($propertyKey);
         }
 
         $value = $propertyRef->hasDefaultValue() ? $propertyRef->getDefaultValue() : null;
@@ -224,7 +223,7 @@ final class HttpClassValidator
         }
 
         if ($value === null && !$propertyRef->getType()?->allowsNull()) {
-            throw HttpConstraintException::missing($propertyKey);
+            throw new MissingConstraintException($propertyKey);
         }
 
         return [$value, true];

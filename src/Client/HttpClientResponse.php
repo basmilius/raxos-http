@@ -6,7 +6,7 @@ namespace Raxos\Http\Client;
 use JetBrains\PhpStorm\ArrayShape;
 use JsonException;
 use Psr\Http\Message\{ResponseInterface, StreamInterface};
-use Raxos\Foundation\Contract\DebuggableInterface;
+use Raxos\Contract\DebuggableInterface;
 use Raxos\Http\HttpResponseCode;
 use stdClass;
 use function array_map;

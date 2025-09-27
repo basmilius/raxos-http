@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
-use Raxos\Http\Validate\Error\HttpConstraintException;
+use Raxos\Contract\Http\Validate\ConstraintAttributeInterface;
+use Raxos\Http\Validate\Error\MinLengthConstraintException;
 use ReflectionProperty;
 use function assert;
 use function is_string;
@@ -46,7 +46,7 @@ final readonly class MinLength implements ConstraintAttributeInterface
         assert(is_string($value));
 
         if ($this->min !== null && mb_strlen($value) < $this->min) {
-            throw HttpConstraintException::minLength($this->min);
+            throw new MinLengthConstraintException($this->min);
         }
 
         return $value;

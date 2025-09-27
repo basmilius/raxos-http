@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
+use Raxos\Contract\Http\Validate\ConstraintAttributeInterface;
 use Raxos\Http\HttpFile;
-use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
-use Raxos\Http\Validate\Error\HttpConstraintException;
+use Raxos\Http\Validate\Error\UploadConstraintException;
 use ReflectionProperty;
 
 /**
@@ -28,11 +28,11 @@ final readonly class Upload implements ConstraintAttributeInterface
     public function check(ReflectionProperty $property, mixed $value): HttpFile
     {
         if (!($value instanceof HttpFile)) {
-            throw HttpConstraintException::upload();
+            throw new UploadConstraintException();
         }
 
         if (!$value->isValid) {
-            throw HttpConstraintException::upload();
+            throw new UploadConstraintException();
         }
 
         return $value;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Attribute;
 
 use Attribute;
-use Raxos\Http\Validate\Contract\AttributeInterface;
+use Raxos\Contract\Http\Validate\AttributeInterface;
 
 /**
  * Class Property

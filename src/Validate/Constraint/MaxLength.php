@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
-use Raxos\Http\Validate\Error\HttpConstraintException;
+use Raxos\Contract\Http\Validate\ConstraintAttributeInterface;
+use Raxos\Http\Validate\Error\MaxLengthConstraintException;
 use ReflectionProperty;
 use function assert;
 use function is_string;
@@ -46,7 +46,7 @@ final readonly class MaxLength implements ConstraintAttributeInterface
         assert(is_string($value));
 
         if ($this->max !== null && mb_strlen($value) > $this->max) {
-            throw HttpConstraintException::maxLength($this->max);
+            throw new MaxLengthConstraintException($this->max);
         }
 
         return $value;

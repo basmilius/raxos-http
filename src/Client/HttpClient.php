@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
+use Raxos\Contract\Http\HttpClientExceptionInterface;
+use Raxos\Http\Client\Error\BadCallException;
 use function method_exists;
 use function sprintf;
 
@@ -58,7 +60,7 @@ readonly class HttpClient
      * @param array $arguments
      *
      * @return mixed
-     * @throws HttpClientException
+     * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -70,7 +72,7 @@ readonly class HttpClient
                 ->{$name}(...$arguments);
         }
 
-        throw HttpClientException::badCall(sprintf('Method "%s" does not exist in either "%s or "%s".', $name, static::class, HttpClientRequest::class));
+        throw new BadCallException(sprintf('Method "%s" does not exist in either "%s or "%s".', $name, static::class, HttpClientRequest::class));
     }
 
 }

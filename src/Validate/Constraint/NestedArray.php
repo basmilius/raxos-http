@@ -4,10 +4,9 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Http\Contract\HttpRequestModelInterface;
-use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
-use Raxos\Http\Validate\Error\HttpConstraintException;
-use Raxos\Http\Validate\Error\HttpValidatorException;
+use Raxos\Contract\Http\HttpRequestModelInterface;
+use Raxos\Contract\Http\Validate\{ConstraintAttributeInterface, ValidatorExceptionInterface};
+use Raxos\Http\Validate\Error\NestedArrayConstraintException;
 use Raxos\Http\Validate\HttpClassValidator;
 use ReflectionProperty;
 use function is_array;
@@ -42,18 +41,18 @@ final readonly class NestedArray implements ConstraintAttributeInterface
 
     /**
      * {@inheritdoc}
-     * @throws HttpValidatorException
+     * @throws ValidatorExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
     public function check(ReflectionProperty $property, mixed $value): array
     {
         if (!is_array($value)) {
-            throw HttpConstraintException::nested($property->name);
+            throw new NestedArrayConstraintException($property->name);
         }
 
         if (!is_subclass_of($this->propertyType, HttpRequestModelInterface::class)) {
-            throw HttpConstraintException::nested($property->name);
+            throw new NestedArrayConstraintException($property->name);
         }
 
         $validator = new HttpClassValidator($this->propertyType);

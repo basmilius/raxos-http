@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
-use Raxos\Http\Validate\Error\HttpConstraintException;
+use Raxos\Contract\Http\Validate\ConstraintAttributeInterface;
+use Raxos\Http\Validate\Error\UrlConstraintException;
 use ReflectionProperty;
 use function assert;
 use function filter_var;
@@ -35,7 +35,7 @@ final readonly class Url implements ConstraintAttributeInterface
         assert(is_string($value));
 
         if (!filter_var($value, FILTER_VALIDATE_URL)) {
-            throw HttpConstraintException::url();
+            throw new UrlConstraintException();
         }
 
         return $value;

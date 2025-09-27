@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
-use Raxos\Http\Validate\Error\HttpConstraintException;
+use Raxos\Contract\Http\Validate\ConstraintAttributeInterface;
+use Raxos\Http\Validate\Error\MatchesConstraintException;
 use ReflectionProperty;
 use function is_string;
 use function preg_match;
@@ -41,7 +41,7 @@ final readonly class Matches implements ConstraintAttributeInterface
     public function check(ReflectionProperty $property, mixed $value): string
     {
         if (!is_string($value) || !preg_match($this->pattern, $value)) {
-            throw HttpConstraintException::matches($this->pattern);
+            throw new MatchesConstraintException($this->pattern);
         }
 
         return $value;

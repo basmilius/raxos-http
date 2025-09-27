@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
-use Raxos\Foundation\Collection\CacheMap;
+use Raxos\Collection\CacheMap;
+use Raxos\Contract\Http\HttpRequestInterface;
 use Raxos\Foundation\Network\IP;
-use Raxos\Http\Contract\HttpRequestInterface;
 use Raxos\Http\Structure\{HttpCookiesMap, HttpFilesMap, HttpHeadersMap, HttpPostMap, HttpQueryMap, HttpServerMap};
 use RuntimeException;
 use function array_column;

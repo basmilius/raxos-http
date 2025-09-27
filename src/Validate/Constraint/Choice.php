@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Http\Validate\Contract\ConstraintAttributeInterface;
-use Raxos\Http\Validate\Error\HttpConstraintException;
+use Raxos\Contract\Http\Validate\ConstraintAttributeInterface;
+use Raxos\Http\Validate\Error\ChoiceConstraintException;
 use ReflectionProperty;
 use function in_array;
 
@@ -40,7 +40,7 @@ final readonly class Choice implements ConstraintAttributeInterface
     public function check(ReflectionProperty $property, mixed $value): mixed
     {
         if (!in_array($value, $this->options, true)) {
-            throw HttpConstraintException::choice();
+            throw new ChoiceConstraintException();
         }
 
         return $value;

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Structure;
 
-use Raxos\Foundation\Collection\Map;
+use Raxos\Collection\Map;
 use Raxos\Http\HttpUtil;
 use function array_map;
 use function is_array;

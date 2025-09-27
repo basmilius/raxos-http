@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Database\Error\DatabaseException;
+use Raxos\Contract\Database\DatabaseExceptionInterface;
+use Raxos\Contract\Http\Validate\{ConstraintAttributeInterface, TransformerInterface};
 use Raxos\Database\Orm\Model as DatabaseModel;
-use Raxos\Http\Validate\Contract\{ConstraintAttributeInterface, TransformerInterface};
-use Raxos\Http\Validate\Error\{HttpConstraintException, HttpTransformerException};
+use Raxos\Http\Validate\Error\{InvalidValueTransformerException, ModelArrayConstraintException};
 use ReflectionProperty;
 use function assert;
 use function count;
@@ -53,12 +53,12 @@ final readonly class ModelArray implements ConstraintAttributeInterface, Transfo
             $results = $this->modelClass::find($value);
 
             if (count($results) !== count($value)) {
-                throw HttpConstraintException::modelArray();
+                throw new ModelArrayConstraintException();
             }
 
             return $results->toArray();
-        } catch (DatabaseException $err) {
-            throw HttpConstraintException::modelArray($err);
+        } catch (DatabaseExceptionInterface $err) {
+            throw new ModelArrayConstraintException($err);
         }
     }
 
@@ -70,12 +70,12 @@ final readonly class ModelArray implements ConstraintAttributeInterface, Transfo
     public function transform(mixed $value): array
     {
         if (!is_array($value)) {
-            throw HttpTransformerException::invalidValue('Expected an array of primary keys.');
+            throw new InvalidValueTransformerException('Expected an array of primary keys.');
         }
 
         foreach ($value as $item) {
             if (!is_string($item) && !is_int($item)) {
-                throw HttpTransformerException::invalidValue('Expected an array of primary keys.');
+                throw new InvalidValueTransformerException('Expected an array of primary keys.');
             }
         }
 

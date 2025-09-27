@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Validate;
 
-use Raxos\Http\Validate\Error\HttpValidatorException;
+use Raxos\Contract\Http\Validate\ValidatorExceptionInterface;
 
 /**
  * Class HttpValidator
@@ -24,7 +24,7 @@ final class HttpValidator
      * @param array<string, mixed> $data
      *
      * @return TClass
-     * @throws HttpValidatorException
+     * @throws ValidatorExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */

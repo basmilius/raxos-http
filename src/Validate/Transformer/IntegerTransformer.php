@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Validate\Transformer;
 
-use Raxos\Http\Validate\Contract\TransformerInterface;
-use Raxos\Http\Validate\Error\HttpTransformerException;
+use Raxos\Contract\Http\Validate\TransformerInterface;
+use Raxos\Http\Validate\Error\InvalidValueTransformerException;
 
 /**
  * Class IntegerTransformer
@@ -26,7 +26,7 @@ final readonly class IntegerTransformer implements TransformerInterface
     public function transform(mixed $value): int
     {
         if (!is_numeric($value)) {
-            throw HttpTransformerException::invalidValue('Expected an integer value.');
+            throw new InvalidValueTransformerException('Expected an integer value.');
         }
 
         return (int)$value;

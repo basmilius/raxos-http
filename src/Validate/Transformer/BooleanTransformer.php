@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Validate\Transformer;
 
-use Raxos\Http\Validate\Contract\TransformerInterface;
-use Raxos\Http\Validate\Error\HttpTransformerException;
+use Raxos\Contract\Http\Validate\TransformerInterface;
+use Raxos\Http\Validate\Error\InvalidValueTransformerException;
 use function in_array;
 
 /**
@@ -33,7 +33,7 @@ final readonly class BooleanTransformer implements TransformerInterface
         $isTrue = in_array($value, self::TRUE, true);
 
         if (!$isFalse && !$isTrue) {
-            throw HttpTransformerException::invalidValue('The value was not a boolean value.');
+            throw new InvalidValueTransformerException('The value was not a boolean value.');
         }
 
         return $isTrue;

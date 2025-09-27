@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
-use Raxos\Database\Error\DatabaseException;
+use Raxos\Contract\Database\DatabaseExceptionInterface;
+use Raxos\Contract\Http\Validate\{ConstraintAttributeInterface, TransformerInterface};
 use Raxos\Database\Orm\Model as DatabaseModel;
 use Raxos\Foundation\Util\ReflectionUtil;
-use Raxos\Http\Validate\Contract\{ConstraintAttributeInterface, TransformerInterface};
-use Raxos\Http\Validate\Error\{HttpConstraintException, HttpTransformerException};
+use Raxos\Http\Validate\Error\{InvalidValueTransformerException, ModelConstraintException};
 use ReflectionProperty;
 use function is_int;
 use function is_string;
@@ -48,9 +48,9 @@ final readonly class Model implements ConstraintAttributeInterface, TransformerI
                 }
             }
 
-            throw HttpConstraintException::model($value);
-        } catch (DatabaseException $err) {
-            throw HttpConstraintException::model($value, $err);
+            throw new ModelConstraintException($value);
+        } catch (DatabaseExceptionInterface $err) {
+            throw new ModelConstraintException($value, $err);
         }
     }
 
@@ -62,7 +62,7 @@ final readonly class Model implements ConstraintAttributeInterface, TransformerI
     public function transform(mixed $value): string|int
     {
         if (!is_string($value) && !is_int($value)) {
-            throw HttpTransformerException::invalidValue('Expected a valid primary key value.');
+            throw new InvalidValueTransformerException('Expected a valid primary key value.');
         }
 
         return $value;

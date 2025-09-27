@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\Pure;
+use JetBrains\PhpStorm\{ArrayShape, Pure};
 use JsonSerializable;
 use Stringable;
 use function array_intersect;

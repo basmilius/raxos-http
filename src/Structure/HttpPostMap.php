@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Structure;
 
-use Raxos\Foundation\Collection\Map;
+use Raxos\Collection\Map;
 
 /**
  * Class HttpPostMap

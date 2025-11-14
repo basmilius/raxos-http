@@ -22,14 +22,14 @@ final class ModelConstraintException extends Exception implements ConstraintWith
     /**
      * Class ModelConstraintException
      *
-     * @param int $id
+     * @param string|int $id
      * @param DatabaseExceptionInterface|null $err
      *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
     public function __construct(
-        public readonly int $id,
+        public readonly string|int $id,
         public readonly ?DatabaseExceptionInterface $err = null
     )
     {

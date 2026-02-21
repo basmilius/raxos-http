@@ -19,6 +19,7 @@ use ReflectionProperty;
 use function array_find;
 use function array_key_exists;
 use function in_array;
+use function is_bool;
 use function is_string;
 use function is_subclass_of;
 use function mb_trim;
@@ -137,9 +138,15 @@ final class HttpClassValidator
      */
     private function validateProperty(Property $propertyAttr, ReflectionProperty $propertyRef): void
     {
+        $isOptional = $propertyAttr->optional;
+
+        if (!is_bool($isOptional)) {
+            $isOptional = $isOptional($propertyRef->name, $propertyAttr);
+        }
+
         try {
             $propertyKey = $propertyAttr->alias ?? $propertyRef->name;
-            [$propertyValue, $isDefaultValue] = $this->getValue($propertyAttr, $propertyRef, $propertyKey);
+            [$propertyValue, $isDefaultValue] = $this->getValue($propertyAttr, $propertyRef, $propertyKey, $isOptional);
             $propertyTypes = ReflectionUtil::getTypes($propertyRef->getType());
             $propertyType = $propertyTypes[0] ?? null;
 
@@ -151,13 +158,15 @@ final class HttpClassValidator
                     $validator = new self($propertyType);
                     $validator->validate($propertyValue);
                     $propertyValue = $validator->get();
-                } elseif ($propertyAttr->optional) {
+                } elseif ($isOptional) {
                     $propertyValue = null;
                 } else {
                     throw new MissingConstraintException($propertyKey);
                 }
             } elseif (is_subclass_of($propertyType, BackedEnum::class)) {
-                $propertyValue = $propertyType::tryFrom($propertyValue);
+                if ($propertyValue !== null) {
+                    $propertyValue = $propertyType::tryFrom($propertyValue);
+                }
 
                 if ($propertyValue === null && !in_array('null', $propertyTypes, true)) {
                     throw new InvalidValueTransformerException(sprintf('Invalid enum value for enum %s.', $propertyType));
@@ -191,13 +200,14 @@ final class HttpClassValidator
      * @param Property $propertyAttr
      * @param ReflectionProperty $propertyRef
      * @param string $propertyKey
+     * @param bool $isOptional
      *
      * @return array{0: mixed, 1: bool}
      * @throws ConstraintExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    private function getValue(Property $propertyAttr, ReflectionProperty $propertyRef, string $propertyKey): array
+    private function getValue(Property $propertyAttr, ReflectionProperty $propertyRef, string $propertyKey, bool $isOptional): array
     {
         if (array_key_exists($propertyKey, $this->data)) {
             $value = $this->data[$propertyKey];
@@ -207,7 +217,7 @@ final class HttpClassValidator
             }
         }
 
-        if (!$propertyAttr->optional) {
+        if (!$isOptional) {
             throw new MissingConstraintException($propertyKey);
         }
 

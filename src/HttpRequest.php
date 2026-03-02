@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
-use Raxos\Collection\CacheMap;
+use Raxos\Collection\{CacheMap, Map};
 use Raxos\Contract\Http\HttpRequestInterface;
 use Raxos\Foundation\Network\IP;
 use Raxos\Http\Structure\{HttpCookiesMap, HttpFilesMap, HttpHeadersMap, HttpPostMap, HttpQueryMap, HttpServerMap};
@@ -44,6 +44,7 @@ readonly class HttpRequest implements HttpRequestInterface
      * @param HttpMethod $method
      * @param string $pathName
      * @param string $uri
+     * @param Map<string, mixed> $parameters
      *
      * @author Bas Milius <bas@mili.us>
      * @since 1.1.0
@@ -57,10 +58,44 @@ readonly class HttpRequest implements HttpRequestInterface
         public HttpServerMap $server,
         public HttpMethod $method,
         public string $pathName,
-        public string $uri
+        public string $uri,
+        public Map $parameters
     )
     {
         $this->cache = new CacheMap();
+    }
+
+    /**
+     * Adds a query parameter as a request parameter.
+     *
+     * @param string $name
+     * @param string $key
+     * @param callable|null $sanitizer
+     * @param mixed|null $defaultValue
+     *
+     * @return $this
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.1.0
+     */
+    public function addParameterFromQuery(string $name, string $key, ?callable $sanitizer = null, mixed $defaultValue = null): self
+    {
+        if (!$this->query->has($key)) {
+            if ($defaultValue !== null) {
+                $this->parameters->set($name, $defaultValue);
+            }
+
+            return $this;
+        }
+
+        $value = $this->query->get($key);
+
+        if ($sanitizer !== null) {
+            $value = $sanitizer($value);
+        }
+
+        $this->parameters->set($name, $value);
+
+        return $this;
     }
 
     /**
@@ -230,6 +265,67 @@ readonly class HttpRequest implements HttpRequestInterface
     }
 
     /**
+     * Creates a request for the router.
+     *
+     * @param HttpCookiesMap|null $cookies
+     * @param HttpFilesMap|null $files
+     * @param HttpHeadersMap|null $headers
+     * @param HttpPostMap|null $post
+     * @param HttpQueryMap|null $query
+     * @param HttpServerMap|null $server
+     * @param HttpMethod|null $method
+     * @param string|null $uri
+     * @param Map $parameters
+     *
+     * @return self
+     * @author Bas Milius <bas@mili.us>
+     * @since 2.1.0
+     */
+    public static function create(
+        ?HttpCookiesMap $cookies = null,
+        ?HttpFilesMap $files = null,
+        ?HttpHeadersMap $headers = null,
+        ?HttpPostMap $post = null,
+        ?HttpQueryMap $query = null,
+        ?HttpServerMap $server = null,
+        ?HttpMethod $method = null,
+        ?string $uri = null,
+        Map $parameters = new Map()
+    ): self
+    {
+        static $request = null;
+
+        $request ??= self::createFromGlobals();
+
+        $cookies = $cookies ?? $request->cookies;
+        $files = $files ?? $request->files;
+        $headers = $headers ?? $request->headers;
+        $post = $post ?? $request->post;
+        $query = $query ?? $request->query;
+        $server = $server ?? $request->server;
+        $method = $method ?? $request->method;
+        $uri = $uri ?? $request->uri;
+
+        $pathName = strstr($uri, '?', true) ?: $uri;
+        $queryString = explode('?', $uri)[1] ?? '';
+
+        $query ??= HttpQueryMap::createFromString($queryString);
+
+        return new self(
+            cookies: $cookies,
+            files: $files,
+            headers: $headers,
+            post: $post,
+            query: $query,
+            server: $server,
+            method: $method,
+            pathName: $pathName,
+            uri: $uri,
+            parameters: $parameters
+        );
+    }
+
+    /**
      * Creates from globals.
      *
      * @return HttpRequestInterface
@@ -242,14 +338,28 @@ readonly class HttpRequest implements HttpRequestInterface
         $files = HttpFilesMap::createFromGlobals();
         $headers = HttpHeadersMap::createFromGlobals();
         $post = HttpPostMap::createFromGlobals();
-        $query = HttpQueryMap::createFromGlobals();
         $server = HttpServerMap::createFromGlobals();
 
         $method = HttpMethod::from(strtoupper($server->get('REQUEST_METHOD') ?? 'GET'));
         $uri = $server->get('REQUEST_URI') ?? '/';
-        $pathName = strstr($uri, '?', true) ?: $uri;
 
-        return new self($cookies, $files, $headers, $post, $query, $server, $method, $pathName, $uri);
+        $parts = explode('?', $uri, 2);
+        $pathName = $parts[0];
+        $queryString = $parts[1] ?? '';
+        $query = HttpQueryMap::createFromString($queryString);
+
+        return new self(
+            $cookies,
+            $files,
+            $headers,
+            $post,
+            $query,
+            $server,
+            $method,
+            $pathName,
+            $uri,
+            new Map()
+        );
     }
 
 }

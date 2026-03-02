@@ -30,6 +30,7 @@
     ],
     "require": {
         "ext-ctype": "*",
+        "ext-fileinfo": "*",
         "ext-mbstring": "*",
         "jetbrains/phpstorm-attributes": "^1.2",
         "guzzlehttp/guzzle": "^7",

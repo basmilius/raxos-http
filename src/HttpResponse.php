@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
-use JetBrains\PhpStorm\ExpectedValues;
 use Raxos\Contract\Http\HttpResponseInterface;
 use Raxos\Http\Structure\HttpHeadersMap;
 use function fastcgi_finish_request;
@@ -44,7 +43,7 @@ abstract class HttpResponse implements HttpResponseInterface
      * @since 2.1.0
      */
     public function header(
-        #[ExpectedValues(valuesFromClass: HttpHeader::class)] string $name,
+        string $name,
         string $value,
         bool $replace = false
     ): static

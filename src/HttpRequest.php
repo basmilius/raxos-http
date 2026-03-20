@@ -253,15 +253,15 @@ readonly class HttpRequest implements HttpRequestInterface
      */
     public function userAgent(): ?UserAgent
     {
-        static $cache = [];
+        return $this->cache->remember(__METHOD__, function (): ?UserAgent {
+            $header = $this->headers->get(HttpHeader::USER_AGENT);
 
-        $header = $this->headers->get(HttpHeader::USER_AGENT);
+            if ($header === null) {
+                return null;
+            }
 
-        if ($header === null) {
-            return null;
-        }
-
-        return $cache[$header] ??= new UserAgent($header);
+            return new UserAgent($header);
+        });
     }
 
     /**
@@ -293,9 +293,7 @@ readonly class HttpRequest implements HttpRequestInterface
         Map $parameters = new Map()
     ): self
     {
-        static $request = null;
-
-        $request ??= self::createFromGlobals();
+        $request = self::createFromGlobals();
 
         $cookies = $cookies ?? $request->cookies;
         $files = $files ?? $request->files;

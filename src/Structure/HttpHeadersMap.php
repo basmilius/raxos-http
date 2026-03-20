@@ -47,19 +47,35 @@ final class HttpHeadersMap extends Map
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
-    public function get(string $key, bool $multi = false): mixed
+    public function get(string $key, mixed $default = null): mixed
     {
         $result = parent::get(strtolower($key));
 
         if (empty($result)) {
-            return $multi ? [] : null;
+            return $default;
         }
 
-        if ($multi) {
-            return is_array($result) ? $result : [$result];
+        return $result[0] ?? $default;
+    }
+
+    /**
+     * Returns all values for the given header.
+     *
+     * @param string $key
+     *
+     * @return string[]
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.2.0
+     */
+    public function getAll(string $key): array
+    {
+        $result = parent::get(strtolower($key));
+
+        if (empty($result)) {
+            return [];
         }
 
-        return $result[0] ?? null;
+        return is_array($result) ? $result : [$result];
     }
 
     /**

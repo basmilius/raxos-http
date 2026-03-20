@@ -19,19 +19,12 @@ abstract class HttpParametersMap extends Map
 
     /**
      * {@inheritdoc}
-     *
-     * @param callable(mixed):mixed $map
-     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
-    public function get(string $key, ?callable $map = null): mixed
+    public function get(string $key, mixed $default = null): mixed
     {
-        if ($map !== null) {
-            return $map(parent::get($key));
-        }
-
-        return parent::get($key);
+        return parent::get($key, $default);
     }
 
 }

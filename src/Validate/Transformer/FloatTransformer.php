@@ -26,7 +26,7 @@ final readonly class FloatTransformer implements TransformerInterface
     public function transform(mixed $value): float
     {
         if (!is_numeric($value)) {
-            throw new InvalidValueTransformerException('Expected an integer value.');
+            throw new InvalidValueTransformerException('Expected a numeric value.');
         }
 
         return (float)$value;

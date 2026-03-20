@@ -19,7 +19,7 @@ use function array_merge_recursive;
  * @package Raxos\Http\Client
  * @since 1.0.0
  */
-class HttpClientRequest
+final class HttpClientRequest
 {
 
     private array $options = [];

@@ -61,8 +61,10 @@ final class FileHttpResponse extends HttpResponse
         $etag = md5_file($this->path);
         $modified = filemtime($this->path);
 
+        $modifiedFormatted = gmdate('D, d M Y H:i:s \G\M\T', $modified);
+
         $etagMatches = $this->request->headers->get(HttpHeader::IF_NONE_MATCH) === $etag;
-        $modifiedMatches = $this->request->headers->get(HttpHeader::IF_MODIFIED_SINCE) === $modified;
+        $modifiedMatches = $this->request->headers->get(HttpHeader::IF_MODIFIED_SINCE) === $modifiedFormatted;
 
         if ($etagMatches || $modifiedMatches) {
             $this->responseCode = HttpResponseCode::NOT_MODIFIED;

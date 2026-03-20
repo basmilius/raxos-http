@@ -5,6 +5,7 @@ namespace Raxos\Http;
 
 use Raxos\Contract\Http\HttpSendFileInterface;
 use function connection_aborted;
+use function count;
 use function explode;
 use function fclose;
 use function feof;
@@ -27,7 +28,7 @@ use function usleep;
  * @package Raxos\Http
  * @since 1.0.0
  */
-class HttpSendFile implements HttpSendFileInterface
+final class HttpSendFile implements HttpSendFileInterface
 {
 
     /**
@@ -123,12 +124,32 @@ class HttpSendFile implements HttpSendFileInterface
         header('Expires: Wed, 13 Mar 1996 06:00:00 GMT');
 
         if ($rangeHeader !== null) {
-            [, $range] = explode('=', $rangeHeader);
-            [$range] = explode(',', $range, 2);
-            [$range, $rangeEnd] = explode('-', $range);
+            $parts = explode('=', $rangeHeader, 2);
 
-            $range = (int)$range;
-            $rangeEnd = (int)$rangeEnd;
+            if (count($parts) !== 2 || $parts[0] !== 'bytes') {
+                http_response_code(HttpResponseCode::RANGE_NOT_SATISFIABLE->value);
+                header("Content-Range: bytes */{$size}");
+                return;
+            }
+
+            [$rangePart] = explode(',', $parts[1], 2);
+            $rangeParts = explode('-', $rangePart, 2);
+
+            if (count($rangeParts) !== 2) {
+                http_response_code(HttpResponseCode::RANGE_NOT_SATISFIABLE->value);
+                header("Content-Range: bytes */{$size}");
+                return;
+            }
+
+            $range = $rangeParts[0] === '' ? 0 : (int)$rangeParts[0];
+            $rangeEnd = $rangeParts[1] === '' ? $size - 1 : (int)$rangeParts[1];
+
+            if ($range < 0 || $rangeEnd >= $size || $range > $rangeEnd) {
+                http_response_code(HttpResponseCode::RANGE_NOT_SATISFIABLE->value);
+                header("Content-Range: bytes */{$size}");
+                return;
+            }
+
             $newLength = $rangeEnd - $range + 1;
 
             http_response_code(HttpResponseCode::PARTIAL_CONTENT->value);
@@ -141,6 +162,10 @@ class HttpSendFile implements HttpSendFileInterface
 
         $bytesSend = 0;
         $handle = fopen($this->path, 'rb');
+
+        if ($handle === false) {
+            return;
+        }
 
         if ($rangeHeader !== null) {
             fseek($handle, $range);

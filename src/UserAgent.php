@@ -127,7 +127,10 @@ readonly class UserAgent implements JsonSerializable, Stringable
             $platform = 'Kindle Fire';
 
             if (!($version = $result['version'][$key]) || !is_numeric($version[0])) {
-                $version = $result['version'][array_search('Version', $result['browser'])];
+                $searchKey = array_search('Version', $result['browser']);
+                if ($searchKey !== false) {
+                    $version = $result['version'][$searchKey];
+                }
             }
         } elseif ($platform === 'Nintendo 3DS' || $find('NintendoBrowser', $key)) {
             $browser = 'NintendoBrowser';
@@ -168,7 +171,8 @@ readonly class UserAgent implements JsonSerializable, Stringable
             $browser = 'Chrome';
             $version = $result['version'][$key];
         } elseif ($browser === 'AppleWebKit') {
-            if ($platform === 'Android' && !($key = 0)) {
+            if ($platform === 'Android') {
+                $key = 0;
                 $browser = 'Android Browser';
             } elseif (str_starts_with($platform, 'BB')) {
                 $browser = 'BlackBerry Browser';

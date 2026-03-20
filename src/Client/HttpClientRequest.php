@@ -205,8 +205,8 @@ final class HttpClientRequest
     protected function base(HttpMethod $method, string $uri): HttpClientResponse
     {
         try {
-            $this->request->withMethod($method->value);
-            $this->request->withUri(new Uri($uri));
+            $this->request = $this->request->withMethod($method->value);
+            $this->request = $this->request->withUri(new Uri($uri));
 
             $response = $this->client->client->send($this->request, $this->options);
 

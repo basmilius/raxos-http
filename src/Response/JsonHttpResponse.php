@@ -9,11 +9,9 @@ use Raxos\Http\Structure\HttpHeadersMap;
 use RuntimeException;
 use function json_encode;
 use const JSON_BIGINT_AS_STRING;
-use const JSON_HEX_AMP;
-use const JSON_HEX_APOS;
-use const JSON_HEX_QUOT;
-use const JSON_HEX_TAG;
 use const JSON_THROW_ON_ERROR;
+use const JSON_UNESCAPED_SLASHES;
+use const JSON_UNESCAPED_UNICODE;
 
 /**
  * Class JsonHttpResponse
@@ -57,7 +55,7 @@ final class JsonHttpResponse extends HttpResponse
     protected function sendBody(): void
     {
         try {
-            echo json_encode($this->body, JSON_BIGINT_AS_STRING | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_THROW_ON_ERROR);
+            echo json_encode($this->body, JSON_BIGINT_AS_STRING | JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         } catch (JsonException $err) {
             throw new RuntimeException("JSON encoding failed.", 500, $err);
         }

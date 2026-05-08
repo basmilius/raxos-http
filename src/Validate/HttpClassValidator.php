@@ -146,7 +146,7 @@ final class HttpClassValidator
 
         try {
             $propertyKey = $propertyAttr->alias ?? $propertyRef->name;
-            [$propertyValue, $isDefaultValue] = $this->getValue($propertyAttr, $propertyRef, $propertyKey, $isOptional);
+            [$propertyValue, $isDefaultValue] = $this->getValue($propertyRef, $propertyKey, $isOptional);
             $propertyTypes = ReflectionUtil::getTypes($propertyRef->getType());
             $propertyType = $propertyTypes[0] ?? null;
 
@@ -199,7 +199,6 @@ final class HttpClassValidator
     /**
      * Gets a property value.
      *
-     * @param Property $propertyAttr
      * @param ReflectionProperty $propertyRef
      * @param string $propertyKey
      * @param bool $isOptional
@@ -209,7 +208,7 @@ final class HttpClassValidator
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    private function getValue(Property $propertyAttr, ReflectionProperty $propertyRef, string $propertyKey, bool $isOptional): array
+    private function getValue(ReflectionProperty $propertyRef, string $propertyKey, bool $isOptional): array
     {
         if (array_key_exists($propertyKey, $this->data)) {
             $value = $this->data[$propertyKey];

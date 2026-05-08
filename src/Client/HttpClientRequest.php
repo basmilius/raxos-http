@@ -51,7 +51,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function basicAuth(string $username, string $password): static
+    public function basicAuth(string $username, string $password): self
     {
         $this->options['auth'] = [$username, $password];
 
@@ -68,7 +68,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function digestAuth(string $username, string $password): static
+    public function digestAuth(string $username, string $password): self
     {
         $this->options['auth'] = [$username, $password, 'digest'];
 
@@ -84,7 +84,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function bearerToken(string $token): static
+    public function bearerToken(string $token): self
     {
         return $this->header('Authorization', "Bearer {$token}");
     }
@@ -100,7 +100,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function header(string $name, string $value, bool $replace = true): static
+    public function header(string $name, string $value, bool $replace = true): self
     {
         if ($replace) {
             $this->request = $this->request->withHeader($name, $value);
@@ -120,7 +120,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function options(array $options): static
+    public function options(array $options): self
     {
         $this->options = array_merge_recursive($this->options, $options);
 
@@ -136,7 +136,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function timeout(float $timeout): static
+    public function timeout(float $timeout): self
     {
         $this->options['timeout'] = $timeout;
 
@@ -152,7 +152,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function query(array $query): static
+    public function query(array $query): self
     {
         $this->options['query'] = $query;
 
@@ -168,7 +168,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function json(array $json): static
+    public function json(array $json): self
     {
         $this->options['json'] = $json;
 
@@ -184,7 +184,7 @@ final class HttpClientRequest
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function multipart(array $data): static
+    public function multipart(array $data): self
     {
         $this->options['multipart'] = $data;
 

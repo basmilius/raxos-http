@@ -58,7 +58,7 @@ final class HttpSendFile implements HttpSendFileInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setBytes(int $bytes): static
+    public final function setBytes(int $bytes): self
     {
         $this->bytes = $bytes;
 
@@ -70,7 +70,7 @@ final class HttpSendFile implements HttpSendFileInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setContentDisposition(string $name, string $type): static
+    public final function setContentDisposition(string $name, string $type): self
     {
         $this->contentDisposition = $name;
         $this->contentDispositionType = $type;
@@ -83,7 +83,7 @@ final class HttpSendFile implements HttpSendFileInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setContentType(string $contentType): static
+    public final function setContentType(string $contentType): self
     {
         $this->contentType = $contentType;
 
@@ -95,7 +95,7 @@ final class HttpSendFile implements HttpSendFileInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setThrottle(float $throttle): static
+    public final function setThrottle(float $throttle): self
     {
         $this->throttle = $throttle;
 

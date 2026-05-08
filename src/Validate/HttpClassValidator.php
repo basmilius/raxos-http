@@ -151,8 +151,10 @@ final class HttpClassValidator
             $propertyType = $propertyTypes[0] ?? null;
 
             if ($propertyType !== null && isset(self::BUILTIN_TRANSFORMERS[$propertyType])) {
-                $transformer = Singleton::get(self::BUILTIN_TRANSFORMERS[$propertyType]);
-                $propertyValue = $transformer->transform($propertyValue);
+                if ($propertyValue !== null || !$propertyRef->getType()?->allowsNull()) {
+                    $transformer = Singleton::get(self::BUILTIN_TRANSFORMERS[$propertyType]);
+                    $propertyValue = $transformer->transform($propertyValue);
+                }
             } elseif (is_subclass_of($propertyType, HttpRequestModelInterface::class)) {
                 if ($propertyValue !== null) {
                     $validator = new self($propertyType);

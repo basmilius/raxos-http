@@ -149,7 +149,11 @@ readonly class HttpRequest implements HttpRequestInterface
      */
     public function ip(): ?IP
     {
-        return IP::parse($this->headers->get(HttpHeader::X_FORWARDED_FOR) ?? $this->server->get('REMOTE_ADDR'));
+        $ip = $this->headers->get('cf-connecting-ip')
+            ?? $this->headers->get(HttpHeader::X_FORWARDED_FOR)
+            ?? $this->server->get('REMOTE_ADDR');
+
+        return IP::parse($ip);
     }
 
     /**

@@ -80,7 +80,11 @@ readonly class UserAgent implements JsonSerializable, Stringable
             if (preg_match('%^(?!Mozilla)(?P<browser>[A-Z\d\-]+)(/(?P<version>[\dA-Z.]+))?%ix', $userAgent, $result)) {
                 $this->browser = $result['browser'];
                 $this->platform = $platform;
-                $this->version = $result['version'];
+                $this->version = $result['version'] ?? null;
+            } else {
+                $this->browser = null;
+                $this->platform = $platform;
+                $this->version = null;
             }
 
             return;

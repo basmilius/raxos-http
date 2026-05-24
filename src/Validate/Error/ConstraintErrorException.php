@@ -5,6 +5,7 @@ namespace Raxos\Http\Validate\Error;
 
 use Raxos\Contract\Http\Validate\ConstraintWithParamsExceptionInterface;
 use Raxos\Error\Exception;
+use Throwable;
 
 /**
  * Class ConstraintErrorException
@@ -22,6 +23,7 @@ final class ConstraintErrorException extends Exception implements ConstraintWith
      * @param string $error
      * @param string $errorDescription
      * @param array $params
+     * @param Throwable|null $previous
      *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
@@ -29,10 +31,11 @@ final class ConstraintErrorException extends Exception implements ConstraintWith
     public function __construct(
         string $error,
         string $errorDescription,
-        public readonly array $params = []
+        public readonly array $params = [],
+        ?Throwable $previous = null
     )
     {
-        parent::__construct($error, $errorDescription);
+        parent::__construct($error, $errorDescription, previous: $previous);
     }
 
     /**

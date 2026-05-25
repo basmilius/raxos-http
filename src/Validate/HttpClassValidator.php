@@ -167,7 +167,12 @@ final class HttpClassValidator
                 }
             } elseif (is_subclass_of($propertyType, BackedEnum::class)) {
                 if ($propertyValue !== null) {
+                    $original = $propertyValue;
                     $propertyValue = $propertyType::tryFrom($propertyValue);
+
+                    if ($propertyValue === null) {
+                        throw new InvalidValueTransformerException(sprintf('Invalid enum value "%s" for enum %s.', $original, $propertyType));
+                    }
                 }
 
                 if ($propertyValue === null && !in_array('null', $propertyTypes, true)) {

@@ -10,7 +10,7 @@ use Raxos\Contract\Http\HttpClientExceptionInterface;
 use Raxos\Http\Client\Error\RequestFailedException;
 use Raxos\Http\Client\Psr7\Psr7Request;
 use Raxos\Http\HttpMethod;
-use function array_merge_recursive;
+use function array_replace_recursive;
 
 /**
  * Class HttpClientRequest
@@ -122,7 +122,7 @@ final class HttpClientRequest
      */
     public function options(array $options): self
     {
-        $this->options = array_merge_recursive($this->options, $options);
+        $this->options = array_replace_recursive($this->options, $options);
 
         return $this;
     }

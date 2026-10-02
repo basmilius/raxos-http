@@ -28,13 +28,14 @@ readonly class HttpClient
      *
      * @param string|null $baseUrl
      * @param float $timeout
+     * @param GuzzleClient|null $client
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 3.2.0
      */
-    public function __construct(?string $baseUrl = null, float $timeout = 5.0)
+    public function __construct(?string $baseUrl = null, float $timeout = 5.0, ?GuzzleClient $client = null)
     {
-        $this->client = new GuzzleClient([
+        $this->client = $client ?? new GuzzleClient([
             'base_uri' => $baseUrl,
             'http_errors' => false,
             'timeout' => $timeout

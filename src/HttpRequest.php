@@ -3,20 +3,24 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
+use JsonException;
 use Raxos\Collection\{CacheMap, Map};
 use Raxos\Contract\Http\HttpRequestInterface;
 use Raxos\Foundation\Network\IP;
 use Raxos\Http\Structure\{HttpCookiesMap, HttpFilesMap, HttpHeadersMap, HttpPostMap, HttpQueryMap, HttpServerMap};
 use RuntimeException;
 use function array_column;
-use function count;
 use function explode;
 use function file_get_contents;
+use function is_array;
+use function is_numeric;
+use function is_string;
 use function json_decode;
-use function json_validate;
 use function parse_str;
+use function preg_match;
 use function strstr;
 use function strtoupper;
+use function trim;
 use function usort;
 use const JSON_THROW_ON_ERROR;
 
@@ -112,13 +116,7 @@ readonly class HttpRequest implements HttpRequestInterface
                 return null;
             }
 
-            $parts = explode(' ', $header, 2);
-
-            if (count($parts) !== 2 || $parts[0] !== 'Bearer') {
-                return null;
-            }
-
-            return $parts[1];
+            return preg_match('/^Bearer +([^\s]+)$/i', $header, $matches) === 1 ? $matches[1] : null;
         });
     }
 
@@ -153,7 +151,7 @@ readonly class HttpRequest implements HttpRequestInterface
             ?? $this->headers->get(HttpHeader::X_FORWARDED_FOR)
             ?? $this->server->get('REMOTE_ADDR');
 
-        return IP::parse($ip);
+        return is_string($ip) ? IP::parse(trim(explode(',', $ip, 2)[0])) : null;
     }
 
     /**
@@ -198,8 +196,14 @@ readonly class HttpRequest implements HttpRequestInterface
 
                 parse_str($language[1] ?? 'q=1.0', $props);
 
-                $props['q'] = (float)$props['q'];
-                $props['code'] = $language[0];
+                $quality = $props['q'] ?? '1';
+
+                if (!is_numeric($quality) || (float)$quality <= 0 || (float)$quality > 1) {
+                    continue;
+                }
+
+                $props['q'] = (float)$quality;
+                $props['code'] = trim($language[0]);
 
                 $languages[] = $props;
             }
@@ -220,7 +224,7 @@ readonly class HttpRequest implements HttpRequestInterface
         return $this->cache->remember(__METHOD__, function (): ?string {
             $body = file_get_contents('php://input');
 
-            if (empty($body)) {
+            if ($body === false || $body === '') {
                 return null;
             }
 
@@ -242,11 +246,17 @@ readonly class HttpRequest implements HttpRequestInterface
                 return null;
             }
 
-            if (json_validate($body)) {
-                return json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+            try {
+                $value = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException $err) {
+                throw new RuntimeException('Request body is not valid JSON.', 400, $err);
             }
 
-            throw new RuntimeException('Request body is not json.', 500);
+            if ($value !== null && !is_array($value)) {
+                throw new RuntimeException('Request JSON must be an object, array or null.', 400);
+            }
+
+            return $value;
         });
     }
 
@@ -303,7 +313,6 @@ readonly class HttpRequest implements HttpRequestInterface
         $files = $files ?? $request->files;
         $headers = $headers ?? $request->headers;
         $post = $post ?? $request->post;
-        $query = $query ?? $request->query;
         $server = $server ?? $request->server;
         $method = $method ?? $request->method;
         $uri = $uri ?? $request->uri;

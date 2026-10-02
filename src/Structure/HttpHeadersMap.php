@@ -22,6 +22,20 @@ final class HttpHeadersMap extends Map
 {
 
     /**
+     * @param array<string, mixed> $data
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
+    public function __construct(array $data = [])
+    {
+        parent::__construct();
+
+        foreach ($data as $key => $value) {
+            parent::set(strtolower($key), is_array($value) ? $value : [$value]);
+        }
+    }
+
+    /**
      * Adds a header.
      *
      * @param string $key
@@ -95,7 +109,7 @@ final class HttpHeadersMap extends Map
      */
     public function set(string $key, mixed $value): void
     {
-        parent::set(strtolower($key), [$value]);
+        parent::set(strtolower($key), is_array($value) ? $value : [$value]);
     }
 
     /**
@@ -117,7 +131,7 @@ final class HttpHeadersMap extends Map
      */
     public static function createFromGlobals(): self
     {
-        return new self(array_map(static fn($value) => is_array($value) ? $value : [$value], HttpUtil::getAllHeaders()));
+        return new self(array_map(static fn(mixed $value) => is_array($value) ? $value : [$value], HttpUtil::getAllHeaders()));
     }
 
 }

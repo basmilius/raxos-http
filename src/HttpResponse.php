@@ -5,6 +5,7 @@ namespace Raxos\Http;
 
 use Raxos\Contract\Http\HttpResponseInterface;
 use Raxos\Http\Structure\HttpHeadersMap;
+use Throwable;
 use function fastcgi_finish_request;
 use function function_exists;
 use function header;
@@ -72,18 +73,23 @@ abstract class HttpResponse implements HttpResponseInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 2.1.0
+     * @since 3.2.0
      */
     public function send(): void
     {
         ob_start();
 
-        $this->sendResponseCode();
-        $this->sendHeaders();
-        ob_flush();
+        try {
+            $this->sendResponseCode();
+            $this->sendHeaders();
+            ob_flush();
 
-        $this->sendBody();
-        ob_end_flush();
+            $this->sendBody();
+            ob_end_flush();
+        } catch (Throwable $err) {
+            ob_end_clean();
+            throw $err;
+        }
 
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();

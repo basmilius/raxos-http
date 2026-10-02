@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Client\Psr7;
 
-use GuzzleHttp\Psr7\MessageTrait;
+use GuzzleHttp\Psr7\{MessageTrait, Uri};
 use InvalidArgumentException;
 use Psr\Http\Message\{RequestInterface, UriInterface};
 use function is_string;
@@ -15,16 +15,27 @@ use function strtoupper;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Client\Psr7
- * @since 1.0.0
+ * @since 3.2.0
  */
 final class Psr7Request implements RequestInterface
 {
 
     use MessageTrait;
 
-    private ?string $method = null;
+    private string $method = 'GET';
     private mixed $requestTarget = null;
-    private ?UriInterface $uri = null;
+    private UriInterface $uri;
+
+    /**
+     * Initializes a request with an empty URI.
+     *
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
+    public function __construct()
+    {
+        $this->uri = new Uri();
+    }
 
     /**
      * {@inheritdoc}
@@ -73,7 +84,7 @@ final class Psr7Request implements RequestInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 3.2.0
      */
     public function withMethod($method): self
     {
@@ -81,15 +92,16 @@ final class Psr7Request implements RequestInterface
             throw new InvalidArgumentException('Method must be a non-empty string.');
         }
 
-        $this->method = strtoupper($method);
+        $request = clone $this;
+        $request->method = strtoupper($method);
 
-        return $this;
+        return $request;
     }
 
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 3.2.0
      */
     public function withRequestTarget($requestTarget): self
     {
@@ -97,15 +109,16 @@ final class Psr7Request implements RequestInterface
             throw new InvalidArgumentException('Invalid request target provided; cannot contain whitespace.');
         }
 
-        $this->requestTarget = $requestTarget;
+        $request = clone $this;
+        $request->requestTarget = $requestTarget;
 
-        return $this;
+        return $request;
     }
 
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 3.2.0
      */
     public function withUri(UriInterface $uri, $preserveHost = false): self
     {
@@ -113,13 +126,14 @@ final class Psr7Request implements RequestInterface
             return $this;
         }
 
-        $this->uri = $uri;
+        $request = clone $this;
+        $request->uri = $uri;
 
-        if (!$preserveHost || !isset($this->headerNames['host'])) {
-            $this->updateHostFromUri();
+        if (!$preserveHost || $this->getHeaderLine('Host') === '') {
+            $request->updateHostFromUri();
         }
 
-        return $this;
+        return $request;
     }
 
     /**

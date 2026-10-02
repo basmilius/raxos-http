@@ -45,7 +45,7 @@ readonly class UserAgent implements JsonSerializable, Stringable
      * @param string $userAgent
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 3.2.0
      */
     public function __construct(protected string $userAgent)
     {
@@ -90,9 +90,9 @@ readonly class UserAgent implements JsonSerializable, Stringable
             return;
         }
 
-        if (preg_match('/rv:(?P<version>[\dA-Z.]+)/i', $userAgent, $versionResult)) {
-            $versionResult = $versionResult['version'];
-        }
+        $versionResult = preg_match('/rv:(?P<version>[\dA-Z.]+)/i', $userAgent, $versionMatch)
+            ? $versionMatch['version']
+            : null;
 
         $browser = $result['browser'][0];
         $version = $result['version'][0];
@@ -178,7 +178,7 @@ readonly class UserAgent implements JsonSerializable, Stringable
             if ($platform === 'Android') {
                 $key = 0;
                 $browser = 'Android Browser';
-            } elseif (str_starts_with($platform, 'BB')) {
+            } elseif ($platform !== null && str_starts_with($platform, 'BB')) {
                 $browser = 'BlackBerry Browser';
                 $platform = 'BlackBerry';
             } elseif ($platform === 'BlackBerry' || $platform === 'PlayBook') {

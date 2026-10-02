@@ -24,7 +24,7 @@ final class HttpFilesMap extends Map
      *
      * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 1.2.0
+     * @since 3.2.0
      */
     public static function createFromGlobals(): self
     {
@@ -37,12 +37,36 @@ final class HttpFilesMap extends Map
                 foreach ($value as $file) {
                     $files[$name][] = new HttpFile($file);
                 }
+            } elseif (is_array($value['name'])) {
+                $files[$name] = self::createFile($value);
             } else {
-                $files[$name] = [new HttpFile($value)];
+                $files[$name] = [self::createFile($value)];
             }
         }
 
         return new self($files);
+    }
+
+    /**
+     * Converts parallel multipart fields into upload objects.
+     *
+     * @param array $file
+     * @return HttpFile|array
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
+    private static function createFile(array $file): HttpFile|array
+    {
+        if (!is_array($file['name'])) {
+            return new HttpFile($file);
+        }
+
+        $files = [];
+        foreach ($file['name'] as $key => $name) {
+            $files[$key] = self::createFile(array_map(static fn(mixed $field): mixed => is_array($field) ? $field[$key] : $field, $file));
+        }
+
+        return $files;
     }
 
 }

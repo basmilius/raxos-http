@@ -9,6 +9,7 @@ use Raxos\DateTime\Date as RaxosDate;
 use Raxos\Http\Validate\Error\DateConstraintException;
 use ReflectionProperty;
 use Throwable;
+use function checkdate;
 use function is_string;
 use function preg_match;
 
@@ -28,11 +29,15 @@ final readonly class Date implements ConstraintAttributeInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 2.0.0
+     * @since 3.2.0
      */
     public function check(ReflectionProperty $property, mixed $value): RaxosDate
     {
-        if (!is_string($value) || !preg_match('/\d{4}-\d{2}-\d{2}/', $value)) {
+        if (!is_string($value) || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/D', $value, $parts)) {
+            throw new DateConstraintException();
+        }
+
+        if (!checkdate((int)$parts[2], (int)$parts[3], (int)$parts[1])) {
             throw new DateConstraintException();
         }
 

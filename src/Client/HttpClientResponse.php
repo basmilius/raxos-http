@@ -8,7 +8,6 @@ use JsonException;
 use Psr\Http\Message\{ResponseInterface, StreamInterface};
 use Raxos\Contract\DebuggableInterface;
 use Raxos\Http\HttpResponseCode;
-use stdClass;
 use function array_map;
 use function json_decode;
 use const JSON_THROW_ON_ERROR;
@@ -65,12 +64,12 @@ readonly class HttpClientResponse implements DebuggableInterface
      *
      * @param bool $associative
      *
-     * @return array|stdClass
+     * @return mixed
      * @throws JsonException
      * @author Bas Milius <bas@mili.us>
-     * @since 1.0.0
+     * @since 3.2.0
      */
-    public function json(bool $associative = true): array|stdClass
+    public function json(bool $associative = true): mixed
     {
         return json_decode($this->body(), $associative, 512, JSON_THROW_ON_ERROR);
     }

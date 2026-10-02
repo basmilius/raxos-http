@@ -16,6 +16,7 @@ use ReflectionException;
 use ReflectionMethod;
 use ReflectionParameter;
 use ReflectionProperty;
+use TypeError;
 use function array_find;
 use function array_key_exists;
 use function in_array;
@@ -134,7 +135,7 @@ final class HttpClassValidator
      *
      * @return void
      * @author Bas Milius <bas@mili.us>
-     * @since 1.7.0
+     * @since 3.2.0
      */
     private function validateProperty(Property $propertyAttr, ReflectionProperty $propertyRef): void
     {
@@ -157,6 +158,9 @@ final class HttpClassValidator
                 }
             } elseif (is_subclass_of($propertyType, HttpRequestModelInterface::class)) {
                 if ($propertyValue !== null) {
+                    if (!is_array($propertyValue)) {
+                        throw new InvalidValueTransformerException('Expected a nested input object.');
+                    }
                     $validator = new self($propertyType);
                     $validator->validate($propertyValue);
                     $propertyValue = $validator->get();
@@ -168,7 +172,11 @@ final class HttpClassValidator
             } elseif (is_subclass_of($propertyType, BackedEnum::class)) {
                 if ($propertyValue !== null) {
                     $original = $propertyValue;
-                    $propertyValue = $propertyType::tryFrom($propertyValue);
+                    try {
+                        $propertyValue = $propertyType::tryFrom($propertyValue);
+                    } catch (TypeError) {
+                        throw new InvalidValueTransformerException(sprintf('Invalid value type for enum %s.', $propertyType));
+                    }
 
                     if ($propertyValue === null) {
                         throw new InvalidValueTransformerException(sprintf('Invalid enum value "%s" for enum %s.', $original, $propertyType));

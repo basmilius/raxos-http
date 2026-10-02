@@ -43,7 +43,7 @@ final readonly class NestedArray implements ConstraintAttributeInterface
      * {@inheritdoc}
      * @throws ValidatorExceptionInterface
      * @author Bas Milius <bas@mili.us>
-     * @since 2.0.0
+     * @since 3.2.0
      */
     public function check(ReflectionProperty $property, mixed $value): array
     {
@@ -59,6 +59,9 @@ final readonly class NestedArray implements ConstraintAttributeInterface
         $results = [];
 
         foreach ($value as $item) {
+            if (!is_array($item)) {
+                throw new NestedArrayConstraintException($property->name);
+            }
             $validator->validate($item);
             $results[] = $validator->get();
         }

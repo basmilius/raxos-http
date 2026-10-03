@@ -14,7 +14,7 @@ it('decodes JSON collections and null exactly once', function (?string $body, ?a
     expect($request->json())->toBe($expected);
     $request->parameters->set('fixture_body', '{"changed":true}');
     expect($request->json())->toBe($expected);
-})->with([['{"name":"Passly"}', ['name' => 'Passly']], ['[1,2]', [1, 2]], ['null', null], [null, null]]);
+})->with([['{"name":"Raxos"}', ['name' => 'Raxos']], ['[1,2]', [1, 2]], ['null', null], [null, null]]);
 
 it('rejects malformed and scalar request JSON with a client error', function (string $body): void {
     $base = HttpRequest::create(method: HttpMethod::POST);

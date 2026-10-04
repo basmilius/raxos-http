@@ -5,7 +5,8 @@ namespace Raxos\Http\Validate\Constraint;
 
 use Attribute;
 use Raxos\Contract\Http\HttpRequestModelInterface;
-use Raxos\Contract\Http\Validate\{ConstraintAttributeInterface, ValidatorExceptionInterface};
+use Raxos\Contract\Http\Validate\ConstraintAttributeInterface;
+use Raxos\Contract\Http\Validate\ValidatorExceptionInterface;
 use Raxos\Http\Validate\Error\NestedArrayConstraintException;
 use Raxos\Http\Validate\HttpClassValidator;
 use ReflectionProperty;
@@ -26,7 +27,6 @@ use function is_subclass_of;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final readonly class NestedArray implements ConstraintAttributeInterface
 {
-
     /**
      * NestedArray constructor.
      *
@@ -37,15 +37,20 @@ final readonly class NestedArray implements ConstraintAttributeInterface
      */
     public function __construct(
         public string $propertyType
-    ) {}
+    )
+    {
+    }
 
     /**
      * {@inheritdoc}
      * @throws ValidatorExceptionInterface
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 2.0.0
      */
-    public function check(ReflectionProperty $property, mixed $value): array
+    public function check(
+        ReflectionProperty $property,
+        mixed $value
+    ): array
     {
         if (!is_array($value)) {
             throw new NestedArrayConstraintException($property->name);
@@ -68,5 +73,4 @@ final readonly class NestedArray implements ConstraintAttributeInterface
 
         return $results;
     }
-
 }

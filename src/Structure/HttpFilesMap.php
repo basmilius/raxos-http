@@ -18,13 +18,12 @@ use function array_is_list;
  */
 final class HttpFilesMap extends Map
 {
-
     /**
      * Creates from the global request.
      *
      * @return self
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.2.0
      */
     public static function createFromGlobals(): self
     {
@@ -62,11 +61,11 @@ final class HttpFilesMap extends Map
         }
 
         $files = [];
+
         foreach ($file['name'] as $key => $name) {
             $files[$key] = self::createFile(array_map(static fn(mixed $field): mixed => is_array($field) ? $field[$key] : $field, $file));
         }
 
         return $files;
     }
-
 }

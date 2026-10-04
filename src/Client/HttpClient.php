@@ -6,11 +6,14 @@ namespace Raxos\Http\Client;
 use GuzzleHttp\Client as GuzzleClient;
 use Raxos\Contract\Http\HttpClientExceptionInterface;
 use Raxos\Http\Client\Error\BadCallException;
+use ReflectionMethod;
 use function method_exists;
 use function sprintf;
 
 /**
  * Class HttpClient
+ *
+ * Creates isolated request builders around one configured HTTP transport.
  *
  * @mixin HttpClientRequest
  *
@@ -20,7 +23,13 @@ use function sprintf;
  */
 readonly class HttpClient
 {
-
+    /**
+     * Retains the configured transport client without rebuilding it for each request.
+     *
+     * @var GuzzleClient
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     public GuzzleClient $client;
 
     /**
@@ -31,9 +40,13 @@ readonly class HttpClient
      * @param GuzzleClient|null $client
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.0
      */
-    public function __construct(?string $baseUrl = null, float $timeout = 5.0, ?GuzzleClient $client = null)
+    public function __construct(
+        ?string $baseUrl = null,
+        float $timeout = 5.0,
+        ?GuzzleClient $client = null
+    )
     {
         $this->client = $client ?? new GuzzleClient([
             'base_uri' => $baseUrl,
@@ -49,7 +62,7 @@ readonly class HttpClient
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    protected function request(): HttpClientRequest
+    public function request(): HttpClientRequest
     {
         return new HttpClientRequest($this);
     }
@@ -65,9 +78,12 @@ readonly class HttpClient
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function __call(string $name, array $arguments)
+    public final function __call(
+        string $name,
+        array $arguments
+    )
     {
-        if (method_exists(HttpClientRequest::class, $name)) {
+        if (method_exists(HttpClientRequest::class, $name) && new ReflectionMethod(HttpClientRequest::class, $name)->isPublic()) {
             return $this
                 ->request()
                 ->{$name}(...$arguments);
@@ -75,5 +91,4 @@ readonly class HttpClient
 
         throw new BadCallException(sprintf('Method "%s" does not exist in either "%s or "%s".', $name, static::class, HttpClientRequest::class));
     }
-
 }

@@ -20,7 +20,7 @@ Incoming requests, outgoing responses, HTTP clients, validation and file streami
 Requires PHP 8.5 or later. Enable the `ctype`, `fileinfo`, `mbstring` PHP extensions. Composer checks the remaining package and extension dependencies declared in [composer.json](composer.json).
 
 ```sh
-composer require "raxos/http:^3.2"
+composer require "raxos/http:^3.3"
 ```
 
 ## Usage
@@ -66,3 +66,5 @@ See [Testing Raxos](https://github.com/basmilius/raxos/blob/main/TESTING.md) for
 ## License
 
 [MIT](LICENSE). Copyright (c) 2017 - present Bas Milius.
+
+See [http retries and public errors](https://raxos.dev/http/retries-and-problems) for the optional APIs and their lifetime or transport guarantees.

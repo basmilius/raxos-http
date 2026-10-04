@@ -8,7 +8,7 @@ use Raxos\Http\Structure\HttpHeadersMap;
 use RuntimeException;
 
 /**
- * Class ResultResponse
+ * Class ResultHttpResponse
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Response

@@ -5,7 +5,8 @@ namespace Raxos\Http\Client;
 
 use JetBrains\PhpStorm\ArrayShape;
 use JsonException;
-use Psr\Http\Message\{ResponseInterface, StreamInterface};
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Raxos\Contract\DebuggableInterface;
 use Raxos\Http\HttpResponseCode;
 use function array_map;
@@ -21,9 +22,31 @@ use const JSON_THROW_ON_ERROR;
  */
 readonly class HttpClientResponse implements DebuggableInterface
 {
-
+    /**
+     * Exposes the protocol version reported by the underlying transport response.
+     *
+     * @var string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     public string $protocolVersion;
+
+    /**
+     * Maps the transport status to the framework's response-code representation.
+     *
+     * @var HttpResponseCode
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     public HttpResponseCode $responseCode;
+
+    /**
+     * Exposes the reason phrase reported by the underlying transport response.
+     *
+     * @var string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     public string $responseText;
 
     /**
@@ -67,7 +90,7 @@ readonly class HttpClientResponse implements DebuggableInterface
      * @return mixed
      * @throws JsonException
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.0
      */
     public function json(bool $associative = true): mixed
     {
@@ -107,7 +130,7 @@ readonly class HttpClientResponse implements DebuggableInterface
      */
     public function serverError(): bool
     {
-        return $this->responseCode->value >= 500 && $this->responseCode->value < 600;
+        return $this->responseCode->value >= 500;
     }
 
     /**
@@ -144,7 +167,10 @@ readonly class HttpClientResponse implements DebuggableInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public function header(string $name, bool $single = true): string|array
+    public function header(
+        string $name,
+        bool $single = true
+    ): string|array
     {
         if ($single) {
             return $this->response->getHeaderLine($name);
@@ -158,7 +184,7 @@ readonly class HttpClientResponse implements DebuggableInterface
      *
      * @param bool $single
      *
-     * @return string[]
+     * @return ($single is true ? array<string, string> : array<string, list<string>>)
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -207,5 +233,4 @@ readonly class HttpClientResponse implements DebuggableInterface
             'response_text' => $this->responseText
         ];
     }
-
 }

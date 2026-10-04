@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace Raxos\Http;
 
-use JetBrains\PhpStorm\{ArrayShape, Pure};
+use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use Stringable;
 use function array_intersect;
@@ -34,9 +35,31 @@ use function version_compare;
  */
 readonly class UserAgent implements JsonSerializable, Stringable
 {
-
+    /**
+     * Exposes the browser identified from the parsed user-agent string.
+     *
+     * @var ?string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     public ?string $browser;
+
+    /**
+     * Exposes the operating platform identified from the user-agent string.
+     *
+     * @var ?string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     public ?string $platform;
+
+    /**
+     * Retains the browser version identified by user-agent parsing.
+     *
+     * @var ?string
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     public ?string $version;
 
     /**
@@ -45,7 +68,7 @@ readonly class UserAgent implements JsonSerializable, Stringable
      * @param string $userAgent
      *
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.0
      */
     public function __construct(protected string $userAgent)
     {
@@ -132,6 +155,7 @@ readonly class UserAgent implements JsonSerializable, Stringable
 
             if (!($version = $result['version'][$key]) || !is_numeric($version[0])) {
                 $searchKey = array_search('Version', $result['browser']);
+
                 if ($searchKey !== false) {
                     $version = $result['version'][$searchKey];
                 }
@@ -322,5 +346,4 @@ readonly class UserAgent implements JsonSerializable, Stringable
     {
         return $this->userAgent;
     }
-
 }

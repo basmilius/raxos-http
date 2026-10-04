@@ -5,7 +5,9 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Psr7\Response;
 use Raxos\Http\Client\Error\BadCallException;
-use Raxos\Http\Client\{HttpClient, HttpClientRequest};
+use Raxos\Http\Client\HttpClient;
+use Raxos\Http\Client\HttpClientRequest;
+use Raxos\Http\HttpMethod;
 
 covers(HttpClient::class);
 
@@ -20,5 +22,9 @@ it('uses an injected client and returns a fresh builder for each facade call', f
     $http = new HttpClient(client: $native);
     expect($http->client)->toBe($native)->and($http->header('X-Unit', 'value'))->toBeInstanceOf(HttpClientRequest::class)
         ->and($http->timeout(1))->not->toBe($http->timeout(1))->and($http->get('https://example.org')->body())->toBe('ok');
-    expect(fn () => $http->missingUnitMethod())->toThrow(BadCallException::class);
+    expect(fn() => $http->missingUnitMethod())->toThrow(BadCallException::class);
+});
+
+it('does not expose protected request internals through facade forwarding', function (): void {
+    expect(fn() => new HttpClient()->base(HttpMethod::GET, 'https://example.org'))->toThrow(BadCallException::class);
 });

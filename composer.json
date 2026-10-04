@@ -41,14 +41,14 @@
         "psr/http-client": "^1",
         "psr/http-factory": "^1",
         "psr/http-message": "^1 || ^2",
-        "raxos/collection": "*",
-        "raxos/contract": "*",
-        "raxos/datetime": "*",
-        "raxos/error": "*",
-        "raxos/foundation": "*"
+        "raxos/collection": "^3.2",
+        "raxos/contract": "^3.2",
+        "raxos/datetime": "^3.2",
+        "raxos/error": "^3.2",
+        "raxos/foundation": "^3.2"
     },
     "require-dev": {
-        "raxos/database": "*",
+        "raxos/database": "^3.2",
         "pestphp/pest": "^5.0"
     },
     "suggest": {
@@ -61,5 +61,10 @@
     },
     "scripts": {
         "test": "pest --compact"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "3.3.x-dev"
+        }
     }
 }

@@ -8,7 +8,7 @@ use Raxos\Contract\Http\Validate\ConstraintExceptionInterface;
 use Raxos\Error\Exception;
 
 /**
- * Class ModelConstraintException
+ * Class ModelArrayConstraintException
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Validate\Error

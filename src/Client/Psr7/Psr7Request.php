@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace Raxos\Http\Client\Psr7;
 
-use GuzzleHttp\Psr7\{MessageTrait, Uri};
+use GuzzleHttp\Psr7\MessageTrait;
+use GuzzleHttp\Psr7\Uri;
 use InvalidArgumentException;
-use Psr\Http\Message\{RequestInterface, UriInterface};
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 use function is_string;
 use function preg_match;
 use function strtoupper;
@@ -15,15 +17,38 @@ use function strtoupper;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Raxos\Http\Client\Psr7
- * @since 3.2.0
+ * @since 1.0.0
  */
 final class Psr7Request implements RequestInterface
 {
 
     use MessageTrait;
 
+    /**
+     * Retains the concrete HTTP method used by this PSR request.
+     *
+     * @var string
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
     private string $method = 'GET';
+
+    /**
+     * Caches the request target derived from the current URI.
+     *
+     * @var mixed
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
     private mixed $requestTarget = null;
+
+    /**
+     * Retains the URI used to derive request targeting and host information.
+     *
+     * @var UriInterface
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.2.0
+     */
     private UriInterface $uri;
 
     /**
@@ -84,7 +109,7 @@ final class Psr7Request implements RequestInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.0
      */
     public function withMethod($method): self
     {
@@ -101,7 +126,7 @@ final class Psr7Request implements RequestInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.0
      */
     public function withRequestTarget($requestTarget): self
     {
@@ -118,9 +143,12 @@ final class Psr7Request implements RequestInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.0.0
      */
-    public function withUri(UriInterface $uri, $preserveHost = false): self
+    public function withUri(
+        UriInterface $uri,
+        $preserveHost = false
+    ): self
     {
         if ($this->uri === $uri) {
             return $this;
@@ -163,5 +191,4 @@ final class Psr7Request implements RequestInterface
 
         $this->headers = [$header => [$host]] + $this->headers;
     }
-
 }

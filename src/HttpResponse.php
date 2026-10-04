@@ -23,7 +23,6 @@ use function ob_start;
  */
 abstract class HttpResponse implements HttpResponseInterface
 {
-
     /**
      * HttpResponse constructor.
      *
@@ -36,7 +35,9 @@ abstract class HttpResponse implements HttpResponseInterface
     public function __construct(
         public HttpHeadersMap $headers = new HttpHeadersMap(),
         public HttpResponseCode $responseCode = HttpResponseCode::OK
-    ) {}
+    )
+    {
+    }
 
     /**
      * {@inheritdoc}
@@ -73,7 +74,7 @@ abstract class HttpResponse implements HttpResponseInterface
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 2.1.0
      */
     public function send(): void
     {
@@ -88,6 +89,7 @@ abstract class HttpResponse implements HttpResponseInterface
             ob_end_flush();
         } catch (Throwable $err) {
             ob_end_clean();
+
             throw $err;
         }
 
@@ -103,7 +105,9 @@ abstract class HttpResponse implements HttpResponseInterface
      * @author Bas Milius <bas@mili.us>
      * @since 02-03-2026
      */
-    protected function sendBody(): void {}
+    protected function sendBody(): void
+    {
+    }
 
     /**
      * Sends the headers.
@@ -136,5 +140,4 @@ abstract class HttpResponse implements HttpResponseInterface
     {
         http_response_code($this->responseCode->value);
     }
-
 }

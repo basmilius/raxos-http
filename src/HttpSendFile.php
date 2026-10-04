@@ -36,7 +36,6 @@ use function usleep;
  */
 final class HttpSendFile implements HttpSendFileInterface
 {
-
     /**
      * HttpSendFile constructor.
      *
@@ -84,7 +83,10 @@ final class HttpSendFile implements HttpSendFileInterface
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
-    public final function setContentDisposition(string $name, string $type): self
+    public final function setContentDisposition(
+        string $name,
+        string $type
+    ): self
     {
         $this->contentDisposition = $name;
         $this->contentDispositionType = $type;
@@ -154,6 +156,7 @@ final class HttpSendFile implements HttpSendFileInterface
                 if (!preg_match('/^bytes=(\d*)-(\d*)$/D', trim($rangeHeader), $matches) || ($matches[1] === '' && $matches[2] === '') || $size === 0) {
                     http_response_code(HttpResponseCode::RANGE_NOT_SATISFIABLE->value);
                     header("Content-Range: bytes */{$size}");
+
                     return;
                 }
 
@@ -168,6 +171,7 @@ final class HttpSendFile implements HttpSendFileInterface
                 if ($range >= $size || $range > $rangeEnd) {
                     http_response_code(HttpResponseCode::RANGE_NOT_SATISFIABLE->value);
                     header("Content-Range: bytes */{$size}");
+
                     return;
                 }
 
@@ -197,6 +201,7 @@ final class HttpSendFile implements HttpSendFileInterface
                 echo $buffer;
 
                 flush();
+
                 if ($this->throttle > 0) {
                     usleep((int)round($this->throttle * 1000000));
                 }
@@ -208,5 +213,4 @@ final class HttpSendFile implements HttpSendFileInterface
             fclose($handle);
         }
     }
-
 }

@@ -5,19 +5,22 @@ namespace Raxos\Http\Validate;
 
 use BackedEnum;
 use Raxos\Contract\Http\HttpRequestModelInterface;
-use Raxos\Contract\Http\Validate\{ConstraintAttributeInterface, ConstraintExceptionInterface, TransformerExceptionInterface, TransformerInterface, ValidatorExceptionInterface};
-use Raxos\Foundation\Util\{ReflectionUtil, Singleton};
-use Raxos\Http\Validate\Attribute\Property;
-use Raxos\Http\Validate\Error\{InvalidValueTransformerException, MissingConstraintException, ReflectionErrorException, UnvalidatableException, ValidationNotOkException};
-use Raxos\Http\Validate\Transformer\{BooleanTransformer, FloatTransformer, IntegerTransformer};
-use ReflectionAttribute;
+use Raxos\Contract\Http\Validate\ConstraintExceptionInterface;
+use Raxos\Contract\Http\Validate\TransformerExceptionInterface;
+use Raxos\Contract\Http\Validate\TransformerInterface;
+use Raxos\Contract\Http\Validate\ValidatorExceptionInterface;
+use Raxos\Foundation\Util\Singleton;
+use Raxos\Http\Validate\Error\InvalidValueTransformerException;
+use Raxos\Http\Validate\Error\MissingConstraintException;
+use Raxos\Http\Validate\Error\ReflectionErrorException;
+use Raxos\Http\Validate\Error\UnvalidatableException;
+use Raxos\Http\Validate\Error\ValidationNotOkException;
+use Raxos\Http\Validate\Transformer\BooleanTransformer;
+use Raxos\Http\Validate\Transformer\FloatTransformer;
+use Raxos\Http\Validate\Transformer\IntegerTransformer;
 use ReflectionClass;
 use ReflectionException;
-use ReflectionMethod;
-use ReflectionParameter;
-use ReflectionProperty;
 use TypeError;
-use function array_find;
 use function array_key_exists;
 use function in_array;
 use function is_bool;
@@ -28,6 +31,8 @@ use function sprintf;
 
 /**
  * Class HttpClassValidator
+ *
+ * Validates raw request input against reflected property rules before model hydration.
  *
  * @template TClass of object
  *
@@ -44,12 +49,49 @@ final class HttpClassValidator
         'int' => IntegerTransformer::class
     ];
 
+    /**
+     * Retains reflected model metadata for repeated validations.
+     *
+     * @var ReflectionClass
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.7.0
+     */
     private ReflectionClass $classRef;
-    private ?ReflectionMethod $constructorRef;
-    private array $parameterRefs;
-    private array $propertyRefs;
+
+    /**
+     * Reuses request property metadata across validations without evaluating conditional rules early.
+     *
+     * @var list<RequestPropertyMetadata>
+     * @author Bas Milius <bas@mili.us>
+     * @since 3.3.0
+     */
+    private array $metadata;
+
+    /**
+     * Retains raw input until constraints have validated it for model hydration.
+     *
+     * @var array
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.7.0
+     */
     private array $data;
+
+    /**
+     * Accumulates property validation failures before returning the validation result.
+     *
+     * @var array
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.7.0
+     */
     private array $errors = [];
+
+    /**
+     * Retains the validated model after successful hydration.
+     *
+     * @var array
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.7.0
+     */
     private array $result = [];
 
     /**
@@ -71,9 +113,15 @@ final class HttpClassValidator
 
         try {
             $this->classRef = new ReflectionClass($class);
-            $this->constructorRef = $this->classRef->getConstructor();
-            $this->parameterRefs = $this->constructorRef?->getParameters() ?? [];
-            $this->propertyRefs = $this->classRef->getProperties();
+            $this->metadata = [];
+
+            foreach ($this->classRef->getProperties() as $property) {
+                $metadata = RequestPropertyMetadata::from($property, $this->classRef);
+
+                if ($metadata !== null) {
+                    $this->metadata[] = $metadata;
+                }
+            }
         } catch (ReflectionException $err) {
             throw new ReflectionErrorException($err);
         }
@@ -115,30 +163,24 @@ final class HttpClassValidator
         $this->errors = [];
         $this->result = [];
 
-        foreach ($this->propertyRefs as $propertyRef) {
-            /** @var ReflectionAttribute<Property> $propertyAttr */
-            $propertyAttr = $propertyRef->getAttributes(Property::class)[0] ?? null;
-
-            if ($propertyAttr === null) {
-                continue;
-            }
-
-            $this->validateProperty($propertyAttr->newInstance(), $propertyRef);
+        foreach ($this->metadata as $metadata) {
+            $this->validateProperty($metadata);
         }
     }
 
     /**
      * Validates a single property of the class.
      *
-     * @param Property $propertyAttr
-     * @param ReflectionProperty $propertyRef
+     * @param RequestPropertyMetadata $metadata
      *
      * @return void
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 1.7.0
      */
-    private function validateProperty(Property $propertyAttr, ReflectionProperty $propertyRef): void
+    private function validateProperty(RequestPropertyMetadata $metadata): void
     {
+        $propertyAttr = $metadata->attribute;
+        $propertyRef = $metadata->property;
         $isOptional = $propertyAttr->optional;
 
         if (!is_bool($isOptional)) {
@@ -146,9 +188,9 @@ final class HttpClassValidator
         }
 
         try {
-            $propertyKey = $propertyAttr->alias ?? $propertyRef->name;
-            [$propertyValue, $isDefaultValue] = $this->getValue($propertyRef, $propertyKey, $isOptional);
-            $propertyTypes = ReflectionUtil::getTypes($propertyRef->getType());
+            $propertyKey = $metadata->name();
+            [$propertyValue, $isDefaultValue] = $this->getValue($metadata, $isOptional);
+            $propertyTypes = $metadata->types;
             $propertyType = $propertyTypes[0] ?? null;
 
             if ($propertyType !== null && isset(self::BUILTIN_TRANSFORMERS[$propertyType])) {
@@ -172,6 +214,7 @@ final class HttpClassValidator
             } elseif (is_subclass_of($propertyType, BackedEnum::class)) {
                 if ($propertyValue !== null) {
                     $original = $propertyValue;
+
                     try {
                         $propertyValue = $propertyType::tryFrom($propertyValue);
                     } catch (TypeError) {
@@ -189,10 +232,7 @@ final class HttpClassValidator
             }
 
             if (!$isDefaultValue && $propertyValue !== null) {
-                /** @var ReflectionAttribute<ConstraintAttributeInterface>[] $constraints */
-                $constraints = $propertyRef->getAttributes(ConstraintAttributeInterface::class, ReflectionAttribute::IS_INSTANCEOF);
-
-                foreach ($constraints as $constraint) {
+                foreach ($metadata->constraints as $constraint) {
                     $constraint = $constraint->newInstance();
 
                     if ($constraint instanceof TransformerInterface) {
@@ -212,8 +252,7 @@ final class HttpClassValidator
     /**
      * Gets a property value.
      *
-     * @param ReflectionProperty $propertyRef
-     * @param string $propertyKey
+     * @param RequestPropertyMetadata $metadata
      * @param bool $isOptional
      *
      * @return array{0: mixed, 1: bool}
@@ -221,8 +260,14 @@ final class HttpClassValidator
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
-    private function getValue(ReflectionProperty $propertyRef, string $propertyKey, bool $isOptional): array
+    private function getValue(
+        RequestPropertyMetadata $metadata,
+        bool $isOptional
+    ): array
     {
+        $propertyKey = $metadata->name();
+        $propertyRef = $metadata->property;
+
         if (array_key_exists($propertyKey, $this->data)) {
             $value = $this->data[$propertyKey];
 
@@ -235,16 +280,7 @@ final class HttpClassValidator
             throw new MissingConstraintException($propertyKey);
         }
 
-        $value = $propertyRef->hasDefaultValue() ? $propertyRef->getDefaultValue() : null;
-
-        if ($propertyRef->isPromoted()) {
-            /** @var ReflectionParameter|null $parameterRef */
-            $parameterRef = array_find($this->parameterRefs, static fn(ReflectionParameter $parameter) => $parameter->name === $propertyRef->name);
-
-            if ($parameterRef?->isDefaultValueAvailable()) {
-                $value = $parameterRef->getDefaultValue();
-            }
-        }
+        $value = $metadata->default;
 
         if ($value === null && !$propertyRef->getType()?->allowsNull()) {
             throw new MissingConstraintException($propertyKey);
@@ -252,5 +288,4 @@ final class HttpClassValidator
 
         return [$value, true];
     }
-
 }

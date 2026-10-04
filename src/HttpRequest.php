@@ -4,10 +4,16 @@ declare(strict_types=1);
 namespace Raxos\Http;
 
 use JsonException;
-use Raxos\Collection\{CacheMap, Map};
+use Raxos\Collection\CacheMap;
+use Raxos\Collection\Map;
 use Raxos\Contract\Http\HttpRequestInterface;
 use Raxos\Foundation\Network\IP;
-use Raxos\Http\Structure\{HttpCookiesMap, HttpFilesMap, HttpHeadersMap, HttpPostMap, HttpQueryMap, HttpServerMap};
+use Raxos\Http\Structure\HttpCookiesMap;
+use Raxos\Http\Structure\HttpFilesMap;
+use Raxos\Http\Structure\HttpHeadersMap;
+use Raxos\Http\Structure\HttpPostMap;
+use Raxos\Http\Structure\HttpQueryMap;
+use Raxos\Http\Structure\HttpServerMap;
 use RuntimeException;
 use function array_column;
 use function explode;
@@ -33,7 +39,13 @@ use const JSON_THROW_ON_ERROR;
  */
 readonly class HttpRequest implements HttpRequestInterface
 {
-
+    /**
+     * Shares model identities between rows loaded through this ORM connection.
+     *
+     * @var CacheMap
+     * @author Bas Milius <bas@mili.us>
+     * @since 1.0.0
+     */
     private CacheMap $cache;
 
     /**
@@ -81,7 +93,12 @@ readonly class HttpRequest implements HttpRequestInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.1.0
      */
-    public function addParameterFromQuery(string $name, string $key, ?callable $sanitizer = null, mixed $defaultValue = null): self
+    public function addParameterFromQuery(
+        string $name,
+        string $key,
+        ?callable $sanitizer = null,
+        mixed $defaultValue = null
+    ): self
     {
         if (!$this->query->has($key)) {
             if ($defaultValue !== null) {
@@ -372,5 +389,4 @@ readonly class HttpRequest implements HttpRequestInterface
             new Map()
         );
     }
-
 }

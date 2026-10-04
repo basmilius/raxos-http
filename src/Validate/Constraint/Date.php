@@ -25,13 +25,15 @@ use function preg_match;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final readonly class Date implements ConstraintAttributeInterface
 {
-
     /**
      * {@inheritdoc}
      * @author Bas Milius <bas@mili.us>
-     * @since 3.2.0
+     * @since 2.0.0
      */
-    public function check(ReflectionProperty $property, mixed $value): RaxosDate
+    public function check(
+        ReflectionProperty $property,
+        mixed $value
+    ): RaxosDate
     {
         if (!is_string($value) || !preg_match('/^(\d{4})-(\d{2})-(\d{2})$/D', $value, $parts)) {
             throw new DateConstraintException();
@@ -47,5 +49,4 @@ final readonly class Date implements ConstraintAttributeInterface
             throw new DateConstraintException();
         }
     }
-
 }

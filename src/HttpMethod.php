@@ -13,6 +13,7 @@ namespace Raxos\Http;
 enum HttpMethod: string
 {
     case ANY = 'ANY';
+    case CONNECT = 'CONNECT';
     case DELETE = 'DELETE';
     case GET = 'GET';
     case HEAD = 'HEAD';
@@ -20,4 +21,5 @@ enum HttpMethod: string
     case PATCH = 'PATCH';
     case POST = 'POST';
     case PUT = 'PUT';
+    case TRACE = 'TRACE';
 }

@@ -64,6 +64,7 @@ final class Psr7Request implements RequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -74,6 +75,7 @@ final class Psr7Request implements RequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -98,6 +100,7 @@ final class Psr7Request implements RequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -108,6 +111,7 @@ final class Psr7Request implements RequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -125,6 +129,7 @@ final class Psr7Request implements RequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -142,6 +147,7 @@ final class Psr7Request implements RequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -191,4 +197,5 @@ final class Psr7Request implements RequestInterface
 
         $this->headers = [$header => [$host]] + $this->headers;
     }
+
 }

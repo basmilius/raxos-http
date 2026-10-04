@@ -23,6 +23,7 @@ use function ob_start;
  */
 abstract class HttpResponse implements HttpResponseInterface
 {
+
     /**
      * HttpResponse constructor.
      *
@@ -39,6 +40,7 @@ abstract class HttpResponse implements HttpResponseInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.1.0
      */
@@ -59,6 +61,7 @@ abstract class HttpResponse implements HttpResponseInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.1.0
      */
@@ -71,6 +74,7 @@ abstract class HttpResponse implements HttpResponseInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.1.0
      */
@@ -136,4 +140,5 @@ abstract class HttpResponse implements HttpResponseInterface
     {
         http_response_code($this->responseCode->value);
     }
+
 }

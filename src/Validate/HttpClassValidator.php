@@ -288,4 +288,5 @@ final class HttpClassValidator
 
         return [$value, true];
     }
+
 }

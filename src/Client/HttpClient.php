@@ -23,6 +23,7 @@ use function sprintf;
  */
 readonly class HttpClient
 {
+
     /**
      * Retains the configured transport client without rebuilding it for each request.
      *
@@ -91,4 +92,5 @@ readonly class HttpClient
 
         throw new BadCallException(sprintf('Method "%s" does not exist in either "%s or "%s".', $name, static::class, HttpClientRequest::class));
     }
+
 }

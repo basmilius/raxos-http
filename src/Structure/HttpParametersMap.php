@@ -19,6 +19,7 @@ abstract class HttpParametersMap extends Map
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */

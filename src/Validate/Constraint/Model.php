@@ -30,6 +30,7 @@ final readonly class Model implements ConstraintAttributeInterface, TransformerI
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -56,6 +57,7 @@ final readonly class Model implements ConstraintAttributeInterface, TransformerI
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */

@@ -38,6 +38,7 @@ final readonly class MinLength implements ConstraintAttributeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */

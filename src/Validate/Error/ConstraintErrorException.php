@@ -40,6 +40,7 @@ final class ConstraintErrorException extends Exception implements ConstraintWith
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

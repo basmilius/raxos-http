@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Raxos\Database\Orm\Error\NotFoundException;
 use Raxos\Http\Validate\Constraint\Model;
 use Raxos\Http\Validate\Error\{InvalidValueTransformerException, ModelConstraintException};
 use RaxosTests\Http\ModelConstraintFields;
@@ -16,7 +17,7 @@ it('finds the model by primary key and reports missing models', function (): voi
         new Model()->check($property, 'error');
         test()->fail('Database failures must be wrapped.');
     } catch (ModelConstraintException $error) {
-        expect($error->getPrevious())->toBeInstanceOf(Raxos\Database\Orm\Error\NotFoundException::class);
+        expect($error->getPrevious())->toBeInstanceOf(NotFoundException::class);
     }
 });
 

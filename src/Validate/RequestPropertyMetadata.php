@@ -21,6 +21,7 @@ use ReflectionProperty;
  */
 final readonly class RequestPropertyMetadata
 {
+
     /**
      * Retains reflection attributes without instantiating constraints until validation or schema generation needs them.
      *
@@ -120,4 +121,5 @@ final readonly class RequestPropertyMetadata
     {
         return $this->default !== null || ($this->property->getType()?->allowsNull() ?? false);
     }
+
 }

@@ -32,6 +32,7 @@ use function stream_get_meta_data;
  */
 final class HttpClientRequest
 {
+
     /**
      * Applies retries only to this request builder, without changing other requests from the client.
      *
@@ -571,4 +572,5 @@ final class HttpClientRequest
     {
         return $this->base(HttpMethod::CONNECT, $uri);
     }
+
 }

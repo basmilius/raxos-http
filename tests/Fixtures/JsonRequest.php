@@ -7,8 +7,10 @@ use Raxos\Http\HttpRequest;
 
 final readonly class JsonRequest extends HttpRequest
 {
+
     public function body(): ?string
     {
         return $this->parameters->get('fixture_body');
     }
+
 }

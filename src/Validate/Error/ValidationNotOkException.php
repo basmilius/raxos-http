@@ -36,6 +36,7 @@ final class ValidationNotOkException extends Exception implements ValidatorExcep
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

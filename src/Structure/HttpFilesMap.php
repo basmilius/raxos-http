@@ -18,6 +18,7 @@ use function array_is_list;
  */
 final class HttpFilesMap extends Map
 {
+
     /**
      * Creates from the global request.
      *
@@ -69,4 +70,5 @@ final class HttpFilesMap extends Map
 
         return $files;
     }
+
 }

@@ -37,6 +37,7 @@ final readonly class Max implements ConstraintAttributeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */

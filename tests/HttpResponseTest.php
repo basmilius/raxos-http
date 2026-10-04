@@ -16,6 +16,7 @@ it('adds and replaces headers and changes status fluently', function (): void {
 
 it('sends status and headers before the body and restores output buffering', function (): void {
     $response = new class extends HttpResponse {
+
         public array $events = [];
 
         protected function sendResponseCode(): void
@@ -33,6 +34,7 @@ it('sends status and headers before the body and restores output buffering', fun
             $this->events[] = 'body';
             echo 'value';
         }
+
     };
     $level = ob_get_level();
     ob_start();
@@ -42,6 +44,7 @@ it('sends status and headers before the body and restores output buffering', fun
 
 it('cleans up its output buffer when sending a body throws', function (): void {
     $response = new class extends HttpResponse {
+
         protected function sendResponseCode(): void {}
 
         protected function sendHeaders(): void {}
@@ -50,6 +53,7 @@ it('cleans up its output buffer when sending a body throws', function (): void {
         {
             throw new LogicException('body');
         }
+
     };
     $level = ob_get_level();
     try {

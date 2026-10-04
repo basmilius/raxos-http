@@ -33,6 +33,7 @@ final readonly class Psr18Client implements ClientInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.2.0
      */

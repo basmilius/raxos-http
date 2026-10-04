@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use Raxos\Database\Orm\Error\NotFoundException;
 use Raxos\Http\Validate\Constraint\ModelArray;
 use Raxos\Http\Validate\Error\{InvalidValueTransformerException, ModelArrayConstraintException};
 use RaxosTests\Http\ConstraintModel;
@@ -17,7 +18,7 @@ it('returns every resolved model and rejects incomplete selections', function ()
         $constraint->check(constraintProperty(), ['error']);
         test()->fail('Database failures must be wrapped.');
     } catch (ModelArrayConstraintException $error) {
-        expect($error->getPrevious())->toBeInstanceOf(Raxos\Database\Orm\Error\NotFoundException::class);
+        expect($error->getPrevious())->toBeInstanceOf(NotFoundException::class);
     }
 });
 

@@ -42,6 +42,7 @@ final class NestedConstraintException extends Exception implements ConstraintWit
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

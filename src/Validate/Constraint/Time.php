@@ -27,6 +27,7 @@ final readonly class Time implements ConstraintAttributeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

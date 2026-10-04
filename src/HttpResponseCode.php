@@ -12,6 +12,7 @@ namespace Raxos\Http;
  */
 enum HttpResponseCode: int
 {
+
     case CONTINUE = 100;
     case SWITCHING_PROTOCOLS = 101;
     case PROCESSING = 102;
@@ -153,4 +154,5 @@ enum HttpResponseCode: int
             self::NETWORK_AUTHENTICATION_REQUIRED => 'Network Authentication Required'
         };
     }
+
 }

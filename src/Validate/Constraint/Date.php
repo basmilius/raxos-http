@@ -25,8 +25,10 @@ use function preg_match;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final readonly class Date implements ConstraintAttributeInterface
 {
+
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */
@@ -49,4 +51,5 @@ final readonly class Date implements ConstraintAttributeInterface
             throw new DateConstraintException();
         }
     }
+
 }

@@ -39,6 +39,7 @@ final class Psr18NetworkException extends RuntimeException implements NetworkExc
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.2.0
      */

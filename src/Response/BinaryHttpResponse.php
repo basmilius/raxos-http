@@ -35,6 +35,7 @@ final class BinaryHttpResponse extends HttpResponse
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.1.0
      */

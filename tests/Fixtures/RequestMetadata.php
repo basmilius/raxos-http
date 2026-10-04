@@ -11,6 +11,7 @@ use ReflectionProperty;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final class MetadataProbeConstraint implements ConstraintAttributeInterface
 {
+
     public static int $instances = 0;
 
     public function __construct()
@@ -22,10 +23,12 @@ final class MetadataProbeConstraint implements ConstraintAttributeInterface
     {
         return $value;
     }
+
 }
 
 final class MetadataInput
 {
+
     #[Property(alias: 'display_name', optional: true)]
     #[MetadataProbeConstraint]
     public string $name = 'fallback';
@@ -41,4 +44,5 @@ final class MetadataInput
         #[Property(optional: true)]
         public ?string $note = null
     ) {}
+
 }

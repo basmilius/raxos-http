@@ -20,6 +20,7 @@ use function strtolower;
  */
 final class HttpHeadersMap extends Map
 {
+
     /**
      * Normalizes header names for case-insensitive lookup while retaining their values.
      *
@@ -63,6 +64,7 @@ final class HttpHeadersMap extends Map
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
@@ -102,6 +104,7 @@ final class HttpHeadersMap extends Map
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
@@ -112,6 +115,7 @@ final class HttpHeadersMap extends Map
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
@@ -125,6 +129,7 @@ final class HttpHeadersMap extends Map
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.2.0
      */
@@ -144,4 +149,5 @@ final class HttpHeadersMap extends Map
     {
         return new self(array_map(static fn(mixed $value) => is_array($value) ? $value : [$value], HttpUtil::getAllHeaders()));
     }
+
 }

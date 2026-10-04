@@ -28,6 +28,7 @@ final readonly class Nested implements ConstraintAttributeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @throws ValidatorExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0

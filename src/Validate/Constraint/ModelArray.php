@@ -42,6 +42,7 @@ final readonly class ModelArray implements ConstraintAttributeInterface, Transfo
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -64,6 +65,7 @@ final readonly class ModelArray implements ConstraintAttributeInterface, Transfo
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */

@@ -42,6 +42,7 @@ final class MinConstraintException extends Exception implements ConstraintWithPa
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

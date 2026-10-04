@@ -27,6 +27,7 @@ use function ucwords;
  */
 final readonly class ProblemDetails implements JsonSerializable
 {
+
     /**
      * Accepts a 4xx or 5xx status and keeps extension fields from replacing standard problem members.
      *
@@ -121,4 +122,5 @@ final readonly class ProblemDetails implements JsonSerializable
 
         return $response;
     }
+
 }

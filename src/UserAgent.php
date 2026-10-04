@@ -35,6 +35,7 @@ use function version_compare;
  */
 readonly class UserAgent implements JsonSerializable, Stringable
 {
+
     /**
      * Exposes the browser identified from the parsed user-agent string.
      *
@@ -318,6 +319,7 @@ readonly class UserAgent implements JsonSerializable, Stringable
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -339,6 +341,7 @@ readonly class UserAgent implements JsonSerializable, Stringable
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -346,4 +349,5 @@ readonly class UserAgent implements JsonSerializable, Stringable
     {
         return $this->userAgent;
     }
+
 }

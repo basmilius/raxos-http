@@ -39,6 +39,7 @@ use const JSON_THROW_ON_ERROR;
  */
 readonly class HttpRequest implements HttpRequestInterface
 {
+
     /**
      * Shares model identities between rows loaded through this ORM connection.
      *
@@ -121,6 +122,7 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -139,6 +141,7 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -159,6 +162,7 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -173,6 +177,7 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -183,6 +188,7 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -193,6 +199,7 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -233,12 +240,13 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
     public function body(): ?string
     {
-        return $this->cache->remember(__METHOD__, function (): ?string {
+        return $this->cache->remember(__METHOD__, static function (): ?string {
             $body = file_get_contents('php://input');
 
             if ($body === false || $body === '') {
@@ -251,6 +259,7 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -279,6 +288,7 @@ readonly class HttpRequest implements HttpRequestInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */
@@ -389,4 +399,5 @@ readonly class HttpRequest implements HttpRequestInterface
             new Map()
         );
     }
+
 }

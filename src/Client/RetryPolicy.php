@@ -31,6 +31,7 @@ use function usleep;
  */
 final readonly class RetryPolicy
 {
+
     /**
      * Measures elapsed time monotonically so wall-clock changes cannot extend the retry budget.
      *
@@ -199,4 +200,5 @@ final readonly class RetryPolicy
 
         return max($delay, $seconds);
     }
+
 }

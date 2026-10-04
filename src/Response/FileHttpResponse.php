@@ -45,6 +45,7 @@ final class FileHttpResponse extends HttpResponse
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.1.0
      */
@@ -83,6 +84,7 @@ final class FileHttpResponse extends HttpResponse
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.1.0
      */

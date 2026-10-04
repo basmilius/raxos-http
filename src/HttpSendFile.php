@@ -36,6 +36,7 @@ use function usleep;
  */
 final class HttpSendFile implements HttpSendFileInterface
 {
+
     /**
      * HttpSendFile constructor.
      *
@@ -64,6 +65,7 @@ final class HttpSendFile implements HttpSendFileInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -80,6 +82,7 @@ final class HttpSendFile implements HttpSendFileInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -96,6 +99,7 @@ final class HttpSendFile implements HttpSendFileInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -108,6 +112,7 @@ final class HttpSendFile implements HttpSendFileInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -124,6 +129,7 @@ final class HttpSendFile implements HttpSendFileInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -213,4 +219,5 @@ final class HttpSendFile implements HttpSendFileInterface
             fclose($handle);
         }
     }
+
 }

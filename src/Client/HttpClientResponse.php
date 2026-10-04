@@ -22,6 +22,7 @@ use const JSON_THROW_ON_ERROR;
  */
 readonly class HttpClientResponse implements DebuggableInterface
 {
+
     /**
      * Exposes the protocol version reported by the underlying transport response.
      *
@@ -215,6 +216,7 @@ readonly class HttpClientResponse implements DebuggableInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */
@@ -233,4 +235,5 @@ readonly class HttpClientResponse implements DebuggableInterface
             'response_text' => $this->responseText
         ];
     }
+
 }

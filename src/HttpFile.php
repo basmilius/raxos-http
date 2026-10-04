@@ -44,6 +44,7 @@ final readonly class HttpFile implements DebuggableInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.0.0
      */

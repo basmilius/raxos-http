@@ -27,6 +27,7 @@ final readonly class Email implements ConstraintAttributeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */

@@ -39,6 +39,7 @@ final class Psr18RequestException extends RuntimeException implements RequestExc
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

@@ -27,6 +27,7 @@ use function is_subclass_of;
 #[Attribute(Attribute::TARGET_PROPERTY)]
 final readonly class NestedArray implements ConstraintAttributeInterface
 {
+
     /**
      * NestedArray constructor.
      *
@@ -41,6 +42,7 @@ final readonly class NestedArray implements ConstraintAttributeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @throws ValidatorExceptionInterface
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
@@ -71,4 +73,5 @@ final readonly class NestedArray implements ConstraintAttributeInterface
 
         return $results;
     }
+
 }

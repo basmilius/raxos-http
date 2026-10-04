@@ -26,6 +26,7 @@ final readonly class DateTime implements ConstraintAttributeInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 2.0.0
      */

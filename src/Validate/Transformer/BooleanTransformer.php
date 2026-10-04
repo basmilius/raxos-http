@@ -24,6 +24,7 @@ final readonly class BooleanTransformer implements TransformerInterface
 
     /**
      * {@inheritdoc}
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 1.7.0
      */

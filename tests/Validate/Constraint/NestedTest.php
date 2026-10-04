@@ -9,10 +9,10 @@ covers(Nested::class);
 
 it('validates a nested request class and preserves its detailed errors', function (): void {
     expect(new Nested()->check(constraintProperty('address'), ['city' => 'Utrecht'])->city)->toBe('Utrecht');
-    expect(fn () => new Nested()->check(constraintProperty('address'), ['city' => 'x']))->toThrow(ValidationNotOkException::class);
+    expect(fn() => new Nested()->check(constraintProperty('address'), ['city' => 'x']))->toThrow(ValidationNotOkException::class);
 });
 
 it('rejects scalar input and properties without a request class', function (): void {
-    expect(fn () => new Nested()->check(constraintProperty('address'), 'invalid'))->toThrow(NestedConstraintException::class);
-    expect(fn () => new Nested()->check(constraintProperty('invalidNested'), []))->toThrow(NestedConstraintException::class);
+    expect(fn() => new Nested()->check(constraintProperty('address'), 'invalid'))->toThrow(NestedConstraintException::class);
+    expect(fn() => new Nested()->check(constraintProperty('invalidNested'), []))->toThrow(NestedConstraintException::class);
 });

@@ -35,9 +35,7 @@ abstract class HttpResponse implements HttpResponseInterface
     public function __construct(
         public HttpHeadersMap $headers = new HttpHeadersMap(),
         public HttpResponseCode $responseCode = HttpResponseCode::OK
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}
@@ -105,9 +103,7 @@ abstract class HttpResponse implements HttpResponseInterface
      * @author Bas Milius <bas@mili.us>
      * @since 02-03-2026
      */
-    protected function sendBody(): void
-    {
-    }
+    protected function sendBody(): void {}
 
     /**
      * Sends the headers.

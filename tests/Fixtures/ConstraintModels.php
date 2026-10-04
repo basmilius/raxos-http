@@ -8,15 +8,14 @@ use Raxos\Database\Orm\{Model, ModelArrayList};
 
 final class ConstraintModel extends Model
 {
-    public function __construct(public int $id = 1)
-    {
-    }
+    public function __construct(public int $id = 1) {}
 
     public static function single(array|string|int $primaryKey): ?static
     {
         if ($primaryKey === 'error') {
             throw new NotFoundException(self::class, $primaryKey);
         }
+
         return $primaryKey === 1 ? new self() : null;
     }
 
@@ -25,7 +24,8 @@ final class ConstraintModel extends Model
         if (in_array('error', $primaryKeys, true)) {
             throw new NotFoundException(self::class, 'error');
         }
-        return new ModelArrayList(array_map(static fn (int $id): self => new self($id), array_values(array_filter($primaryKeys, static fn (mixed $id): bool => is_int($id) && $id > 0))));
+
+        return new ModelArrayList(array_map(static fn(int $id): self => new self($id), array_values(array_filter($primaryKeys, static fn(mixed $id): bool => is_int($id) && $id > 0))));
     }
 }
 

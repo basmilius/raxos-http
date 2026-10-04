@@ -12,6 +12,6 @@ it('accepts values at and within the constraint boundary', function (mixed $valu
 })->with([['ab'], ['xy']]);
 
 it('rejects values outside the constraint boundary', function (mixed $value): void {
-    expect(fn () => new Matches('/^[a-z]{2}$/D')->check(constraintProperty(), $value))->toThrow(MatchesConstraintException::class);
+    expect(fn() => new Matches('/^[a-z]{2}$/D')->check(constraintProperty(), $value))->toThrow(MatchesConstraintException::class);
 })->with([['a'], ['ab
 '], [2], [[]]]);

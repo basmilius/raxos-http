@@ -12,5 +12,5 @@ it('accepts values at and within the constraint boundary', function (mixed $valu
 })->with([['unit@example.org'], ['user+tag@example.org']]);
 
 it('rejects values outside the constraint boundary', function (mixed $value): void {
-    expect(fn () => new Email()->check(constraintProperty(), $value))->toThrow(EmailConstraintException::class);
+    expect(fn() => new Email()->check(constraintProperty(), $value))->toThrow(EmailConstraintException::class);
 })->with([['invalid'], ['unit@'], ['a b@example.org']]);

@@ -11,5 +11,5 @@ it('transforms each accepted value into its native type', function (mixed $input
 })->with([[true, true], [1, true], ['1', true], ['yes', true], ['on', true], ['true', true], [false, false], [0, false], ['0', false], ['false', false], ['no', false], ['off', false]]);
 
 it('rejects malformed input through the validation exception contract', function (mixed $input): void {
-    expect(fn () => new BooleanTransformer()->transform($input))->toThrow(InvalidValueTransformerException::class);
+    expect(fn() => new BooleanTransformer()->transform($input))->toThrow(InvalidValueTransformerException::class);
 })->with([[null], [''], ['TRUE'], [2], [[]], [new stdClass()]]);

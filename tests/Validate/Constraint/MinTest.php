@@ -12,5 +12,5 @@ it('accepts values at and within the constraint boundary', function (mixed $valu
 })->with([[3], [4], [3.5]]);
 
 it('rejects values outside the constraint boundary', function (mixed $value): void {
-    expect(fn () => new Min(3)->check(constraintProperty(), $value))->toThrow(MinConstraintException::class);
+    expect(fn() => new Min(3)->check(constraintProperty(), $value))->toThrow(MinConstraintException::class);
 })->with([[2], [-1]]);

@@ -13,6 +13,6 @@ it('preserves valid uploads and rejects errored uploads or ordinary values', fun
     $file = new HttpFile($input);
     expect(new Upload()->check(constraintProperty(), $file))->toBe($file);
     $input['error'] = UPLOAD_ERR_NO_FILE;
-    expect(fn () => new Upload()->check(constraintProperty(), new HttpFile($input)))->toThrow(UploadConstraintException::class);
-    expect(fn () => new Upload()->check(constraintProperty(), []))->toThrow(UploadConstraintException::class);
+    expect(fn() => new Upload()->check(constraintProperty(), new HttpFile($input)))->toThrow(UploadConstraintException::class);
+    expect(fn() => new Upload()->check(constraintProperty(), []))->toThrow(UploadConstraintException::class);
 });

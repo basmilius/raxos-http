@@ -42,7 +42,7 @@ it('detects file media types and rejects missing paths before sending anything',
         $response->send();
         $body = ob_get_clean();
         expect($body)->toBe('plain text')->and($response->headers->get(HttpHeader::CONTENT_TYPE))->toBe('text/plain');
-        expect(fn () => new FileHttpResponse($file.'.missing', HttpRequest::create())->send())->toThrow(RuntimeException::class);
+        expect(fn() => new FileHttpResponse($file . '.missing', HttpRequest::create())->send())->toThrow(RuntimeException::class);
     } finally {
         unlink($file);
         http_response_code($previousCode ?: 200);

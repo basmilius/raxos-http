@@ -12,5 +12,5 @@ it('converts accepted strings into the corresponding date type', function (strin
 })->with([['13:25', '13:25:00'], ['23:59:59', '23:59:59']]);
 
 it('wraps malformed or non-string date values', function (mixed $value): void {
-    expect(fn () => new Time()->check(constraintProperty(), $value))->toThrow(TimeConstraintException::class);
+    expect(fn() => new Time()->check(constraintProperty(), $value))->toThrow(TimeConstraintException::class);
 })->with([['bad'], ['25:99:99'], [12], [[]]]);

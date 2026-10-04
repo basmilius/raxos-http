@@ -50,6 +50,7 @@ final class HttpFilesMap extends Map
      * Converts parallel multipart fields into upload objects.
      *
      * @param array $file
+     *
      * @return HttpFile|array
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0

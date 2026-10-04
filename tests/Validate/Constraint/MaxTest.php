@@ -12,5 +12,5 @@ it('accepts values at and within the constraint boundary', function (mixed $valu
 })->with([[3], [2], [2.5]]);
 
 it('rejects values outside the constraint boundary', function (mixed $value): void {
-    expect(fn () => new Max(3)->check(constraintProperty(), $value))->toThrow(MaxConstraintException::class);
+    expect(fn() => new Max(3)->check(constraintProperty(), $value))->toThrow(MaxConstraintException::class);
 })->with([[4], [3.5]]);

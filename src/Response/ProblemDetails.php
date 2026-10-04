@@ -36,6 +36,7 @@ final readonly class ProblemDetails implements JsonSerializable
      * @param string $type
      * @param string|null $instance
      * @param array<string, mixed> $extensions
+     *
      * @throws InvalidArgumentException
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0
@@ -65,6 +66,7 @@ final readonly class ProblemDetails implements JsonSerializable
      * @param int $status
      * @param string|null $detail
      * @param string|null $instance
+     *
      * @return self
      * @throws InvalidArgumentException
      * @author Bas Milius <bas@mili.us>

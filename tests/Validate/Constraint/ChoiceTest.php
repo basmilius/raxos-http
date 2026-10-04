@@ -12,5 +12,5 @@ it('accepts values at and within the constraint boundary', function (mixed $valu
 })->with([['0'], [1]]);
 
 it('rejects values outside the constraint boundary', function (mixed $value): void {
-    expect(fn () => new Choice(['0', 1])->check(constraintProperty(), $value))->toThrow(ChoiceConstraintException::class);
+    expect(fn() => new Choice(['0', 1])->check(constraintProperty(), $value))->toThrow(ChoiceConstraintException::class);
 })->with([[0], ['1'], [null], [[]]]);

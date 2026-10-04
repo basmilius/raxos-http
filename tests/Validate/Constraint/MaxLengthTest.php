@@ -12,5 +12,5 @@ it('accepts values at and within the constraint boundary', function (mixed $valu
 })->with([[''], ['é'], ['é😀']]);
 
 it('rejects values outside the constraint boundary', function (mixed $value): void {
-    expect(fn () => new MaxLength(2)->check(constraintProperty(), $value))->toThrow(MaxLengthConstraintException::class);
+    expect(fn() => new MaxLength(2)->check(constraintProperty(), $value))->toThrow(MaxLengthConstraintException::class);
 })->with([['é😀a'], ['hello']]);

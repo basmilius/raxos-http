@@ -70,6 +70,7 @@ final readonly class RetryPolicy
      * @param callable():float|null $clock
      * @param callable(float):void|null $sleep
      * @param callable():int|null $wallClock
+     *
      * @throws InvalidArgumentException
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0
@@ -116,6 +117,7 @@ final readonly class RetryPolicy
      * @param callable(float):ResponseInterface $request
      * @param string $method
      * @param bool $replayable
+     *
      * @return ResponseInterface
      * @throws GuzzleException
      * @author Bas Milius <bas@mili.us>
@@ -174,6 +176,7 @@ final readonly class RetryPolicy
      *
      * @param ResponseInterface|null $response
      * @param int $attempt
+     *
      * @return float
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0

@@ -31,6 +31,7 @@ it('overwrites scalar HTTP options while retaining independent options', functio
     $options = null;
     $handler = static function (Psr\Http\Message\RequestInterface $request, array $received) use (&$options) {
         $options = $received;
+
         return GuzzleHttp\Promise\Create::promiseFor(new GuzzleHttp\Psr7\Response(200, [], 'ok'));
     };
     $request = new HttpClientRequest(new HttpClient(client: new GuzzleHttp\Client(['handler' => $handler])));

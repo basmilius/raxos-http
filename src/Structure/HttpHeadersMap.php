@@ -24,6 +24,7 @@ final class HttpHeadersMap extends Map
      * Normalizes header names for case-insensitive lookup while retaining their values.
      *
      * @param array<string, mixed> $data
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 3.2.0
      */

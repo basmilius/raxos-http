@@ -15,9 +15,7 @@ enum UnitState: string
 
 final readonly class AddressInput implements HttpRequestModelInterface
 {
-    public function __construct(#[Property] #[MinLength(2)] public string $city)
-    {
-    }
+    public function __construct(#[Property] #[MinLength(2)] public string $city) {}
 }
 
 final readonly class UnitInput implements HttpRequestModelInterface
@@ -43,29 +41,22 @@ final readonly class UnitInput implements HttpRequestModelInterface
         #[Choice(['valid'])]
         public string $default = 'trusted-default',
         public string $ignored = 'ignored',
-    ) {
-    }
+    ) {}
 }
 
 final readonly class ScalarInput implements HttpRequestModelInterface
 {
-    public function __construct(#[Property] public int $value)
-    {
-    }
+    public function __construct(#[Property] public int $value) {}
 }
 
 final readonly class NullableInput implements HttpRequestModelInterface
 {
-    public function __construct(#[Property(optional: true)] public ?int $value = null, #[Property(optional: true)] public ?UnitState $state = null)
-    {
-    }
+    public function __construct(#[Property(optional: true)] public ?int $value = null, #[Property(optional: true)] public ?UnitState $state = null) {}
 }
 
 final readonly class OptionalWithoutDefaultInput implements HttpRequestModelInterface
 {
-    public function __construct(#[Property(optional: true)] public int $value)
-    {
-    }
+    public function __construct(#[Property(optional: true)] public int $value) {}
 }
 
 final class ConstraintFields
@@ -85,6 +76,7 @@ function responseBody(\Raxos\Http\HttpResponse $response): string
     ob_start();
     try {
         new \ReflectionMethod($response, 'sendBody')->invoke($response);
+
         return ob_get_contents();
     } finally {
         ob_end_clean();

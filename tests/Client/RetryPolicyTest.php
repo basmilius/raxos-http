@@ -39,8 +39,7 @@ it('backs off retryable statuses and bounds per-attempt transport timeouts', fun
 
 it('does not retry mutation methods unless explicitly enabled', function (bool $unsafe, int $expected): void {
     $calls = 0;
-    $policy = new RetryPolicy(baseDelay: 0, retryUnsafe: $unsafe, sleep: static function (): void {
-    });
+    $policy = new RetryPolicy(baseDelay: 0, retryUnsafe: $unsafe, sleep: static function (): void {});
     $response = $policy->execute(static function () use (&$calls): Response {
         ++$calls;
 
@@ -69,8 +68,7 @@ it('honors Retry-After seconds and HTTP dates without exceeding delay or elapsed
 
 it('does not retry a non-replayable body or a non-retryable exception response', function (): void {
     $calls = 0;
-    $policy = new RetryPolicy(baseDelay: 0, sleep: static function (): void {
-    });
+    $policy = new RetryPolicy(baseDelay: 0, sleep: static function (): void {});
     $policy->execute(static function () use (&$calls): Response {
         ++$calls;
 
@@ -110,8 +108,7 @@ it('does not begin another attempt when the injected sleeper exhausts the total 
 it('retries connection failures and preserves the final original transport cause', function (): void {
     $failure = new ConnectException('offline', new Request('GET', 'https://example.org'));
     $calls = 0;
-    $policy = new RetryPolicy(baseDelay: 0, sleep: static function (): void {
-    });
+    $policy = new RetryPolicy(baseDelay: 0, sleep: static function (): void {});
 
     try {
         $policy->execute(static function () use (&$calls, $failure): never {

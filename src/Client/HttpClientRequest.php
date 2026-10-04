@@ -239,6 +239,7 @@ final class HttpClientRequest
      * Attaches a bounded retry policy to this builder; unsafe methods still require policy opt-in.
      *
      * @param RetryPolicy $policy
+     *
      * @return $this
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0
@@ -290,6 +291,7 @@ final class HttpClientRequest
      * Restores replayable bodies before each attempt and bounds transport timeouts by the remaining budget.
      *
      * @param HttpMethod $method
+     *
      * @return ResponseInterface
      * @throws GuzzleException
      * @author Bas Milius <bas@mili.us>
@@ -368,6 +370,7 @@ final class HttpClientRequest
      * Caps request and connection timeouts without changing the builder's configured options.
      *
      * @param float $remaining
+     *
      * @return array<string, mixed>
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0
@@ -449,6 +452,7 @@ final class HttpClientRequest
      *
      * @param HttpMethod $method
      * @param string $uri
+     *
      * @return HttpClientResponse
      * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
@@ -467,6 +471,7 @@ final class HttpClientRequest
      *
      * @param string $uri
      * @param array|null $json
+     *
      * @return HttpClientResponse
      * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
@@ -489,6 +494,7 @@ final class HttpClientRequest
      *
      * @param string $uri
      * @param array|null $json
+     *
      * @return HttpClientResponse
      * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
@@ -510,6 +516,7 @@ final class HttpClientRequest
      * Sends this builder as HEAD without changing the options of other requests.
      *
      * @param string $uri
+     *
      * @return HttpClientResponse
      * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
@@ -524,6 +531,7 @@ final class HttpClientRequest
      * Sends an OPTIONS request; options() remains the builder configuration method.
      *
      * @param string $uri
+     *
      * @return HttpClientResponse
      * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
@@ -538,6 +546,7 @@ final class HttpClientRequest
      * Sends this builder as TRACE through the configured HTTP transport.
      *
      * @param string $uri
+     *
      * @return HttpClientResponse
      * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>
@@ -552,6 +561,7 @@ final class HttpClientRequest
      * Sends this builder as CONNECT; any retries require explicit policy opt-in.
      *
      * @param string $uri
+     *
      * @return HttpClientResponse
      * @throws HttpClientExceptionInterface
      * @author Bas Milius <bas@mili.us>

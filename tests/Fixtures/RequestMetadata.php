@@ -40,6 +40,5 @@ final class MetadataInput
         public ?int $count = 0,
         #[Property(optional: true)]
         public ?string $note = null
-    ) {
-    }
+    ) {}
 }

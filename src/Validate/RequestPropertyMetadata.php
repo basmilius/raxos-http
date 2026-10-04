@@ -30,6 +30,7 @@ final readonly class RequestPropertyMetadata
      * @param bool $hasDefault
      * @param mixed $default
      * @param list<ReflectionAttribute<ConstraintAttributeInterface>> $constraints
+     *
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0
      */
@@ -40,15 +41,14 @@ final readonly class RequestPropertyMetadata
         public bool $hasDefault,
         public mixed $default,
         public array $constraints
-    )
-    {
-    }
+    ) {}
 
     /**
      * Reads input aliases, constraints and defaults, including promoted constructor defaults.
      *
      * @param ReflectionProperty $property
      * @param ReflectionClass|null $context
+     *
      * @return self|null
      * @author Bas Milius <bas@mili.us>
      * @since 3.3.0

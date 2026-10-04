@@ -29,7 +29,7 @@ it('preserves an explicit nonempty host but updates an empty host', function ():
 });
 
 it('rejects empty or non-string methods and whitespace in request targets', function (): void {
-    expect(fn () => new Psr7Request()->withMethod(''))->toThrow(InvalidArgumentException::class);
-    expect(fn () => new Psr7Request()->withMethod(12))->toThrow(InvalidArgumentException::class);
-    expect(fn () => new Psr7Request()->withRequestTarget('/bad target'))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new Psr7Request()->withMethod(''))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new Psr7Request()->withMethod(12))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new Psr7Request()->withRequestTarget('/bad target'))->toThrow(InvalidArgumentException::class);
 });

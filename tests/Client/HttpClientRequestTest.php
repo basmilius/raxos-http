@@ -114,8 +114,7 @@ it('replays seekable body streams and resources from their initial position', fu
         return Create::promiseFor(new Response(count($received) === 1 ? 503 : 200));
     };
     $client = new HttpClient(client: new Client(['handler' => $handler]));
-    $policy = new RetryPolicy(baseDelay: 0, sleep: static function (): void {
-    });
+    $policy = new RetryPolicy(baseDelay: 0, sleep: static function (): void {});
 
     try {
         $client->request()->options(['body' => $body])->retry($policy)->put('https://example.org');
@@ -136,8 +135,7 @@ it('replays every seekable multipart part but never replays a non-seekable body'
         return Create::promiseFor(new Response(count($received) === 1 ? 503 : 200));
     };
     $client = new HttpClient(client: new Client(['handler' => $handler]));
-    $policy = new RetryPolicy(baseDelay: 0, retryUnsafe: true, sleep: static function (): void {
-    });
+    $policy = new RetryPolicy(baseDelay: 0, retryUnsafe: true, sleep: static function (): void {});
     $client->request()->multipart([['name' => 'file', 'contents' => $part]])->retry($policy)->post('https://example.org');
     expect($received)->toHaveCount(2);
 

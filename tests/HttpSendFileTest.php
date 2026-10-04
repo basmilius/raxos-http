@@ -27,6 +27,6 @@ it('sends exact full, closed, open and suffix ranges', function (string $range, 
 
 it('uses unthrottled downloads by default and validates tuning', function (): void {
     expect(new HttpSendFile('/unused')->throttle)->toBe(0.0);
-    expect(fn () => new HttpSendFile('/unused', bytes: 0))->toThrow(InvalidArgumentException::class);
-    expect(fn () => new HttpSendFile('/unused', throttle: -0.1))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new HttpSendFile('/unused', bytes: 0))->toThrow(InvalidArgumentException::class);
+    expect(fn() => new HttpSendFile('/unused', throttle: -0.1))->toThrow(InvalidArgumentException::class);
 });

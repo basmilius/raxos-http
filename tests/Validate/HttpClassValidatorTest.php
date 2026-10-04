@@ -30,7 +30,7 @@ it('collects all validation errors under their input aliases', function (): void
 it('resets previous errors and values before validating the next input', function (): void {
     $validator = new HttpClassValidator(ScalarInput::class);
     $validator->validate(['value' => 'bad']);
-    expect(fn () => $validator->get())->toThrow(ValidationNotOkException::class);
+    expect(fn() => $validator->get())->toThrow(ValidationNotOkException::class);
     $validator->validate(['value' => '0']);
     expect($validator->get()->value)->toBe(0);
     $validator->validate(['value' => '9']);
@@ -43,11 +43,11 @@ it('treats null and whitespace as missing and preserves optional nullable values
     expect($validator->get()->value)->toBeNull()->and($validator->get()->state)->toBeNull();
     $validator = new HttpClassValidator(OptionalWithoutDefaultInput::class);
     $validator->validate([]);
-    expect(fn () => $validator->get())->toThrow(ValidationNotOkException::class);
+    expect(fn() => $validator->get())->toThrow(ValidationNotOkException::class);
 });
 
 it('rejects classes outside the request input contract', function (): void {
-    expect(fn () => new HttpClassValidator(stdClass::class))->toThrow(UnvalidatableException::class);
+    expect(fn() => new HttpClassValidator(stdClass::class))->toThrow(UnvalidatableException::class);
 });
 
 it('returns validation errors for malformed nested and enum input types', function (string $field, mixed $value): void {
@@ -55,5 +55,5 @@ it('returns validation errors for malformed nested and enum input types', functi
     $data[$field] = $value;
     $validator = new HttpClassValidator(UnitInput::class);
     $validator->validate($data);
-    expect(fn () => $validator->get())->toThrow(ValidationNotOkException::class);
+    expect(fn() => $validator->get())->toThrow(ValidationNotOkException::class);
 })->with([['address', 'not an object'], ['address', 42], ['state', []], ['state', true]]);

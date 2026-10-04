@@ -37,9 +37,7 @@ final readonly class NestedArray implements ConstraintAttributeInterface
      */
     public function __construct(
         public string $propertyType
-    )
-    {
-    }
+    ) {}
 
     /**
      * {@inheritdoc}

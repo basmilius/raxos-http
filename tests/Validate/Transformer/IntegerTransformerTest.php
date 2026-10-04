@@ -11,5 +11,5 @@ it('transforms each accepted value into its native type', function (mixed $input
 })->with([[0, 0], ['12', 12], ['-3', -3], [4.0, 4]]);
 
 it('rejects malformed input through the validation exception contract', function (mixed $input): void {
-    expect(fn () => new IntegerTransformer()->transform($input))->toThrow(InvalidValueTransformerException::class);
+    expect(fn() => new IntegerTransformer()->transform($input))->toThrow(InvalidValueTransformerException::class);
 })->with([[null], [true], ['bad'], [[]]]);

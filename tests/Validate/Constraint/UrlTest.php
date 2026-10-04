@@ -12,5 +12,5 @@ it('accepts values at and within the constraint boundary', function (mixed $valu
 })->with([['https://example.org/path?x=1'], ['http://localhost:8080']]);
 
 it('rejects values outside the constraint boundary', function (mixed $value): void {
-    expect(fn () => new Url()->check(constraintProperty(), $value))->toThrow(UrlConstraintException::class);
+    expect(fn() => new Url()->check(constraintProperty(), $value))->toThrow(UrlConstraintException::class);
 })->with([['invalid'], ['https://'], ['example.org']]);

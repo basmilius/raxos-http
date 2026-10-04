@@ -32,5 +32,5 @@ it('supports object decoding and rejects malformed JSON', function (): void {
     $response = new HttpClientResponse($client, new HttpClientRequest($client), new Response(200, [], '{"value":1}'));
     expect($response->json(false))->toBeInstanceOf(stdClass::class)->and($response->json(false)->value)->toBe(1);
     $response = new HttpClientResponse($client, new HttpClientRequest($client), new Response(200, [], 'invalid'));
-    expect(fn () => $response->json())->toThrow(JsonException::class);
+    expect(fn() => $response->json())->toThrow(JsonException::class);
 });

@@ -15,17 +15,19 @@ it('adds and replaces headers and changes status fluently', function (): void {
 });
 
 it('sends status and headers before the body and restores output buffering', function (): void {
-    $response = new class extends HttpResponse
-    {
+    $response = new class extends HttpResponse {
         public array $events = [];
+
         protected function sendResponseCode(): void
         {
             $this->events[] = 'status';
         }
+
         protected function sendHeaders(): void
         {
             $this->events[] = 'headers';
         }
+
         protected function sendBody(): void
         {
             $this->events[] = 'body';
@@ -39,14 +41,11 @@ it('sends status and headers before the body and restores output buffering', fun
 });
 
 it('cleans up its output buffer when sending a body throws', function (): void {
-    $response = new class extends HttpResponse
-    {
-        protected function sendResponseCode(): void
-        {
-        }
-        protected function sendHeaders(): void
-        {
-        }
+    $response = new class extends HttpResponse {
+        protected function sendResponseCode(): void {}
+
+        protected function sendHeaders(): void {}
+
         protected function sendBody(): void
         {
             throw new LogicException('body');
@@ -54,7 +53,7 @@ it('cleans up its output buffer when sending a body throws', function (): void {
     };
     $level = ob_get_level();
     try {
-        expect(fn () => $response->send())->toThrow(LogicException::class, 'body');
+        expect(fn() => $response->send())->toThrow(LogicException::class, 'body');
         expect(ob_get_level())->toBe($level);
     } finally {
         while (ob_get_level() > $level) {
